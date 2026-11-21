@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1.3 Tipografia como Comunicacao | WebP</title>
+  <meta name="description" content="Fontes falam mais que palavras. Aprenda anatomia tipografica, escalas, pareamento e como escolher fontes que comunicam.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto+Mono&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-mono-demo { font-family: 'Roboto Mono', monospace; }
+    .font-montserrat { font-family: 'Montserrat', sans-serif; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-emerald-400">Inicio</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-emerald-400">Trilha 1</a>
+      <span>/</span>
+      <span class="text-emerald-400">Modulo 1.3</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">
+        MODULO 1.3
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">✒️ Tipografia como Comunicacao</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Fontes falam mais que palavras. Domine anatomia tipografica, escalas, legibilidade
+        e pareamento para criar designs que comunicam a mensagem certa.
+      </p>
+
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">6</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">40</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Basico</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Visual</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+        <h2 class="text-2xl font-bold">🔤 Anatomia da Tipografia</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Antes de escolher fontes, e preciso entender o vocabulario. Conhecer os termos tecnicos
+        permite <strong class="text-emerald-400">comunicar com precisao</strong> - tanto com designers quanto com IAs.
+      </p>
+
+      <!-- Box Conceito Principal -->
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">📐</span> Termos Essenciais
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Serif vs Sans-serif</h4>
+            <p class="text-sm text-neutral-400">Serif tem "pes" nas letras (Times). Sans-serif nao tem (Arial).</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Font Weight</h4>
+            <p class="text-sm text-neutral-400">Espessura: Light (300), Regular (400), Medium (500), Bold (700)</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Line-height</h4>
+            <p class="text-sm text-neutral-400">Espacamento entre linhas. Ideal: 1.5-1.75 para corpo de texto.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Letter-spacing (Tracking)</h4>
+            <p class="text-sm text-neutral-400">Espaco entre caracteres. Titulos podem ser mais apertados.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">X-height</h4>
+            <p class="text-sm text-neutral-400">Altura das letras minusculas. Afeta legibilidade.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Kerning</h4>
+            <p class="text-sm text-neutral-400">Ajuste de espaco entre pares especificos de letras.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exemplo Visual -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">👁️</span> Comparacao Visual: Serif vs Sans-serif
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-dark-700 rounded-lg p-6 text-center">
+            <div class="font-playfair text-3xl text-white mb-2">Playfair Display</div>
+            <div class="text-sm text-neutral-400">Serif - Elegante, tradicional, editorial</div>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-6 text-center">
+            <div class="font-montserrat text-3xl text-white mb-2">Montserrat</div>
+            <div class="text-sm text-neutral-400">Sans-serif - Moderno, clean, tecnologico</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">fonte sans-serif moderna (Inter, SF Pro)</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">font-weight 600 para titulos</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">line-height 1.6 para legibilidade</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">letter-spacing -0.02em em headlines</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+        <h2 class="text-2xl font-bold">📏 Escala Tipografica</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Uma escala tipografica e um <strong class="text-emerald-400">sistema de tamanhos harmonicos</strong>.
+        Assim como notas musicais, tamanhos de fonte que seguem uma proporcao matematica criam ritmo visual.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🎵</span> Escalas Comuns
+        </h3>
+        <div class="space-y-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Major Third (1.25)</h4>
+            <p class="text-sm text-neutral-400 mb-3">Base 16px: 16 → 20 → 25 → 31 → 39 → 49</p>
+            <div class="flex items-baseline space-x-4 text-white">
+              <span class="text-base">16px</span>
+              <span class="text-xl">20px</span>
+              <span class="text-2xl">25px</span>
+              <span class="text-3xl">31px</span>
+            </div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Perfect Fourth (1.333)</h4>
+            <p class="text-sm text-neutral-400 mb-3">Base 16px: 16 → 21 → 28 → 38 → 50 → 67</p>
+            <div class="flex items-baseline space-x-4 text-white">
+              <span class="text-base">16px</span>
+              <span class="text-xl">21px</span>
+              <span class="text-2xl">28px</span>
+              <span class="text-4xl">38px</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Box Tailwind -->
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">💻</span> Escala do Tailwind CSS
+        </h3>
+        <p class="text-neutral-300 mb-4">
+          Tailwind usa uma escala pre-definida que funciona bem para a maioria dos projetos:
+        </p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div class="bg-dark-800 rounded p-2 text-center">
+            <div class="text-xs text-white">xs</div>
+            <div class="text-xs text-neutral-500">12px</div>
+          </div>
+          <div class="bg-dark-800 rounded p-2 text-center">
+            <div class="text-sm text-white">sm</div>
+            <div class="text-xs text-neutral-500">14px</div>
+          </div>
+          <div class="bg-dark-800 rounded p-2 text-center">
+            <div class="text-base text-white">base</div>
+            <div class="text-xs text-neutral-500">16px</div>
+          </div>
+          <div class="bg-dark-800 rounded p-2 text-center">
+            <div class="text-lg text-white">lg</div>
+            <div class="text-xs text-neutral-500">18px</div>
+          </div>
+          <div class="bg-dark-800 rounded p-2 text-center">
+            <div class="text-xl text-white">xl</div>
+            <div class="text-xs text-neutral-500">20px</div>
+          </div>
+          <div class="bg-dark-800 rounded p-2 text-center">
+            <div class="text-2xl text-white">2xl</div>
+            <div class="text-xs text-neutral-500">24px</div>
+          </div>
+          <div class="bg-dark-800 rounded p-2 text-center">
+            <div class="text-3xl text-white">3xl</div>
+            <div class="text-xs text-neutral-500">30px</div>
+          </div>
+          <div class="bg-dark-800 rounded p-2 text-center">
+            <div class="text-4xl text-white">4xl</div>
+            <div class="text-xs text-neutral-500">36px</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">escala tipografica consistente</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">tamanhos Tailwind (text-sm, text-xl, text-4xl)</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">proporcao Major Third</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">hero title 48-64px</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+        <h2 class="text-2xl font-bold">📖 Legibilidade vs Leiturabilidade</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Dois conceitos relacionados mas distintos. <strong class="text-emerald-400">Legibilidade</strong> e sobre
+        distinguir caracteres individuais. <strong class="text-emerald-400">Leiturabilidade</strong> e sobre conforto
+        ao ler blocos de texto.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6">
+          <h3 class="text-lg font-semibold text-emerald-400 mb-4">📝 Legibilidade</h3>
+          <ul class="space-y-2 text-neutral-300">
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 mt-1">•</span>
+              <span>Distinguir "I", "l", "1" facilmente</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 mt-1">•</span>
+              <span>X-height generoso</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 mt-1">•</span>
+              <span>Caracteres bem diferenciados</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 mt-1">•</span>
+              <span>Contraste claro com fundo</span>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6">
+          <h3 class="text-lg font-semibold text-blue-400 mb-4">📚 Leiturabilidade</h3>
+          <ul class="space-y-2 text-neutral-300">
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400 mt-1">•</span>
+              <span>Line-height adequado (1.5-1.75)</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400 mt-1">•</span>
+              <span>Largura de linha 50-75 caracteres</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400 mt-1">•</span>
+              <span>Paragrafos bem espacados</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400 mt-1">•</span>
+              <span>Tamanho minimo 16px em telas</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Exemplo -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">⚖️</span> Comparacao: Largura de Linha
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-emerald-900/20 rounded-lg p-4 border border-emerald-500/30">
+            <h4 class="text-sm text-emerald-400 mb-2">✓ Ideal (~65 caracteres)</h4>
+            <p class="text-neutral-300 text-sm max-w-[45ch]">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+            </p>
+          </div>
+          <div class="bg-red-900/20 rounded-lg p-4 border border-red-500/30">
+            <h4 class="text-sm text-red-400 mb-2">✗ Muito Larga (100+ caracteres)</h4>
+            <p class="text-neutral-300 text-sm">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">max-width 65ch para paragrafos</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">fonte com boa legibilidade (Inter, system-ui)</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">line-height 1.6-1.75 para corpo</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">tamanho minimo 16px</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+        <h2 class="text-2xl font-bold">🎭 Personalidade Tipografica</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Cada fonte tem personalidade. A escolha da fonte comunica <strong class="text-emerald-400">valores e emocoes</strong>
+        antes mesmo de ler as palavras. Escolher a fonte errada pode sabotar sua mensagem.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🎨</span> Personalidades Tipograficas
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <div class="font-playfair text-2xl text-white mb-2">Serif Classica</div>
+            <p class="text-sm text-neutral-400">Tradicional, elegante, confiavel, editorial (Times, Georgia, Playfair)</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <div class="text-2xl text-white mb-2 font-light">Sans-serif Geometrica</div>
+            <p class="text-sm text-neutral-400">Moderna, clean, tech, minimalista (Inter, SF Pro, Helvetica)</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <div class="font-mono-demo text-2xl text-white mb-2">Monospace</div>
+            <p class="text-sm text-neutral-400">Tecnica, codigo, retro, precisa (Fira Code, JetBrains Mono)</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <div class="text-2xl text-white mb-2 font-bold tracking-wide">Display Bold</div>
+            <p class="text-sm text-neutral-400">Impactante, chamativa, headlines (Montserrat Bold, Poppins)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid Setores -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💼</span> Fontes por Setor
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-emerald-400 mb-2">Tech / Startups</h4>
+            <p class="text-sm text-neutral-400">Inter, SF Pro, Roboto, Poppins</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-2">Financas / Legal</h4>
+            <p class="text-sm text-neutral-400">Times, Georgia, Merriweather</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-purple-400 mb-2">Moda / Luxo</h4>
+            <p class="text-sm text-neutral-400">Playfair Display, Cormorant</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">fonte moderna e tech (Inter)</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">tipografia elegante serif para editorial</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">headlines impactantes em Montserrat Bold</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">personalidade profissional e confiavel</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+        <h2 class="text-2xl font-bold">🤝 Pareamento de Fontes</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Usar duas fontes cria interesse visual. A regra de ouro: <strong class="text-emerald-400">contraste com harmonia</strong>.
+        Fontes muito parecidas criam confusao; muito diferentes, caos.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">📋</span> Regras de Pareamento
+        </h3>
+        <ul class="space-y-3 text-neutral-300">
+          <li class="flex items-start space-x-2">
+            <span class="text-emerald-400 mt-1">1.</span>
+            <span><strong>Maximo 2 fontes</strong> - Uma para titulos, uma para corpo</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-emerald-400 mt-1">2.</span>
+            <span><strong>Serif + Sans-serif</strong> - Combinacao classica que sempre funciona</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-emerald-400 mt-1">3.</span>
+            <span><strong>Mesma superfamilia</strong> - Ex: Roboto + Roboto Slab</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-emerald-400 mt-1">4.</span>
+            <span><strong>Contraste de peso</strong> - Titulo bold, corpo regular</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Exemplos de Pareamento -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">✨</span> Combinacoes Populares
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-dark-700 rounded-lg p-6">
+            <div class="font-playfair text-2xl text-white mb-2">Playfair Display</div>
+            <div class="text-base text-neutral-300">com Inter para corpo de texto. Elegancia classica com legibilidade moderna.</div>
+            <div class="mt-3 text-xs text-emerald-400">Editorial, Luxo, Moda</div>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-6">
+            <div class="font-montserrat font-bold text-2xl text-white mb-2">Montserrat Bold</div>
+            <div class="text-base text-neutral-300">com Open Sans para corpo. Impacto moderno com neutralidade.</div>
+            <div class="mt-3 text-xs text-blue-400">Startups, SaaS, Tech</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Evitar -->
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center">
+          <span class="mr-2">⚠️</span> Erros Comuns
+        </h3>
+        <ul class="space-y-2 text-neutral-300">
+          <li class="flex items-start space-x-2">
+            <span class="text-red-400">✗</span>
+            <span>Usar 3+ fontes diferentes</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-red-400">✗</span>
+            <span>Combinar duas fontes muito similares (Arial + Helvetica)</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-red-400">✗</span>
+            <span>Duas fontes decorativas/display juntas</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-red-400">✗</span>
+            <span>Fontes com personalidades conflitantes</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">pareamento Playfair + Inter</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">serif para headlines, sans-serif para corpo</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">maximo 2 familias tipograficas</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">contraste tipografico entre titulo e texto</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+        <h2 class="text-2xl font-bold">📱 Tipografia Responsiva</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Tamanhos de fonte que funcionam no desktop podem ser enormes no mobile.
+        Tipografia responsiva <strong class="text-emerald-400">adapta tamanhos conforme a tela</strong>.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">📐</span> Tecnicas de Tipografia Responsiva
+        </h3>
+        <div class="space-y-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">1. Breakpoints Fixos</h4>
+            <p class="text-sm text-neutral-400 mb-2">Tamanhos diferentes para cada breakpoint</p>
+            <code class="text-xs text-emerald-400 bg-dark-700 px-2 py-1 rounded">
+              text-2xl md:text-4xl lg:text-5xl
+            </code>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">2. Clamp()</h4>
+            <p class="text-sm text-neutral-400 mb-2">Escala fluida entre minimo e maximo</p>
+            <code class="text-xs text-emerald-400 bg-dark-700 px-2 py-1 rounded">
+              font-size: clamp(1.5rem, 4vw, 3rem)
+            </code>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">3. Viewport Units</h4>
+            <p class="text-sm text-neutral-400 mb-2">Tamanho proporcional a viewport</p>
+            <code class="text-xs text-emerald-400 bg-dark-700 px-2 py-1 rounded">
+              font-size: calc(1rem + 2vw)
+            </code>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabela de Tamanhos -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">📊</span> Guia de Tamanhos por Dispositivo
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-neutral-400 border-b border-dark-600">
+                <th class="py-2 pr-4">Elemento</th>
+                <th class="py-2 px-4">Mobile</th>
+                <th class="py-2 px-4">Tablet</th>
+                <th class="py-2 px-4">Desktop</th>
+              </tr>
+            </thead>
+            <tbody class="text-neutral-300">
+              <tr class="border-b border-dark-700">
+                <td class="py-2 pr-4 font-medium">Hero Title</td>
+                <td class="py-2 px-4">32-40px</td>
+                <td class="py-2 px-4">48-56px</td>
+                <td class="py-2 px-4">64-80px</td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-2 pr-4 font-medium">Section Title</td>
+                <td class="py-2 px-4">24-28px</td>
+                <td class="py-2 px-4">32-36px</td>
+                <td class="py-2 px-4">40-48px</td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-2 pr-4 font-medium">Body Text</td>
+                <td class="py-2 px-4">16px</td>
+                <td class="py-2 px-4">16-18px</td>
+                <td class="py-2 px-4">16-18px</td>
+              </tr>
+              <tr>
+                <td class="py-2 pr-4 font-medium">Caption</td>
+                <td class="py-2 px-4">12-14px</td>
+                <td class="py-2 px-4">12-14px</td>
+                <td class="py-2 px-4">12-14px</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">tipografia responsiva com clamp()</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">hero title 32px mobile, 64px desktop</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">tamanhos Tailwind responsivos (text-2xl md:text-4xl)</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">corpo 16px fixo em todos devices</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">📝</span> Resumo do Modulo
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Anatomia</strong>
+              <span class="text-neutral-400"> - Serif/sans-serif, weight, line-height, letter-spacing sao termos essenciais</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Escala</strong>
+              <span class="text-neutral-400"> - Use proporcoes matematicas (Major Third, Perfect Fourth) ou escala Tailwind</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Legibilidade</strong>
+              <span class="text-neutral-400"> - Minimo 16px, line-height 1.5+, max 65 caracteres por linha</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Personalidade</strong>
+              <span class="text-neutral-400"> - Cada fonte comunica emocoes. Escolha alinhada com a marca</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Pareamento</strong>
+              <span class="text-neutral-400"> - Maximo 2 fontes. Serif + sans-serif e combinacao segura</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Responsividade</strong>
+              <span class="text-neutral-400"> - Adapte tamanhos de titulos para mobile. Corpo pode ser fixo</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-emerald-400 mb-2">Proximo Modulo:</h3>
+          <p class="text-neutral-300">1.4 - Teoria das Cores: Psicologia e sistemas de cor</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-1-2.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Modulo Anterior
+          </a>
+          <a href="modulo-1-4.html" class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors">
+            Proximo Modulo →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>

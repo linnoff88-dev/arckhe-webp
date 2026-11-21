@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1.4 Teoria das Cores | WebP</title>
+  <meta name="description" content="Psicologia e sistemas de cor. Aprenda sobre temperatura, esquemas, proporcao 60-30-10 e como criar paletas que comunicam.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-emerald-400">Inicio</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-emerald-400">Trilha 1</a>
+      <span>/</span>
+      <span class="text-emerald-400">Modulo 1.4</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">
+        MODULO 1.4
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🎨 Teoria das Cores</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Psicologia e sistemas de cor. Domine temperatura, esquemas cromaticos, a regra 60-30-10
+        e como criar paletas que comunicam emocoes e guiam acoes.
+      </p>
+
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">6</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">45</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Basico</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Visual</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+        <h2 class="text-2xl font-bold">🧠 Psicologia das Cores</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Cores evocam emocoes e associacoes. Nao e magica - e <strong class="text-emerald-400">condicionamento cultural
+        e biologico</strong>. Entender essas associacoes permite escolher cores que comunicam a mensagem certa.
+      </p>
+
+      <!-- Grid de Cores e Emocoes -->
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">💭</span> Associacoes Comuns
+        </h3>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div class="flex items-center space-x-3 bg-dark-800 rounded-lg p-3">
+            <div class="w-10 h-10 rounded-lg bg-red-500"></div>
+            <div>
+              <div class="font-semibold text-white text-sm">Vermelho</div>
+              <div class="text-xs text-neutral-400">Urgencia, paixao, energia</div>
+            </div>
+          </div>
+          <div class="flex items-center space-x-3 bg-dark-800 rounded-lg p-3">
+            <div class="w-10 h-10 rounded-lg bg-blue-500"></div>
+            <div>
+              <div class="font-semibold text-white text-sm">Azul</div>
+              <div class="text-xs text-neutral-400">Confianca, calma, profissional</div>
+            </div>
+          </div>
+          <div class="flex items-center space-x-3 bg-dark-800 rounded-lg p-3">
+            <div class="w-10 h-10 rounded-lg bg-emerald-500"></div>
+            <div>
+              <div class="font-semibold text-white text-sm">Verde</div>
+              <div class="text-xs text-neutral-400">Natureza, crescimento, saude</div>
+            </div>
+          </div>
+          <div class="flex items-center space-x-3 bg-dark-800 rounded-lg p-3">
+            <div class="w-10 h-10 rounded-lg bg-yellow-400"></div>
+            <div>
+              <div class="font-semibold text-white text-sm">Amarelo</div>
+              <div class="text-xs text-neutral-400">Otimismo, atencao, alerta</div>
+            </div>
+          </div>
+          <div class="flex items-center space-x-3 bg-dark-800 rounded-lg p-3">
+            <div class="w-10 h-10 rounded-lg bg-purple-500"></div>
+            <div>
+              <div class="font-semibold text-white text-sm">Roxo</div>
+              <div class="text-xs text-neutral-400">Luxo, criatividade, sabedoria</div>
+            </div>
+          </div>
+          <div class="flex items-center space-x-3 bg-dark-800 rounded-lg p-3">
+            <div class="w-10 h-10 rounded-lg bg-orange-500"></div>
+            <div>
+              <div class="font-semibold text-white text-sm">Laranja</div>
+              <div class="text-xs text-neutral-400">Amigavel, energico, CTA</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contexto Cultural -->
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center">
+          <span class="mr-2">🌍</span> Contexto Importa
+        </h3>
+        <p class="text-neutral-300 mb-3">
+          Cores tem significados diferentes em culturas diferentes:
+        </p>
+        <ul class="space-y-2 text-neutral-300 text-sm">
+          <li class="flex items-start space-x-2">
+            <span class="text-blue-400 mt-1">•</span>
+            <span><strong>Branco:</strong> Pureza no Ocidente, luto na China</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-blue-400 mt-1">•</span>
+            <span><strong>Vermelho:</strong> Perigo no Ocidente, sorte na China</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-blue-400 mt-1">•</span>
+            <span><strong>Verde:</strong> Ecologia no Ocidente, sagrado no Isla</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">azul corporativo que transmite confianca</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">verde que sugere sustentabilidade</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">paleta que evoca luxo e sofisticacao</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">cores energeticas para startup jovem</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+        <h2 class="text-2xl font-bold">🌡️ Temperatura das Cores</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Cores sao classificadas como <strong class="text-emerald-400">quentes</strong> (vermelho, laranja, amarelo) ou
+        <strong class="text-emerald-400">frias</strong> (azul, verde, roxo). A temperatura afeta a percepcao emocional e espacial.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-gradient-to-br from-orange-900/30 to-dark-800 rounded-xl border border-orange-500/30 p-6">
+          <h3 class="text-lg font-semibold text-orange-400 mb-4">🔥 Cores Quentes</h3>
+          <div class="flex space-x-2 mb-4">
+            <div class="w-12 h-12 rounded-lg bg-red-500"></div>
+            <div class="w-12 h-12 rounded-lg bg-orange-500"></div>
+            <div class="w-12 h-12 rounded-lg bg-yellow-500"></div>
+          </div>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li>• Avancam visualmente (parecem mais proximas)</li>
+            <li>• Energeticas, estimulantes</li>
+            <li>• Chamam atencao imediata</li>
+            <li>• Ideais para CTAs e destaques</li>
+          </ul>
+        </div>
+        <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6">
+          <h3 class="text-lg font-semibold text-blue-400 mb-4">❄️ Cores Frias</h3>
+          <div class="flex space-x-2 mb-4">
+            <div class="w-12 h-12 rounded-lg bg-blue-500"></div>
+            <div class="w-12 h-12 rounded-lg bg-emerald-500"></div>
+            <div class="w-12 h-12 rounded-lg bg-purple-500"></div>
+          </div>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li>• Recuam visualmente (parecem mais distantes)</li>
+            <li>• Calmas, profissionais</li>
+            <li>• Nao cansam os olhos</li>
+            <li>• Ideais para fundos e areas grandes</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">paleta fria e profissional (azuis e cinzas)</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">acento quente em CTA (laranja ou vermelho)</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">fundo neutro frio com destaques quentes</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">temperatura de cor que transmite calma</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+        <h2 class="text-2xl font-bold">🎭 Esquemas de Cores</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Esquemas de cores sao <strong class="text-emerald-400">combinacoes harmonicas</strong> baseadas no circulo cromatico.
+        Usar um esquema garante que as cores funcionem bem juntas.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🔄</span> Esquemas Principais
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Monocromatico</h4>
+            <div class="flex space-x-1 mb-2">
+              <div class="w-8 h-8 rounded bg-blue-300"></div>
+              <div class="w-8 h-8 rounded bg-blue-400"></div>
+              <div class="w-8 h-8 rounded bg-blue-500"></div>
+              <div class="w-8 h-8 rounded bg-blue-600"></div>
+              <div class="w-8 h-8 rounded bg-blue-700"></div>
+            </div>
+            <p class="text-sm text-neutral-400">Uma cor em diferentes tonalidades. Elegante e coeso.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Complementar</h4>
+            <div class="flex space-x-1 mb-2">
+              <div class="w-8 h-8 rounded bg-blue-500"></div>
+              <div class="w-8 h-8 rounded bg-orange-500"></div>
+            </div>
+            <p class="text-sm text-neutral-400">Cores opostas no circulo. Alto contraste e energia.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Analogo</h4>
+            <div class="flex space-x-1 mb-2">
+              <div class="w-8 h-8 rounded bg-blue-500"></div>
+              <div class="w-8 h-8 rounded bg-cyan-500"></div>
+              <div class="w-8 h-8 rounded bg-emerald-500"></div>
+            </div>
+            <p class="text-sm text-neutral-400">Cores vizinhas no circulo. Harmonico e natural.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Triadico</h4>
+            <div class="flex space-x-1 mb-2">
+              <div class="w-8 h-8 rounded bg-red-500"></div>
+              <div class="w-8 h-8 rounded bg-blue-500"></div>
+              <div class="w-8 h-8 rounded bg-yellow-500"></div>
+            </div>
+            <p class="text-sm text-neutral-400">3 cores equidistantes. Vibrante mas equilibrado.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">esquema monocromatico em azuis</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">paleta complementar (azul + laranja)</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">cores analogas para transicao suave</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">harmonia cromatica baseada no circulo</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+        <h2 class="text-2xl font-bold">📐 Proporcao 60-30-10</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A regra de ouro para distribuir cores em um design. <strong class="text-emerald-400">60%</strong> cor dominante,
+        <strong class="text-emerald-400">30%</strong> cor secundaria, <strong class="text-emerald-400">10%</strong> cor de acento.
+      </p>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">📊</span> Visualizacao da Proporcao
+        </h3>
+        <div class="flex h-24 rounded-lg overflow-hidden mb-4">
+          <div class="w-[60%] bg-dark-700 flex items-center justify-center">
+            <span class="text-neutral-300 font-bold">60%</span>
+          </div>
+          <div class="w-[30%] bg-emerald-900/50 flex items-center justify-center">
+            <span class="text-emerald-300 font-bold">30%</span>
+          </div>
+          <div class="w-[10%] bg-emerald-500 flex items-center justify-center">
+            <span class="text-white font-bold text-sm">10%</span>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-4 text-sm">
+          <div class="text-center">
+            <div class="font-semibold text-white">Dominante</div>
+            <div class="text-neutral-400">Fundo, areas grandes</div>
+          </div>
+          <div class="text-center">
+            <div class="font-semibold text-emerald-400">Secundaria</div>
+            <div class="text-neutral-400">Cards, secoes</div>
+          </div>
+          <div class="text-center">
+            <div class="font-semibold text-emerald-300">Acento</div>
+            <div class="text-neutral-400">CTAs, destaques</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exemplo Aplicado -->
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🖼️</span> Exemplo Aplicado (Este Site)
+        </h3>
+        <div class="space-y-3">
+          <div class="flex items-center space-x-4">
+            <div class="w-16 h-8 rounded bg-dark-900"></div>
+            <div>
+              <span class="text-white font-medium">60% - Dark Gray</span>
+              <span class="text-neutral-400 text-sm ml-2">Fundo principal</span>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div class="w-16 h-8 rounded bg-dark-800"></div>
+            <div>
+              <span class="text-white font-medium">30% - Medium Gray</span>
+              <span class="text-neutral-400 text-sm ml-2">Cards, secoes</span>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div class="w-16 h-8 rounded bg-emerald-500"></div>
+            <div>
+              <span class="text-white font-medium">10% - Emerald</span>
+              <span class="text-neutral-400 text-sm ml-2">CTAs, links, destaques</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">proporcao 60-30-10 nas cores</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">fundo neutro dominante com acento emerald</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">cor de acento apenas em CTAs e links</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">hierarquia cromatica clara</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+        <h2 class="text-2xl font-bold">⚡ Contraste e Acessibilidade</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Contraste adequado nao e opcional - e <strong class="text-emerald-400">requisito de acessibilidade</strong>.
+        WCAG define ratios minimos para garantir que todos consigam ler seu conteudo.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">📏</span> Ratios WCAG
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">AA (Minimo)</h4>
+            <p class="text-sm text-neutral-400 mb-2">Texto normal: 4.5:1</p>
+            <p class="text-sm text-neutral-400">Texto grande (18px+): 3:1</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">AAA (Ideal)</h4>
+            <p class="text-sm text-neutral-400 mb-2">Texto normal: 7:1</p>
+            <p class="text-sm text-neutral-400">Texto grande (18px+): 4.5:1</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exemplos de Contraste -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">👁️</span> Exemplos de Contraste
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-emerald-900/20 rounded-lg p-4 border border-emerald-500/30">
+            <h4 class="text-sm text-emerald-400 mb-3">✓ Contraste Adequado</h4>
+            <div class="bg-dark-900 rounded p-3 mb-2">
+              <span class="text-white">Texto branco em fundo escuro</span>
+            </div>
+            <div class="bg-white rounded p-3">
+              <span class="text-gray-900">Texto preto em fundo claro</span>
+            </div>
+          </div>
+          <div class="bg-red-900/20 rounded-lg p-4 border border-red-500/30">
+            <h4 class="text-sm text-red-400 mb-3">✗ Contraste Insuficiente</h4>
+            <div class="bg-gray-500 rounded p-3 mb-2">
+              <span class="text-gray-400">Texto cinza em fundo cinza</span>
+            </div>
+            <div class="bg-yellow-300 rounded p-3">
+              <span class="text-yellow-100">Texto claro em fundo claro</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">contraste WCAG AA minimo</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">texto com alto contraste para legibilidade</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">cores acessiveis para daltônicos</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">ratio de contraste 4.5:1 ou maior</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+        <h2 class="text-2xl font-bold">🌓 Dark Mode e Light Mode</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Oferecer ambos os modos e quase obrigatorio em 2026. <strong class="text-emerald-400">Dark mode</strong> reduz
+        fadiga ocular a noite; <strong class="text-emerald-400">light mode</strong> e melhor sob luz solar.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+          <h3 class="text-lg font-semibold text-white mb-4">🌙 Dark Mode</h3>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 mt-1">•</span>
+              <span>Fundo: cinza escuro (#111827), nao preto puro</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 mt-1">•</span>
+              <span>Texto: cinza claro (#E5E7EB), nao branco puro</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 mt-1">•</span>
+              <span>Cores de acento: mais vibrantes</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400 mt-1">•</span>
+              <span>Sombras sutis ou ausentes</span>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-gray-100 rounded-xl border border-gray-300 p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">☀️ Light Mode</h3>
+          <ul class="space-y-2 text-gray-700 text-sm">
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-600 mt-1">•</span>
+              <span>Fundo: cinza muito claro (#F9FAFB)</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-600 mt-1">•</span>
+              <span>Texto: cinza escuro (#111827)</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-600 mt-1">•</span>
+              <span>Cores de acento: podem ser mais escuras</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-600 mt-1">•</span>
+              <span>Sombras podem ser usadas livremente</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Dicas de Implementacao -->
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">💻</span> Implementacao com Tailwind
+        </h3>
+        <div class="bg-dark-800 rounded-lg p-4 font-mono text-sm">
+          <div class="text-neutral-400 mb-2">&lt;!-- HTML --&gt;</div>
+          <div class="text-emerald-400">&lt;html class="dark"&gt;</div>
+          <div class="text-neutral-400 mt-4 mb-2">&lt;!-- Estilos --&gt;</div>
+          <div class="text-blue-400">&lt;div class="bg-white <span class="text-emerald-400">dark:bg-dark-900</span>"&gt;</div>
+          <div class="text-blue-400">&lt;p class="text-gray-900 <span class="text-emerald-400">dark:text-neutral-100</span>"&gt;</div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">suporte a dark mode e light mode</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">dark mode como padrao</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">toggle de tema com persistencia</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">paleta que funciona em ambos os modos</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">📝</span> Resumo do Modulo
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Psicologia</strong>
+              <span class="text-neutral-400"> - Cores evocam emocoes. Azul = confianca, vermelho = urgencia, verde = natureza</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Temperatura</strong>
+              <span class="text-neutral-400"> - Quentes avancam e energizam; frias recuam e acalmam</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Esquemas</strong>
+              <span class="text-neutral-400"> - Monocromatico, complementar, analogo, triadico criam harmonia</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">60-30-10</strong>
+              <span class="text-neutral-400"> - Distribua cores: 60% dominante, 30% secundaria, 10% acento</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Contraste</strong>
+              <span class="text-neutral-400"> - Minimo 4.5:1 para texto. Acessibilidade nao e opcional</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Temas</strong>
+              <span class="text-neutral-400"> - Dark e light mode sao esperados. Evite preto/branco puros</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-emerald-400 mb-2">Proximo Modulo:</h3>
+          <p class="text-neutral-300">1.5 - Espaco em Branco: O poder do vazio estrategico</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-1-3.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Modulo Anterior
+          </a>
+          <a href="modulo-1-5.html" class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors">
+            Proximo Modulo →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>

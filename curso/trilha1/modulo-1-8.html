@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1.8 Anatomia de uma Pagina Web | WebP</title>
+  <meta name="description" content="As secoes fundamentais de uma pagina web. Aprenda sobre Hero, Header, CTAs, prova social, Footer e como estruturar seu site.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-emerald-400">Inicio</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-emerald-400">Trilha 1</a>
+      <span>/</span>
+      <span class="text-emerald-400">Modulo 1.8</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">
+        MODULO 1.8
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🏗️ Anatomia de uma Pagina Web</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        As secoes fundamentais que compõem uma pagina web eficaz. Domine Hero, Header, CTAs,
+        prova social, Footer e como estruturar seu site para conversao.
+      </p>
+
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">6</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">45</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Basico</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Pratico</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+        <h2 class="text-2xl font-bold">🦸 Hero Section</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O Hero e a <strong class="text-emerald-400">primeira coisa que o visitante ve</strong>.
+        Voce tem segundos para comunicar: quem voce e, o que faz, e por que o visitante deve ficar.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🧩</span> Componentes do Hero
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Headline</h4>
+            <p class="text-sm text-neutral-400">Titulo principal, grande e impactante. O que voce oferece.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Subheadline</h4>
+            <p class="text-sm text-neutral-400">Texto de suporte que expande a headline. Para quem e como.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">CTA Primario</h4>
+            <p class="text-sm text-neutral-400">Botao principal. Acao que voce mais quer que o visitante tome.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Visual/Imagem</h4>
+            <p class="text-sm text-neutral-400">Imagem, ilustracao ou video que comunica o valor visualmente.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exemplo Visual de Hero -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">🖼️</span> Estrutura de Hero
+        </h3>
+        <div class="bg-gradient-to-br from-emerald-900/20 to-dark-700 rounded-lg p-8 text-center">
+          <p class="text-sm text-emerald-400 mb-4">ACIMA DO FOLD</p>
+          <h2 class="text-3xl font-bold text-white mb-3">Headline Principal</h2>
+          <p class="text-neutral-400 mb-6 max-w-md mx-auto">Subheadline que explica melhor a proposta de valor e para quem e o produto.</p>
+          <div class="flex flex-wrap gap-3 justify-center">
+            <button class="px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold">CTA Primario</button>
+            <button class="px-6 py-3 bg-dark-600 text-neutral-300 rounded-lg font-semibold">CTA Secundario</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">hero section com headline grande e CTA destacado</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">proposta de valor clara acima do fold</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">hero centralizado com muito whitespace</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">headline + subheadline + CTA</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+        <h2 class="text-2xl font-bold">🧭 Navegacao/Header</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O header e o <strong class="text-emerald-400">ponto de orientacao constante</strong>.
+        Deve ser simples, nao competir com o conteudo, e permitir acesso rapido as paginas principais.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🧩</span> Elementos do Header
+        </h3>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-4">
+            <div class="w-8 h-8 rounded bg-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold flex-shrink-0">1</div>
+            <div>
+              <h4 class="font-semibold text-white">Logo</h4>
+              <p class="text-sm text-neutral-400">Canto superior esquerdo. Link para home.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="w-8 h-8 rounded bg-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold flex-shrink-0">2</div>
+            <div>
+              <h4 class="font-semibold text-white">Navegacao Principal</h4>
+              <p class="text-sm text-neutral-400">Links para secoes/paginas principais. Maximo 5-7 itens.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="w-8 h-8 rounded bg-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold flex-shrink-0">3</div>
+            <div>
+              <h4 class="font-semibold text-white">CTA do Header</h4>
+              <p class="text-sm text-neutral-400">Botao de acao (Login, Comecar, Contato). Opcional mas comum.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">✓ Boas Praticas</h4>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400">✓</span>
+              <span>Sticky/fixo no topo (com backdrop-blur)</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400">✓</span>
+              <span>Menu hamburger em mobile</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400">✓</span>
+              <span>Altura entre 56-80px</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400">✓</span>
+              <span>Contraste sutil com conteudo</span>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ Evitar</h4>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>Muitos niveis de dropdown</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>Navegacao que desaparece ao rolar</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>Mais de 7 itens no menu</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>Header muito alto (ocupa muito espaco)</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">header sticky com backdrop-blur</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">logo esquerda, nav centro, CTA direita</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">menu hamburger responsivo em mobile</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">navegacao simples com 5 itens</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+        <h2 class="text-2xl font-bold">📄 Secoes de Conteudo</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Apos o hero, o conteudo e organizado em <strong class="text-emerald-400">secoes tematicas</strong>.
+        Cada secao aborda um aspecto: features, como funciona, beneficios, pricing, etc.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">📋</span> Secoes Comuns em Landing Pages
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Features/Beneficios</h4>
+            <p class="text-sm text-neutral-400">Grid de 3-4 cards com icones. O que o produto faz.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Como Funciona</h4>
+            <p class="text-sm text-neutral-400">3-4 passos numerados. Simplifica o processo.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Pricing</h4>
+            <p class="text-sm text-neutral-400">Tabela de precos. Destaque no plano recomendado.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">FAQ</h4>
+            <p class="text-sm text-neutral-400">Perguntas frequentes. Accordion expansivel.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">📐</span> Estrutura de uma Secao
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-6">
+          <div class="text-center mb-6">
+            <span class="text-emerald-400 text-sm font-semibold">EYEBROW/TAG</span>
+            <h3 class="text-2xl font-bold text-white mt-2">Titulo da Secao</h3>
+            <p class="text-neutral-400 mt-2 max-w-lg mx-auto">Subtitulo opcional que expande o titulo e prepara para o conteudo abaixo.</p>
+          </div>
+          <div class="grid grid-cols-3 gap-4">
+            <div class="bg-dark-600 rounded-lg h-24 flex items-center justify-center text-neutral-500">Card 1</div>
+            <div class="bg-dark-600 rounded-lg h-24 flex items-center justify-center text-neutral-500">Card 2</div>
+            <div class="bg-dark-600 rounded-lg h-24 flex items-center justify-center text-neutral-500">Card 3</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">secao features com grid 3 colunas</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">eyebrow + titulo + subtitulo centralizado</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">secao como funciona em 3 passos</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">alternancia de fundo entre secoes</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+        <h2 class="text-2xl font-bold">⭐ Prova Social</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Pessoas confiam em <strong class="text-emerald-400">outras pessoas</strong>. Prova social mostra que
+        outros ja usam e aprovam seu produto. E fundamental para converter visitantes em clientes.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🏆</span> Tipos de Prova Social
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Logos de Clientes</h4>
+            <p class="text-sm text-neutral-400">"Usado por empresas como..." com logos em grayscale.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Testimonials</h4>
+            <p class="text-sm text-neutral-400">Citacoes de clientes com foto, nome e cargo.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Numeros</h4>
+            <p class="text-sm text-neutral-400">"10.000+ clientes" ou "4.9 estrelas em 500 reviews".</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Case Studies</h4>
+            <p class="text-sm text-neutral-400">Historias detalhadas de sucesso com resultados.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💬</span> Estrutura de Testimonial
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-6">
+          <p class="text-neutral-300 italic mb-4">"Este produto mudou completamente como trabalhamos. Recomendo para qualquer equipe que quer escalar."</p>
+          <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 bg-emerald-500/30 rounded-full flex items-center justify-center text-emerald-400 font-bold">JD</div>
+            <div>
+              <div class="font-semibold text-white">Joao da Silva</div>
+              <div class="text-sm text-neutral-400">CEO, Empresa XYZ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">secao de logos de clientes em grayscale</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">testimonials com foto e cargo</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">social proof com numeros grandes</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">carrossel de reviews</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+        <h2 class="text-2xl font-bold">🎯 CTAs (Call-to-Action)</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        CTAs sao os <strong class="text-emerald-400">momentos de conversao</strong>. Cada pagina deve ter um CTA
+        principal claro, e CTAs secundarios podem aparecer ao longo do conteudo.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">📋</span> Tipos de CTA
+        </h3>
+        <div class="space-y-4">
+          <div class="bg-dark-800 rounded-lg p-4 flex items-center justify-between">
+            <div>
+              <h4 class="font-semibold text-white">Primario</h4>
+              <p class="text-sm text-neutral-400">Acao principal. Cor de destaque, maior.</p>
+            </div>
+            <button class="px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold">Comecar Agora</button>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4 flex items-center justify-between">
+            <div>
+              <h4 class="font-semibold text-white">Secundario</h4>
+              <p class="text-sm text-neutral-400">Alternativa. Outline ou cor neutra.</p>
+            </div>
+            <button class="px-6 py-3 border border-neutral-600 text-neutral-300 rounded-lg font-semibold">Saiba Mais</button>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4 flex items-center justify-between">
+            <div>
+              <h4 class="font-semibold text-white">Ghost/Link</h4>
+              <p class="text-sm text-neutral-400">Navegacao. Sem fundo, so texto.</p>
+            </div>
+            <a href="#" class="text-emerald-400 font-semibold hover:underline">Ver detalhes →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center">
+          <span class="mr-2">✍️</span> Copywriting de CTA
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <h4 class="text-emerald-400 font-semibold mb-2">✓ Bom</h4>
+            <ul class="space-y-1 text-sm text-neutral-300">
+              <li>• Comecar gratis</li>
+              <li>• Criar minha conta</li>
+              <li>• Ver demonstracao</li>
+              <li>• Agendar reuniao</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-red-400 font-semibold mb-2">✗ Evitar</h4>
+            <ul class="space-y-1 text-sm text-neutral-300">
+              <li>• Clique aqui</li>
+              <li>• Enviar</li>
+              <li>• Submit</li>
+              <li>• OK</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">CTA primario com cor de destaque</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">botao secundario outline</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">copy orientado a acao (Comecar, Criar, Ver)</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">CTA acima do fold e no final da pagina</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+        <h2 class="text-2xl font-bold">👟 Footer</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O footer e o <strong class="text-emerald-400">fechamento da pagina</strong>. Contem links uteis,
+        informacoes legais e contato. Muitos visitantes rolam ate o fim para encontrar informacoes.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🧩</span> Elementos do Footer
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Logo e Descricao</h4>
+            <p class="text-sm text-neutral-400">Breve sobre a empresa. Links para redes sociais.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Links Organizados</h4>
+            <p class="text-sm text-neutral-400">Colunas: Produto, Empresa, Recursos, Legal.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Contato</h4>
+            <p class="text-sm text-neutral-400">Email, telefone, endereco se relevante.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">Legal</h4>
+            <p class="text-sm text-neutral-400">Copyright, Termos, Privacidade.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exemplo de Footer -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">🖼️</span> Estrutura de Footer
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-6">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <div class="flex items-center space-x-2 mb-4">
+                <span class="text-xl">📐</span>
+                <span class="font-bold text-white">Logo</span>
+              </div>
+              <p class="text-sm text-neutral-400">Breve descricao da empresa.</p>
+            </div>
+            <div>
+              <h4 class="font-semibold text-white mb-3">Produto</h4>
+              <ul class="space-y-2 text-sm text-neutral-400">
+                <li>Features</li>
+                <li>Pricing</li>
+                <li>API</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="font-semibold text-white mb-3">Empresa</h4>
+              <ul class="space-y-2 text-sm text-neutral-400">
+                <li>Sobre</li>
+                <li>Blog</li>
+                <li>Carreiras</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="font-semibold text-white mb-3">Legal</h4>
+              <ul class="space-y-2 text-sm text-neutral-400">
+                <li>Termos</li>
+                <li>Privacidade</li>
+                <li>Cookies</li>
+              </ul>
+            </div>
+          </div>
+          <div class="border-t border-dark-600 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-neutral-500">
+            <span>© 2026 Empresa. Todos os direitos reservados.</span>
+            <div class="flex space-x-4 mt-4 md:mt-0">
+              <span>Twitter</span>
+              <span>LinkedIn</span>
+              <span>GitHub</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">footer com 4 colunas de links</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">logo + descricao + redes sociais</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">copyright e links legais no rodape</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">footer dark com fundo mais escuro</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">📝</span> Resumo do Modulo
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Hero</strong>
+              <span class="text-neutral-400"> - Headline + subheadline + CTA. Proposta de valor clara acima do fold</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Header</strong>
+              <span class="text-neutral-400"> - Logo esquerda, nav centro, CTA direita. Sticky com blur</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Secoes</strong>
+              <span class="text-neutral-400"> - Features, como funciona, pricing, FAQ. Eyebrow + titulo + conteudo</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Prova Social</strong>
+              <span class="text-neutral-400"> - Logos, testimonials, numeros. Confianca atraves de terceiros</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">CTAs</strong>
+              <span class="text-neutral-400"> - Primario (cor), secundario (outline). Copy orientado a acao</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Footer</strong>
+              <span class="text-neutral-400"> - Links organizados em colunas, contato, legal, redes sociais</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-emerald-900/30 rounded-lg p-4 mb-8 border border-emerald-500/30">
+          <h3 class="font-semibold text-emerald-400 mb-2">🎉 Parabens! Voce completou a Trilha 1</h3>
+          <p class="text-neutral-300">Voce agora domina os fundamentos de design web: hierarquia visual, tipografia, cores, espacamento, Gestalt, responsividade e anatomia de pagina. Na Trilha 2, vamos para padroes e sistemas.</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-1-7.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Modulo Anterior
+          </a>
+          <a href="index.html" class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors">
+            Voltar para Trilha 1
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>

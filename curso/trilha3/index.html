@@ -1,0 +1,1976 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trilha 3: Avancado | WebP</title>
+  <meta name="description" content="Domine a arte do vibe coding. Estrategias avancadas para criar sites excepcionais - estetica, emocao, performance, acessibilidade e deploy.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <!-- Logo + INEMA.CLUB -->
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <!-- Trilhas + Theme Toggle -->
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <!-- Theme Toggle -->
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">
+        TRILHA 3
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🚀 Avancado</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Domine a arte do vibe coding. Estrategias avancadas para criar sites excepcionais -
+        estetica, emocao, performance, acessibilidade e deploy.
+      </p>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">8</div>
+          <div class="text-xs text-neutral-400">Modulos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">48</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">~4h</div>
+          <div class="text-xs text-neutral-400">Duracao</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">Avancado</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- NAVEGACAO RAPIDA -->
+    <section class="mb-12">
+      <h2 class="text-lg font-semibold text-neutral-300 mb-4">Navegacao Rapida</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <a href="modulo-3-1.html" class="bg-dark-800 rounded-lg p-4 border border-dark-600 hover:border-purple-500/50 transition-colors group">
+          <span class="text-purple-400 font-bold">3.1</span>
+          <p class="text-sm text-neutral-300 group-hover:text-purple-400 transition-colors">Estetica Contemporanea</p>
+        </a>
+        <a href="modulo-3-2.html" class="bg-dark-800 rounded-lg p-4 border border-dark-600 hover:border-purple-500/50 transition-colors group">
+          <span class="text-purple-400 font-bold">3.2</span>
+          <p class="text-sm text-neutral-300 group-hover:text-purple-400 transition-colors">Design Emocional</p>
+        </a>
+        <a href="modulo-3-3.html" class="bg-dark-800 rounded-lg p-4 border border-dark-600 hover:border-purple-500/50 transition-colors group">
+          <span class="text-purple-400 font-bold">3.3</span>
+          <p class="text-sm text-neutral-300 group-hover:text-purple-400 transition-colors">Performance como Design</p>
+        </a>
+        <a href="modulo-3-4.html" class="bg-dark-800 rounded-lg p-4 border border-dark-600 hover:border-purple-500/50 transition-colors group">
+          <span class="text-purple-400 font-bold">3.4</span>
+          <p class="text-sm text-neutral-300 group-hover:text-purple-400 transition-colors">Acessibilidade Universal</p>
+        </a>
+        <a href="modulo-3-5.html" class="bg-dark-800 rounded-lg p-4 border border-dark-600 hover:border-purple-500/50 transition-colors group">
+          <span class="text-purple-400 font-bold">3.5</span>
+          <p class="text-sm text-neutral-300 group-hover:text-purple-400 transition-colors">Escrevendo Prompts Efetivos</p>
+        </a>
+        <a href="modulo-3-6.html" class="bg-dark-800 rounded-lg p-4 border border-dark-600 hover:border-purple-500/50 transition-colors group">
+          <span class="text-purple-400 font-bold">3.6</span>
+          <p class="text-sm text-neutral-300 group-hover:text-purple-400 transition-colors">Refinamento e Iteracao</p>
+        </a>
+        <a href="modulo-3-7.html" class="bg-dark-800 rounded-lg p-4 border border-dark-600 hover:border-purple-500/50 transition-colors group">
+          <span class="text-purple-400 font-bold">3.7</span>
+          <p class="text-sm text-neutral-300 group-hover:text-purple-400 transition-colors">SEO e Presenca Digital</p>
+        </a>
+        <a href="modulo-3-8.html" class="bg-dark-800 rounded-lg p-4 border border-dark-600 hover:border-purple-500/50 transition-colors group">
+          <span class="text-purple-400 font-bold">3.8</span>
+          <p class="text-sm text-neutral-300 group-hover:text-purple-400 transition-colors">Do Design ao Deploy</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- DIVISOR -->
+    <div class="border-t border-dark-600 my-12"></div>
+    <h2 class="text-xl font-bold mb-8">Conteudo Detalhado</h2>
+
+    <!-- MODULO 3.1 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-purple-400 font-bold">3.1</span>
+          <span class="text-xs text-neutral-500">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🎨 Estetica Contemporanea</h3>
+        <p class="text-neutral-400 text-sm">Tendencias visuais atuais. Brutalismo, glassmorphism, neomorfismo e dark mode avancado.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🏗️</span>
+            <div>
+              <span class="font-medium">Brutalismo Digital</span>
+              <span class="text-neutral-500 text-sm ml-2">- Estetica crua e anti-design</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Movimento estetico que rejeita convencoes de design polido. Usa tipografia crua, cores vibrantes e layouts intencionalmente "feios".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Brutalismo cria identidade memoravel. "Quero um site brutalista com tipografia bold, cores neon e layout grid quebrado".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Anti-design, tipografia bold, cores neon, grids quebrados, estetica raw.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🪟</span>
+            <div>
+              <span class="font-medium">Glassmorphism</span>
+              <span class="text-neutral-500 text-sm ml-2">- Efeito vidro fosco e blur</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Efeito de vidro fosco com transparencia, blur e bordas sutis. Popularizado pelo iOS e Windows 11.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Glassmorphism cria profundidade elegante. "Cards com glassmorphism: blur 20px, background rgba branco 10%, borda sutil".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Backdrop-blur, transparencia, bordas sutis, camadas, profundidade visual.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🔘</span>
+            <div>
+              <span class="font-medium">Neomorfismo</span>
+              <span class="text-neutral-500 text-sm ml-2">- Sombras suaves e extrusao</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Evolucao do skeuomorfismo com sombras suaves que criam ilusao de elementos "saindo" da tela.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Neomorfismo cria interfaces tateis. "Botoes neomorficos com sombra dupla: uma clara acima, uma escura abaixo".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Soft shadows, extrusao, sombra dupla, cores suaves, interface tatil.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🌊</span>
+            <div>
+              <span class="font-medium">Design Organico</span>
+              <span class="text-neutral-500 text-sm ml-2">- Formas fluidas e naturais</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Uso de formas curvas, blobs, ondas e elementos que imitam a natureza, contrastando com grids rigidos.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Formas organicas criam acolhimento. "Hero com blob animado como fundo, formas organicas nos divisores".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Blobs, ondas, curvas bezier, formas fluidas, divisores organicos.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🌙</span>
+            <div>
+              <span class="font-medium">Dark Mode Design</span>
+              <span class="text-neutral-500 text-sm ml-2">- Hierarquia com elevacao</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Dark mode avancado usa elevacao (tons mais claros = mais alto) em vez de sombras para criar hierarquia.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Dark mode bem feito reduz fadiga visual. "Hierarquia por elevacao: background #111, cards #1f2937, modais #374151".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Elevacao, hierarquia tonal, surface levels, contraste em dark, reduced eye strain.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">✨</span>
+            <div>
+              <span class="font-medium">Minimalismo Radical</span>
+              <span class="text-neutral-500 text-sm ml-2">- Reducao intencional</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Levar o minimalismo ao extremo: apenas o essencial, cada elemento justifica sua existencia.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Menos e mais quando bem executado. "Design ultra-minimalista: tipografia apenas, sem icones, espaco como protagonista".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Less is more, essential only, negative space, typography-driven, intentional emptiness.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-3-1')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">
+          Ver em Modal
+        </button>
+        <a href="modulo-3-1.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">
+          Ver Completo
+        </a>
+      </div>
+    </div>
+
+    <!-- MODULO 3.2 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-purple-400 font-bold">3.2</span>
+          <span class="text-xs text-neutral-500">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">💝 Design Emocional</h3>
+        <p class="text-neutral-400 text-sm">Conexoes emocionais atraves do design. Psicologia, storytelling e personalidade.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🎨</span>
+            <div>
+              <span class="font-medium">Psicologia das Cores</span>
+              <span class="text-neutral-500 text-sm ml-2">- Cores influenciam emocoes</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Estudo de como cores afetam emocoes e comportamentos. Azul transmite confianca, vermelho urgencia, verde tranquilidade.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Cores certas criam a emocao certa. "Paleta que transmite confianca e profissionalismo: azuis escuros, cinzas, acento dourado".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Color psychology, emotional response, cultural context, brand personality.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🔤</span>
+            <div>
+              <span class="font-medium">Tipografia Expressiva</span>
+              <span class="text-neutral-500 text-sm ml-2">- Fontes com personalidade</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Usar tipografia como elemento expressivo, nao apenas funcional. Fontes comunicam personalidade antes de serem lidas.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Tipografia e a voz visual da marca. "Headlines em fonte display dramatica, corpo em sans elegante e legivel".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Display fonts, type personality, font pairing, emotional typography.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">📖</span>
+            <div>
+              <span class="font-medium">Storytelling Visual</span>
+              <span class="text-neutral-500 text-sm ml-2">- Narrativas que engajam</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Estruturar a experiencia do site como uma narrativa: introducao, desenvolvimento, climax (CTA), conclusao.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Historias conectam emocionalmente. "Scroll que conta uma historia: problema → solucao → transformacao → CTA".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Narrative arc, scroll storytelling, progressive disclosure, emotional journey.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">💬</span>
+            <div>
+              <span class="font-medium">Micro-copy Emocional</span>
+              <span class="text-neutral-500 text-sm ml-2">- Textos que conectam</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Pequenos textos (botoes, mensagens de erro, loading states) escritos com personalidade e empatia.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Detalhes criam conexao. "Em vez de 'Erro 404', dizer 'Ops! Essa pagina foi passear. Que tal voltar ao inicio?'".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">UX writing, microcopy, error messages, empty states, personality in UI.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🎭</span>
+            <div>
+              <span class="font-medium">Design de Personalidade</span>
+              <span class="text-neutral-500 text-sm ml-2">- Interfaces com carater</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Definir a "personalidade" da interface: seria ou divertida, profissional ou casual, luxuosa ou acessivel.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Consistencia de personalidade cria marca. "Tom de voz amigavel e acessivel em toda UI, como um amigo ajudando".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Brand personality, tone of voice, design character, consistency.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">⚡</span>
+            <div>
+              <span class="font-medium">Gatilhos Emocionais</span>
+              <span class="text-neutral-500 text-sm ml-2">- Elementos que provocam resposta</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Elementos de design que ativam respostas emocionais: urgencia, exclusividade, pertencimento, curiosidade.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Gatilhos bem usados aumentam conversao. "Badge de 'Vagas limitadas' com cor de urgencia, contador regressivo sutil".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Emotional triggers, urgency, scarcity, social proof, FOMO design.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-3-2')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">
+          Ver em Modal
+        </button>
+        <a href="modulo-3-2.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">
+          Ver Completo
+        </a>
+      </div>
+    </div>
+
+    <!-- MODULO 3.3 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-purple-400 font-bold">3.3</span>
+          <span class="text-xs text-neutral-500">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">⚡ Performance como Design</h3>
+        <p class="text-neutral-400 text-sm">Core Web Vitals, lazy loading, skeleton screens e otimizacao pratica.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">📊</span>
+            <div>
+              <span class="font-medium">Core Web Vitals</span>
+              <span class="text-neutral-500 text-sm ml-2">- LCP, INP, CLS metricas</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Metricas do Google: LCP (tempo de carregamento), INP (interatividade), CLS (estabilidade visual).</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Core Web Vitals afetam SEO e UX. "LCP abaixo de 2.5s, INP abaixo de 200ms, CLS abaixo de 0.1".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">LCP, INP, CLS, PageSpeed, Lighthouse, performance budget.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🔄</span>
+            <div>
+              <span class="font-medium">Loading States</span>
+              <span class="text-neutral-500 text-sm ml-2">- Spinners e indicadores</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Indicadores visuais de que algo esta carregando: spinners, progress bars, pulsing dots.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Feedback visual reduz percepcao de espera. "Spinner minimalista centralizado, mensagem de contexto abaixo".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Spinners, progress indicators, loading feedback, perceived performance.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">💀</span>
+            <div>
+              <span class="font-medium">Skeleton Screens</span>
+              <span class="text-neutral-500 text-sm ml-2">- Placeholders animados</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Placeholders animados que mostram a estrutura do conteudo enquanto carrega. Usados por Facebook, YouTube.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Skeletons criam sensacao de velocidade. "Skeleton do card com retangulos pulsando onde ficara imagem, titulo, texto".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Skeleton screens, content placeholder, shimmer effect, progressive loading.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">📷</span>
+            <div>
+              <span class="font-medium">Lazy Loading Visual</span>
+              <span class="text-neutral-500 text-sm ml-2">- Carregamento progressivo</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Carregar imagens e conteudo apenas quando entram no viewport. Blur-up: imagem de baixa qualidade → alta.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Lazy loading melhora performance inicial. "Imagens com loading='lazy', blur placeholder enquanto carrega".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Lazy loading, blur-up, LQIP, intersection observer, progressive images.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🧠</span>
+            <div>
+              <span class="font-medium">Perceived Performance</span>
+              <span class="text-neutral-500 text-sm ml-2">- Velocidade percebida</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">A sensacao de velocidade importa mais que velocidade real. Truques visuais fazem o site parecer mais rapido.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Percepcao e realidade. "Transicoes suaves, feedback imediato, conteudo above-the-fold priorizado".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Perceived performance, above-the-fold, instant feedback, optimistic UI.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">📶</span>
+            <div>
+              <span class="font-medium">Progressive Enhancement</span>
+              <span class="text-neutral-500 text-sm ml-2">- Camadas de funcionalidade</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Construir em camadas: funciona no basico, melhora com mais recursos. HTML primeiro, CSS depois, JS por ultimo.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Sites resilientes funcionam para todos. "Core content sem JS, animacoes como enhancement, offline support".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Progressive enhancement, graceful degradation, feature detection, resilience.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-3-3')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">
+          Ver em Modal
+        </button>
+        <a href="modulo-3-3.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">
+          Ver Completo
+        </a>
+      </div>
+    </div>
+
+    <!-- MODULO 3.4 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-purple-400 font-bold">3.4</span>
+          <span class="text-xs text-neutral-500">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">♿ Acessibilidade Universal</h3>
+        <p class="text-neutral-400 text-sm">WCAG, semantica HTML, navegacao por teclado e leitores de tela.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🎨</span>
+            <div>
+              <span class="font-medium">Contraste e Legibilidade</span>
+              <span class="text-neutral-500 text-sm ml-2">- WCAG e ratios</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Ratio de contraste entre texto e fundo. WCAG exige 4.5:1 para texto normal, 3:1 para texto grande.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Contraste adequado e lei. "Verificar todos os textos: contraste minimo 4.5:1, usar WebAIM Contrast Checker".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Contrast ratio, WCAG AA/AAA, legibility, color blindness, accessibility testing.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">⌨️</span>
+            <div>
+              <span class="font-medium">Navegacao por Teclado</span>
+              <span class="text-neutral-500 text-sm ml-2">- Tab e focus states</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Toda funcionalidade acessivel via teclado. Tab para navegar, Enter para ativar, Escape para fechar.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Muitos usuarios nao usam mouse. "Focus visible em todos elementos interativos, skip links, tab order logica".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Keyboard navigation, focus states, tab order, skip links, focus trapping.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🔊</span>
+            <div>
+              <span class="font-medium">Screen Readers</span>
+              <span class="text-neutral-500 text-sm ml-2">- ARIA e semantica</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Software que le conteudo em voz alta. Depende de HTML semantico e atributos ARIA para contexto.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Milhoes usam screen readers. "alt em imagens, aria-labels em icones, landmarks semanticos, heading hierarchy".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Screen readers, ARIA, alt text, semantic HTML, landmarks, roles.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🌍</span>
+            <div>
+              <span class="font-medium">Design Inclusivo</span>
+              <span class="text-neutral-500 text-sm ml-2">- Diversidade de usuarios</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Projetar para a diversidade humana: idade, habilidade, contexto, dispositivo, conexao, idioma.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Design inclusivo beneficia todos. "Considerar usuario com uma mao ocupada, em ambiente barulhento, com sol na tela".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Inclusive design, permanent/temporary/situational disabilities, universal design.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">📋</span>
+            <div>
+              <span class="font-medium">WCAG Guidelines</span>
+              <span class="text-neutral-500 text-sm ml-2">- Principios POUR</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Web Content Accessibility Guidelines. Quatro principios: Perceivable, Operable, Understandable, Robust.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">WCAG e o padrao global. "Nivel AA como minimo, revisar checklist POUR antes de lancar".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">WCAG 2.1/2.2, POUR principles, conformance levels A/AA/AAA, success criteria.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🔍</span>
+            <div>
+              <span class="font-medium">Teste de Acessibilidade</span>
+              <span class="text-neutral-500 text-sm ml-2">- Ferramentas e metodos</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Ferramentas automaticas (Lighthouse, axe) + teste manual (navegacao por teclado, screen reader).</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Testar e obrigatorio. "Lighthouse Accessibility 90+, axe sem erros criticos, teste com VoiceOver/NVDA".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Lighthouse, axe, WAVE, manual testing, screen reader testing, accessibility audit.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-3-4')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">
+          Ver em Modal
+        </button>
+        <a href="modulo-3-4.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">
+          Ver Completo
+        </a>
+      </div>
+    </div>
+
+    <!-- MODULO 3.5 - MODULO CHAVE -->
+    <div class="bg-dark-800 rounded-xl border border-purple-500/30 mb-6 ring-1 ring-purple-500/20">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center space-x-2">
+            <span class="text-purple-400 font-bold">3.5</span>
+            <span class="px-2 py-0.5 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded">MODULO CHAVE</span>
+          </div>
+          <span class="text-xs text-neutral-500">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">💬 Escrevendo Prompts Efetivos</h3>
+        <p class="text-neutral-400 text-sm">Estrutura de prompts, especificidade e tecnicas avancadas de vibe coding.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">📝</span>
+            <div>
+              <span class="font-medium">Estrutura de Prompts</span>
+              <span class="text-neutral-500 text-sm ml-2">- Contexto + Objetivo + Specs</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Anatomia de um prompt efetivo: contexto (quem/o que), objetivo (o que criar), especificacoes (detalhes tecnicos).</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Prompts bem estruturados geram resultados melhores. "Contexto: portfolio designer. Objetivo: landing minimalista. Specs: dark mode, glassmorphism".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Prompt structure, context setting, clear objectives, technical specifications.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">📚</span>
+            <div>
+              <span class="font-medium">Vocabulario Tecnico</span>
+              <span class="text-neutral-500 text-sm ml-2">- Termos que IAs entendem</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Termos especificos que IAs reconhecem: hero section, CTA, above-the-fold, glassmorphism, skeleton screen.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Vocabulario certo = resultado certo. "Dizer 'hero com gradient mesh background' em vez de 'topo colorido bonito'".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Design vocabulary, technical terms, UI patterns, CSS properties, component names.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🎯</span>
+            <div>
+              <span class="font-medium">Contexto e Especificidade</span>
+              <span class="text-neutral-500 text-sm ml-2">- Niveis de detalhe</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Quanto mais especifico, melhor o resultado. Incluir cores exatas, espacamentos, fontes, breakpoints.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Especificidade elimina suposicoes. "Em vez de 'azul', dizer 'azul indigo-600 (#4f46e5) com hover indigo-500'".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Specificity levels, exact values, color codes, sizing systems, named references.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🔗</span>
+            <div>
+              <span class="font-medium">Exemplos e Referencias</span>
+              <span class="text-neutral-500 text-sm ml-2">- Sites como referencia</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Usar sites existentes como referencia visual. "Estilo visual como Linear.app, navegacao como Stripe.com".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Referencias aceleram comunicacao. "Hero inspirado em Vercel, pricing table como Notion, testimonials como Slack".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Visual references, style borrowing, component inspiration, mood boards.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🔄</span>
+            <div>
+              <span class="font-medium">Iteracao de Prompts</span>
+              <span class="text-neutral-500 text-sm ml-2">- Refinamento progressivo</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Comecar simples, refinar progressivamente. Cada iteracao adiciona ou ajusta especificacoes.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Iteracao e mais eficiente que perfeicao inicial. "V1 estrutura basica → V2 adicionar cores → V3 animacoes → V4 responsivo".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Iterative prompting, progressive refinement, versioning, feedback loops.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🧩</span>
+            <div>
+              <span class="font-medium">Combinando Conceitos</span>
+              <span class="text-neutral-500 text-sm ml-2">- Prompts completos</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Juntar todos os conceitos do curso em prompts coesos: estetica + emocao + performance + acessibilidade.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Sintese e maestria. "Landing page: dark mode com glassmorphism, tipografia Inter, hierarquia clara, WCAG AA, skeleton loading".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Comprehensive prompts, concept synthesis, holistic design, complete specifications.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-3-5')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">
+          Ver em Modal
+        </button>
+        <a href="modulo-3-5.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">
+          Ver Completo
+        </a>
+      </div>
+    </div>
+
+    <!-- MODULO 3.6 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-purple-400 font-bold">3.6</span>
+          <span class="text-xs text-neutral-500">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🔄 Refinamento e Iteracao</h3>
+        <p class="text-neutral-400 text-sm">O processo de polir. Iterar com IAs, dar feedback e chegar ao resultado perfeito.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🔍</span>
+            <div>
+              <span class="font-medium">Analise de Output</span>
+              <span class="text-neutral-500 text-sm ml-2">- Avaliar resultados</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Avaliar criticamente o que a IA gerou: o que funcionou, o que falta, o que precisa mudar.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Analise precede melhoria. "Revisar: hierarquia visual OK, cores precisam ajuste, espacamento inconsistente".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Output analysis, critical review, gap identification, quality assessment.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">💬</span>
+            <div>
+              <span class="font-medium">Feedback Especifico</span>
+              <span class="text-neutral-500 text-sm ml-2">- Comunicar ajustes</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Dar feedback preciso e acionavel para a IA. Dizer exatamente o que mudar e como.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Feedback vago gera resultados vagos. "Em vez de 'melhore as cores', dizer 'mude o botao de blue-500 para purple-600'".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Specific feedback, actionable instructions, precise language, clear direction.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🔧</span>
+            <div>
+              <span class="font-medium">Correcoes Incrementais</span>
+              <span class="text-neutral-500 text-sm ml-2">- Mudancas pontuais</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Fazer pequenas correcoes uma de cada vez, validando cada mudanca antes da proxima.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Mudancas pequenas sao mais controlaveis. "Primeiro ajustar tipografia, depois cores, depois espacamento".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Incremental changes, one thing at a time, validation, controlled iteration.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">📁</span>
+            <div>
+              <span class="font-medium">Versioning de Design</span>
+              <span class="text-neutral-500 text-sm ml-2">- Gerenciar versoes</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Manter historico de versoes para poder comparar e reverter. Git para codigo, exports para design.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Versoes permitem experimentar sem medo. "Salvar v1-estrutura, v2-cores, v3-animacoes, poder voltar se necessario".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Version control, git commits, design history, rollback, experimentation.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">⚖️</span>
+            <div>
+              <span class="font-medium">A/B Testing Visual</span>
+              <span class="text-neutral-500 text-sm ml-2">- Comparar alternativas</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Criar duas ou mais versoes e comparar qual funciona melhor visualmente ou em metricas.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Dados vencem opinioes. "Gerar versao A com CTA verde e versao B com CTA laranja, testar qual converte mais".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">A/B testing, variant comparison, data-driven design, conversion optimization.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">📋</span>
+            <div>
+              <span class="font-medium">Documentacao de Decisoes</span>
+              <span class="text-neutral-500 text-sm ml-2">- Registrar escolhas</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Registrar por que cada decisao de design foi tomada. Ajuda em futuras iteracoes e handoffs.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Documentacao evita retrabalho. "Anotar: escolhi Inter por legibilidade em telas, purple por diferenciacao de mercado".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Decision log, design rationale, documentation, knowledge transfer.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-3-6')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">
+          Ver em Modal
+        </button>
+        <a href="modulo-3-6.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">
+          Ver Completo
+        </a>
+      </div>
+    </div>
+
+    <!-- MODULO 3.7 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-purple-400 font-bold">3.7</span>
+          <span class="text-xs text-neutral-500">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🔍 SEO e Presenca Digital</h3>
+        <p class="text-neutral-400 text-sm">Meta tags, structured data, Open Graph e otimizacao para buscadores e IAs.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🏷️</span>
+            <div>
+              <span class="font-medium">Meta Tags Essenciais</span>
+              <span class="text-neutral-500 text-sm ml-2">- title, description, viewport</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Tags no head que informam buscadores e navegadores: title, description, viewport, charset.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Meta tags sao SEO basico. "Title com palavra-chave, description que convence o clique, viewport para mobile".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Meta title, meta description, viewport, charset, robots meta.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🏗️</span>
+            <div>
+              <span class="font-medium">Estrutura Semantica</span>
+              <span class="text-neutral-500 text-sm ml-2">- Headings e landmarks</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Usar elementos HTML semanticos: header, nav, main, article, section, footer. Hierarquia de headings h1-h6.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Semantica ajuda SEO e acessibilidade. "Um h1 por pagina, h2 para secoes principais, h3 para subsecoes".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Semantic HTML, heading hierarchy, landmarks, content structure.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">📱</span>
+            <div>
+              <span class="font-medium">Open Graph e Social Cards</span>
+              <span class="text-neutral-500 text-sm ml-2">- Compartilhamento</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Meta tags que controlam como seu link aparece quando compartilhado: og:title, og:image, twitter:card.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Social cards aumentam cliques. "Imagem 1200x630 para Facebook, 1200x600 para Twitter, titulo atraente".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Open Graph, Twitter Cards, social sharing, og:image, preview optimization.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">📊</span>
+            <div>
+              <span class="font-medium">Schema Markup</span>
+              <span class="text-neutral-500 text-sm ml-2">- Dados estruturados</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">JSON-LD que descreve seu conteudo para buscadores: Organization, Article, Product, FAQ, HowTo.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Schema gera rich snippets no Google. "Adicionar schema Organization, schema Article para blog, FAQ para perguntas".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Schema.org, JSON-LD, structured data, rich snippets, knowledge graph.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">⚡</span>
+            <div>
+              <span class="font-medium">Performance e SEO</span>
+              <span class="text-neutral-500 text-sm ml-2">- Core Web Vitals</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Google usa Core Web Vitals como fator de ranking. Sites rapidos rankeiam melhor.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Performance e SEO estao conectados. "Otimizar imagens, minificar CSS/JS, usar CDN, lazy load".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Page speed, Core Web Vitals, mobile-first indexing, technical SEO.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">📝</span>
+            <div>
+              <span class="font-medium">Conteudo Otimizado</span>
+              <span class="text-neutral-500 text-sm ml-2">- Keywords e intent</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Escrever conteudo que responde a intencao de busca. Keywords naturais, estrutura escaneavel, value first.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Conteudo e rei. "Responder a pergunta no primeiro paragrafo, usar subheadings, listas quando apropriado".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Search intent, keyword research, content optimization, E-E-A-T, topical authority.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-3-7')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">
+          Ver em Modal
+        </button>
+        <a href="modulo-3-7.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">
+          Ver Completo
+        </a>
+      </div>
+    </div>
+
+    <!-- MODULO 3.8 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-purple-400 font-bold">3.8</span>
+          <span class="text-xs text-neutral-500">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🚀 Do Design ao Deploy</h3>
+        <p class="text-neutral-400 text-sm">Git, GitHub Pages, Vercel, Netlify e o caminho do codigo ao site publicado.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">📦</span>
+            <div>
+              <span class="font-medium">Exportacao de Assets</span>
+              <span class="text-neutral-500 text-sm ml-2">- Formatos e resolucoes</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Preparar imagens e icones para producao: WebP para fotos, SVG para icones, multiplas resolucoes para retina.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Assets otimizados = site rapido. "Exportar em WebP com 80% quality, SVG para icones, srcset para responsivo".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Image formats, WebP, SVG, srcset, image optimization, compression.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">⚙️</span>
+            <div>
+              <span class="font-medium">Preparacao para Producao</span>
+              <span class="text-neutral-500 text-sm ml-2">- Minificacao e bundle</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Otimizar codigo para producao: minificar CSS/JS, tree shaking, bundling, gzip compression.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Codigo otimizado carrega mais rapido. "Build de producao com minificacao, purge CSS nao usado, bundle splitting".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Minification, bundling, tree shaking, gzip, production build.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">☁️</span>
+            <div>
+              <span class="font-medium">Hospedagem Estatica</span>
+              <span class="text-neutral-500 text-sm ml-2">- Vercel, Netlify, GitHub</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Plataformas que hospedam sites estaticos gratuitamente: Vercel, Netlify, GitHub Pages, Cloudflare Pages.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Deploy em segundos, gratis. "Conectar repo GitHub → Vercel detecta, builda e deploya automaticamente".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Static hosting, Vercel, Netlify, GitHub Pages, CI/CD, automatic deploys.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🌐</span>
+            <div>
+              <span class="font-medium">Dominios e DNS</span>
+              <span class="text-neutral-500 text-sm ml-2">- A records e CNAME</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Conectar um dominio customizado ao seu site. Configurar A records, CNAME, SSL automatico.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Dominio proprio e profissionalismo. "Comprar dominio, apontar nameservers, adicionar em Vercel, SSL automatico".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Domain, DNS, A record, CNAME, SSL/TLS, nameservers.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">📈</span>
+            <div>
+              <span class="font-medium">Analytics e Monitoramento</span>
+              <span class="text-neutral-500 text-sm ml-2">- Metricas e erros</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Ferramentas para entender usuarios e detectar problemas: Google Analytics, Plausible, Sentry, UptimeRobot.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Dados guiam decisoes. "Instalar analytics, monitorar Core Web Vitals em producao, alertas de downtime".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Analytics, error tracking, uptime monitoring, RUM, performance monitoring.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🔧</span>
+            <div>
+              <span class="font-medium">Manutencao Continua</span>
+              <span class="text-neutral-500 text-sm ml-2">- Updates e seguranca</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-purple-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Manter o site atualizado: dependencias, conteudo, seguranca, backups, monitorar performance.</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Lancamento e so o comeco. "Dependabot para updates, revisar analytics mensalmente, testar em novos dispositivos".</p>
+              </div>
+              <div>
+                <span class="text-purple-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Maintenance, security updates, dependency management, content updates, backups.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-3-8')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">
+          Ver em Modal
+        </button>
+        <a href="modulo-3-8.html" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">
+          Ver Completo
+        </a>
+      </div>
+    </div>
+
+    <!-- NAVEGACAO -->
+    <div class="flex justify-between items-center mt-12 pt-8 border-t border-dark-600">
+      <a href="../trilha2/index.html" class="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+        ← Trilha Anterior
+      </a>
+      <a href="../../index.html" class="px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-dark-900 font-semibold rounded-lg transition-colors">
+        Voltar ao Inicio
+      </a>
+    </div>
+
+  </main>
+
+  <!-- MODALS -->
+  <div id="modal-3-1" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="fixed inset-0 bg-black/70" onclick="closeModal()"></div>
+      <div class="relative bg-dark-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-dark-600">
+        <div class="sticky top-0 bg-dark-800 p-4 border-b border-dark-600 flex justify-between items-center">
+          <h3 class="text-xl font-bold text-purple-400">3.1 - Estetica Contemporanea</h3>
+          <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6 space-y-4">
+          <p class="text-neutral-300">Tendencias visuais atuais para criar interfaces modernas e impactantes.</p>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-purple-400 mb-2">Topicos Principais:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• Brutalismo Digital</li>
+              <li>• Glassmorphism</li>
+              <li>• Neomorfismo</li>
+              <li>• Design Organico</li>
+              <li>• Dark Mode Design</li>
+              <li>• Minimalismo Radical</li>
+            </ul>
+          </div>
+          <a href="modulo-3-1.html" class="inline-block mt-4 px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">
+            Ver Modulo Completo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-3-2" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="fixed inset-0 bg-black/70" onclick="closeModal()"></div>
+      <div class="relative bg-dark-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-dark-600">
+        <div class="sticky top-0 bg-dark-800 p-4 border-b border-dark-600 flex justify-between items-center">
+          <h3 class="text-xl font-bold text-purple-400">3.2 - Design Emocional</h3>
+          <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6 space-y-4">
+          <p class="text-neutral-300">Conexoes emocionais atraves do design. Psicologia, storytelling e personalidade.</p>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-purple-400 mb-2">Topicos Principais:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• Psicologia das Cores</li>
+              <li>• Tipografia Expressiva</li>
+              <li>• Storytelling Visual</li>
+              <li>• Micro-copy Emocional</li>
+              <li>• Design de Personalidade</li>
+              <li>• Gatilhos Emocionais</li>
+            </ul>
+          </div>
+          <a href="modulo-3-2.html" class="inline-block mt-4 px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">
+            Ver Modulo Completo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-3-3" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="fixed inset-0 bg-black/70" onclick="closeModal()"></div>
+      <div class="relative bg-dark-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-dark-600">
+        <div class="sticky top-0 bg-dark-800 p-4 border-b border-dark-600 flex justify-between items-center">
+          <h3 class="text-xl font-bold text-purple-400">3.3 - Performance como Design</h3>
+          <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6 space-y-4">
+          <p class="text-neutral-300">Core Web Vitals, lazy loading, skeleton screens e otimizacao pratica.</p>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-purple-400 mb-2">Topicos Principais:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• Core Web Vitals</li>
+              <li>• Loading States</li>
+              <li>• Skeleton Screens</li>
+              <li>• Lazy Loading Visual</li>
+              <li>• Perceived Performance</li>
+              <li>• Progressive Enhancement</li>
+            </ul>
+          </div>
+          <a href="modulo-3-3.html" class="inline-block mt-4 px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">
+            Ver Modulo Completo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-3-4" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="fixed inset-0 bg-black/70" onclick="closeModal()"></div>
+      <div class="relative bg-dark-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-dark-600">
+        <div class="sticky top-0 bg-dark-800 p-4 border-b border-dark-600 flex justify-between items-center">
+          <h3 class="text-xl font-bold text-purple-400">3.4 - Acessibilidade Universal</h3>
+          <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6 space-y-4">
+          <p class="text-neutral-300">WCAG, semantica HTML, navegacao por teclado e leitores de tela.</p>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-purple-400 mb-2">Topicos Principais:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• Contraste e Legibilidade</li>
+              <li>• Navegacao por Teclado</li>
+              <li>• Screen Readers</li>
+              <li>• Design Inclusivo</li>
+              <li>• WCAG Guidelines</li>
+              <li>• Teste de Acessibilidade</li>
+            </ul>
+          </div>
+          <a href="modulo-3-4.html" class="inline-block mt-4 px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">
+            Ver Modulo Completo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-3-5" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="fixed inset-0 bg-black/70" onclick="closeModal()"></div>
+      <div class="relative bg-dark-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-dark-600">
+        <div class="sticky top-0 bg-dark-800 p-4 border-b border-dark-600 flex justify-between items-center">
+          <h3 class="text-xl font-bold text-purple-400">3.5 - Escrevendo Prompts Efetivos</h3>
+          <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6 space-y-4">
+          <p class="text-neutral-300">Estrutura de prompts, especificidade e tecnicas avancadas de vibe coding.</p>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-purple-400 mb-2">Topicos Principais:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• Estrutura de Prompts</li>
+              <li>• Vocabulario Tecnico</li>
+              <li>• Contexto e Especificidade</li>
+              <li>• Exemplos e Referencias</li>
+              <li>• Iteracao de Prompts</li>
+              <li>• Combinando Conceitos</li>
+            </ul>
+          </div>
+          <a href="modulo-3-5.html" class="inline-block mt-4 px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">
+            Ver Modulo Completo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-3-6" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="fixed inset-0 bg-black/70" onclick="closeModal()"></div>
+      <div class="relative bg-dark-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-dark-600">
+        <div class="sticky top-0 bg-dark-800 p-4 border-b border-dark-600 flex justify-between items-center">
+          <h3 class="text-xl font-bold text-purple-400">3.6 - Refinamento e Iteracao</h3>
+          <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6 space-y-4">
+          <p class="text-neutral-300">O processo de polir. Iterar com IAs, dar feedback e chegar ao resultado perfeito.</p>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-purple-400 mb-2">Topicos Principais:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• Analise de Output</li>
+              <li>• Feedback Especifico</li>
+              <li>• Correcoes Incrementais</li>
+              <li>• Versioning de Design</li>
+              <li>• A/B Testing Visual</li>
+              <li>• Documentacao de Decisoes</li>
+            </ul>
+          </div>
+          <a href="modulo-3-6.html" class="inline-block mt-4 px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">
+            Ver Modulo Completo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-3-7" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="fixed inset-0 bg-black/70" onclick="closeModal()"></div>
+      <div class="relative bg-dark-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-dark-600">
+        <div class="sticky top-0 bg-dark-800 p-4 border-b border-dark-600 flex justify-between items-center">
+          <h3 class="text-xl font-bold text-purple-400">3.7 - SEO e Presenca Digital</h3>
+          <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6 space-y-4">
+          <p class="text-neutral-300">Meta tags, structured data, Open Graph e otimizacao para buscadores e IAs.</p>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-purple-400 mb-2">Topicos Principais:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• Meta Tags Essenciais</li>
+              <li>• Estrutura Semantica</li>
+              <li>• Open Graph e Social Cards</li>
+              <li>• Schema Markup</li>
+              <li>• Performance e SEO</li>
+              <li>• Conteudo Otimizado</li>
+            </ul>
+          </div>
+          <a href="modulo-3-7.html" class="inline-block mt-4 px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">
+            Ver Modulo Completo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-3-8" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="fixed inset-0 bg-black/70" onclick="closeModal()"></div>
+      <div class="relative bg-dark-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-dark-600">
+        <div class="sticky top-0 bg-dark-800 p-4 border-b border-dark-600 flex justify-between items-center">
+          <h3 class="text-xl font-bold text-purple-400">3.8 - Do Design ao Deploy</h3>
+          <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6 space-y-4">
+          <p class="text-neutral-300">Git, GitHub Pages, Vercel, Netlify e o caminho do codigo ao site publicado.</p>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-purple-400 mb-2">Topicos Principais:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• Exportacao de Assets</li>
+              <li>• Preparacao para Producao</li>
+              <li>• Hospedagem Estatica</li>
+              <li>• Dominios e DNS</li>
+              <li>• Analytics e Monitoramento</li>
+              <li>• Manutencao Continua</li>
+            </ul>
+          </div>
+          <a href="modulo-3-8.html" class="inline-block mt-4 px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">
+            Ver Modulo Completo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Toggle Topics
+    function toggleTopic(button) {
+      const topicItem = button.closest('.topic-item');
+      const explanation = topicItem.querySelector('.topic-explanation');
+      const moduleCard = button.closest('.bg-dark-800');
+
+      // Close others in same module
+      moduleCard.querySelectorAll('.topic-explanation.active').forEach(exp => {
+        if (exp !== explanation) {
+          exp.classList.remove('active');
+        }
+      });
+
+      // Toggle current
+      explanation.classList.toggle('active');
+    }
+
+    // Modal Functions
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeModal() {
+      document.querySelectorAll('.modal').forEach(modal => {
+        modal.classList.add('hidden');
+      });
+      document.body.style.overflow = 'auto';
+    }
+
+    // Close with ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Theme Toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>

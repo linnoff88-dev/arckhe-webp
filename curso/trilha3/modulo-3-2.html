@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3.2 Design Emocional | WebP</title>
+  <meta name="description" content="Aprenda a criar conexoes emocionais atraves do design. Psicologia das cores, tipografia expressiva, storytelling visual e gatilhos emocionais.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-content { display: none; }
+    .topic-content.active { display: block; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-purple-400">Inicio</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-purple-400">Trilha 3</a>
+      <span>/</span>
+      <span class="text-purple-400">Modulo 2</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">
+        TRILHA 3 . MODULO 2
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">💝 Design Emocional</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Aprenda a criar conexoes emocionais atraves do design. Descubra como cores, tipografia,
+        storytelling e microcopy podem transformar interfaces em experiencias memoraveis.
+      </p>
+
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">6</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">30</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">Avancado</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">Conceitual</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1: PSICOLOGIA DAS CORES -->
+    <section id="topico-1" class="mb-12">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(1)" class="w-full p-6 flex items-center justify-between hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">1</span>
+            <div class="text-left">
+              <h2 class="text-xl font-bold">🎨 Psicologia das Cores</h2>
+              <p class="text-neutral-400 text-sm">Como cores influenciam emocoes e decisoes</p>
+            </div>
+          </div>
+          <svg id="icon-1" class="w-6 h-6 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div id="content-1" class="topic-content border-t border-dark-600">
+          <div class="p-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/20 to-dark-800 rounded-lg border border-purple-500/30 p-5">
+              <h3 class="text-lg font-semibold text-purple-400 mb-3">O que e:</h3>
+              <p class="text-neutral-300 leading-relaxed">
+                Psicologia das cores e o estudo de como diferentes cores afetam o comportamento humano,
+                emocoes e percepcoes. No design, cada cor carrega significados culturais e psicologicos
+                que influenciam como usuarios percebem uma marca ou interface. Vermelho evoca urgencia e paixao,
+                azul transmite confianca e calma, verde sugere crescimento e natureza.
+              </p>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-lg p-5">
+              <h3 class="text-lg font-semibold text-white mb-3">Por que aprender:</h3>
+              <ul class="space-y-2 text-neutral-300">
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Cores certas aumentam conversoes em ate 80% - botoes vermelhos vs verdes em CTAs</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Criar atmosfera emocional consistente com a mensagem da marca</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Diferenciar elementos por importancia usando hierarquia de cor</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Comunicar com IAs sobre paletas com intencao emocional especifica</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-lg p-5">
+              <h3 class="text-lg font-semibold text-white mb-3">Conceitos-chave:</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Cores Quentes</h4>
+                  <p class="text-neutral-400 text-sm">Vermelho, laranja, amarelo - energia, urgencia, otimismo, acao</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Cores Frias</h4>
+                  <p class="text-neutral-400 text-sm">Azul, verde, roxo - calma, confianca, profissionalismo, serenidade</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Cores Neutras</h4>
+                  <p class="text-neutral-400 text-sm">Preto, branco, cinza - sofisticacao, minimalismo, elegancia</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Saturacao e Brilho</h4>
+                  <p class="text-neutral-400 text-sm">Alta saturacao = vibrante/juvenil. Baixa = sofisticado/calmo</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 2: TIPOGRAFIA EXPRESSIVA -->
+    <section id="topico-2" class="mb-12">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(2)" class="w-full p-6 flex items-center justify-between hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">2</span>
+            <div class="text-left">
+              <h2 class="text-xl font-bold">✍️ Tipografia Expressiva</h2>
+              <p class="text-neutral-400 text-sm">Fontes que comunicam personalidade e emocao</p>
+            </div>
+          </div>
+          <svg id="icon-2" class="w-6 h-6 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div id="content-2" class="topic-content border-t border-dark-600">
+          <div class="p-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/20 to-dark-800 rounded-lg border border-purple-500/30 p-5">
+              <h3 class="text-lg font-semibold text-purple-400 mb-3">O que e:</h3>
+              <p class="text-neutral-300 leading-relaxed">
+                Tipografia expressiva vai alem da legibilidade - e sobre usar fontes para transmitir
+                personalidade e emocao. Uma fonte serif classica comunica tradicao e confianca,
+                enquanto uma sans-serif geometrica sugere modernidade e inovacao. A escolha tipografica
+                e a "voz" visual da sua interface.
+              </p>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-lg p-5">
+              <h3 class="text-lg font-semibold text-white mb-3">Por que aprender:</h3>
+              <ul class="space-y-2 text-neutral-300">
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Fontes criam 95% da primeira impressao em menos de 1 segundo</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Tipografia errada pode sabotar toda a mensagem de uma marca</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Combinacoes tipograficas criam hierarquia visual e interesse</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>IAs entendem referencias tipograficas e podem sugerir pares harmonicos</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-lg p-5">
+              <h3 class="text-lg font-semibold text-white mb-3">Conceitos-chave:</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Serif vs Sans-Serif</h4>
+                  <p class="text-neutral-400 text-sm">Serif = tradicional, elegante. Sans = moderno, limpo</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Display Fonts</h4>
+                  <p class="text-neutral-400 text-sm">Fontes decorativas para titulos e impacto visual</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Font Pairing</h4>
+                  <p class="text-neutral-400 text-sm">Combinar fontes contrastantes que se complementam</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Type Scale</h4>
+                  <p class="text-neutral-400 text-sm">Hierarquia de tamanhos harmonicos (1.25, 1.333, 1.5 ratio)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 3: STORYTELLING VISUAL -->
+    <section id="topico-3" class="mb-12">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(3)" class="w-full p-6 flex items-center justify-between hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">3</span>
+            <div class="text-left">
+              <h2 class="text-xl font-bold">📖 Storytelling Visual</h2>
+              <p class="text-neutral-400 text-sm">Narrativas que engajam e conectam</p>
+            </div>
+          </div>
+          <svg id="icon-3" class="w-6 h-6 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div id="content-3" class="topic-content border-t border-dark-600">
+          <div class="p-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/20 to-dark-800 rounded-lg border border-purple-500/30 p-5">
+              <h3 class="text-lg font-semibold text-purple-400 mb-3">O que e:</h3>
+              <p class="text-neutral-300 leading-relaxed">
+                Storytelling visual e a arte de contar historias atraves de elementos de design -
+                imagens, ilustracoes, icones e layout. Em vez de apenas mostrar informacao,
+                voce guia o usuario por uma jornada emocional. Cada secao revela parte da narrativa,
+                criando conexao e memorabilidade.
+              </p>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-lg p-5">
+              <h3 class="text-lg font-semibold text-white mb-3">Por que aprender:</h3>
+              <ul class="space-y-2 text-neutral-300">
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Historias sao 22x mais memoraveis que fatos isolados</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Storytelling aumenta tempo de permanencia e reducao de bounce rate</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Cria conexao emocional que diferencia de competidores</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>IAs podem estruturar narrativas visuais seguindo arcos classicos</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-lg p-5">
+              <h3 class="text-lg font-semibold text-white mb-3">Conceitos-chave:</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Hero Journey</h4>
+                  <p class="text-neutral-400 text-sm">Usuario como heroi, produto como guia/solucao</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Visual Hierarchy</h4>
+                  <p class="text-neutral-400 text-sm">Guiar o olhar na ordem correta da narrativa</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Scroll Storytelling</h4>
+                  <p class="text-neutral-400 text-sm">Revelar historia conforme usuario rola a pagina</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Before/After</h4>
+                  <p class="text-neutral-400 text-sm">Mostrar transformacao e beneficio visual</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 4: MICRO-COPY EMOCIONAL -->
+    <section id="topico-4" class="mb-12">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(4)" class="w-full p-6 flex items-center justify-between hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">4</span>
+            <div class="text-left">
+              <h2 class="text-xl font-bold">💬 Micro-copy Emocional</h2>
+              <p class="text-neutral-400 text-sm">Pequenos textos com grande impacto</p>
+            </div>
+          </div>
+          <svg id="icon-4" class="w-6 h-6 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div id="content-4" class="topic-content border-t border-dark-600">
+          <div class="p-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/20 to-dark-800 rounded-lg border border-purple-500/30 p-5">
+              <h3 class="text-lg font-semibold text-purple-400 mb-3">O que e:</h3>
+              <p class="text-neutral-300 leading-relaxed">
+                Micro-copy sao os pequenos textos que guiam usuarios - labels de botao, mensagens de erro,
+                placeholders, tooltips. Micro-copy emocional transforma "Erro 404" em "Ops! Parece que
+                essa pagina tirou ferias". Esses detalhes humanizam a interface e criam momentos de deleite.
+              </p>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-lg p-5">
+              <h3 class="text-lg font-semibold text-white mb-3">Por que aprender:</h3>
+              <ul class="space-y-2 text-neutral-300">
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Micro-copy pode aumentar conversoes em ate 40%</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Transforma momentos de frustracao em oportunidades de conexao</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Define a personalidade e tom de voz da marca</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>IAs excelentes em gerar variacoes de micro-copy com diferentes tons</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-lg p-5">
+              <h3 class="text-lg font-semibold text-white mb-3">Conceitos-chave:</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Tom de Voz</h4>
+                  <p class="text-neutral-400 text-sm">Formal, casual, divertido, empático - consistencia e chave</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Error Messages</h4>
+                  <p class="text-neutral-400 text-sm">Explicar o problema + oferecer solucao + manter calma</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Empty States</h4>
+                  <p class="text-neutral-400 text-sm">Momentos sem conteudo - oportunidade de engajamento</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Call-to-Action</h4>
+                  <p class="text-neutral-400 text-sm">Verbos de acao + beneficio claro + urgencia sutil</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 5: DESIGN DE PERSONALIDADE -->
+    <section id="topico-5" class="mb-12">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(5)" class="w-full p-6 flex items-center justify-between hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">5</span>
+            <div class="text-left">
+              <h2 class="text-xl font-bold">🎭 Design de Personalidade</h2>
+              <p class="text-neutral-400 text-sm">Criar interfaces com carater unico</p>
+            </div>
+          </div>
+          <svg id="icon-5" class="w-6 h-6 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div id="content-5" class="topic-content border-t border-dark-600">
+          <div class="p-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/20 to-dark-800 rounded-lg border border-purple-500/30 p-5">
+              <h3 class="text-lg font-semibold text-purple-400 mb-3">O que e:</h3>
+              <p class="text-neutral-300 leading-relaxed">
+                Design de personalidade e dar a sua interface um carater distintivo - como se fosse
+                uma pessoa. Uma interface pode ser seria e profissional, brincalhona e acessivel,
+                ou sofisticada e exclusiva. Essa personalidade permeia cada elemento: cores, formas,
+                animacoes, textos e interacoes.
+              </p>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-lg p-5">
+              <h3 class="text-lg font-semibold text-white mb-3">Por que aprender:</h3>
+              <ul class="space-y-2 text-neutral-300">
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Usuarios se conectam com marcas que tem personalidade definida</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Diferenciacao em mercados saturados de interfaces genericas</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Guia todas as decisoes de design de forma consistente</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>IAs podem manter consistencia de personalidade em todo projeto</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-lg p-5">
+              <h3 class="text-lg font-semibold text-white mb-3">Conceitos-chave:</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Brand Archetypes</h4>
+                  <p class="text-neutral-400 text-sm">Heroi, Rebelde, Sabio, Cuidador - arquetipos que guiam personalidade</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Visual Language</h4>
+                  <p class="text-neutral-400 text-sm">Formas, cantos, sombras que expressam carater</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Micro-interactions</h4>
+                  <p class="text-neutral-400 text-sm">Animacoes e feedbacks que revelam personalidade</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Design Persona</h4>
+                  <p class="text-neutral-400 text-sm">Se a interface fosse pessoa, como seria?</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 6: GATILHOS EMOCIONAIS -->
+    <section id="topico-6" class="mb-12">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(6)" class="w-full p-6 flex items-center justify-between hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">6</span>
+            <div class="text-left">
+              <h2 class="text-xl font-bold">⚡ Gatilhos Emocionais</h2>
+              <p class="text-neutral-400 text-sm">Elementos que provocam respostas emocionais</p>
+            </div>
+          </div>
+          <svg id="icon-6" class="w-6 h-6 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div id="content-6" class="topic-content border-t border-dark-600">
+          <div class="p-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/20 to-dark-800 rounded-lg border border-purple-500/30 p-5">
+              <h3 class="text-lg font-semibold text-purple-400 mb-3">O que e:</h3>
+              <p class="text-neutral-300 leading-relaxed">
+                Gatilhos emocionais sao elementos de design que provocam respostas psicologicas especificas.
+                Escassez cria urgencia, prova social gera confianca, reciprocidade incentiva acao.
+                Quando usados eticamente, esses gatilhos ajudam usuarios a tomar decisoes alinhadas
+                com seus interesses.
+              </p>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-lg p-5">
+              <h3 class="text-lg font-semibold text-white mb-3">Por que aprender:</h3>
+              <ul class="space-y-2 text-neutral-300">
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Aumentar conversoes atraves de principios psicologicos comprovados</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Criar senso de valor e exclusividade</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>Reduzir hesitacao e facilitar tomada de decisao</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span>IAs podem implementar gatilhos de forma sutil e elegante</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-lg p-5">
+              <h3 class="text-lg font-semibold text-white mb-3">Conceitos-chave:</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Escassez/Urgencia</h4>
+                  <p class="text-neutral-400 text-sm">"Apenas 3 restantes" - FOMO e acao imediata</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Prova Social</h4>
+                  <p class="text-neutral-400 text-sm">Avaliacoes, depoimentos, "1000+ clientes satisfeitos"</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Reciprocidade</h4>
+                  <p class="text-neutral-400 text-sm">Oferecer valor primeiro - guias, trials, amostras</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-medium text-purple-400 mb-2">Autoridade</h4>
+                  <p class="text-neutral-400 text-sm">Logos de clientes, certificacoes, mencoes na midia</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VOCABULARIO PARA PROMPTS -->
+    <section class="mb-12">
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">🎯</span> Vocabulario para Prompts (Vibe Coding)
+        </h2>
+        <p class="text-neutral-300 mb-6">
+          Use estes termos ao criar com IAs para obter resultados com intencao emocional:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="font-semibold text-purple-400 mb-3">Psicologia e Cores</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">paleta que transmite confianca</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">cores quentes para urgencia</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">tons pasteis suaves e acolhedores</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">gradiente vibrante e energetico</code>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-purple-400 mb-3">Tipografia</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">fonte elegante e sofisticada</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">tipografia moderna e minimalista</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">display font impactante para hero</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">font pairing contrastante</code>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-purple-400 mb-3">Storytelling</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">hero section com narrativa</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">scroll storytelling progressivo</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">jornada do usuario em 3 etapas</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">antes/depois visual</code>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-purple-400 mb-3">Micro-copy e Personalidade</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">tom de voz casual e amigavel</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">mensagem de erro empatica</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">empty state encorajador</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">CTA com senso de beneficio</code>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-purple-400 mb-3">Gatilhos Emocionais</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">badge de escassez sutil</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">secao de prova social com avatares</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">testimonials com fotos reais</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">logos de clientes em grayscale</code>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-purple-400 mb-3">Momentos de Deleite</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">micro-animation de sucesso</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">hover com feedback visual</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">transicao suave e elegante</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 text-sm">easter egg sutil na interface</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">📝</span> Resumo do Modulo
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Psicologia das Cores</strong>
+              <span class="text-neutral-400"> - Cores quentes, frias, neutras. Saturacao e emocao</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Tipografia Expressiva</strong>
+              <span class="text-neutral-400"> - Serif vs Sans, display fonts, font pairing, type scale</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Storytelling Visual</strong>
+              <span class="text-neutral-400"> - Hero journey, scroll storytelling, hierarquia narrativa</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Micro-copy Emocional</strong>
+              <span class="text-neutral-400"> - Tom de voz, error messages, empty states, CTAs</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Design de Personalidade</strong>
+              <span class="text-neutral-400"> - Brand archetypes, visual language, micro-interactions</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Gatilhos Emocionais</strong>
+              <span class="text-neutral-400"> - Escassez, prova social, reciprocidade, autoridade</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-purple-400 mb-2">Proximo Modulo:</h3>
+          <p class="text-neutral-300">3.3 - Performance como Design: Core Web Vitals, lazy loading e otimizacao pratica</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-start">
+          <a href="modulo-3-1.html" class="text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Modulo Anterior
+          </a>
+          <a href="index.html" class="text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            Voltar ao Indice
+          </a>
+          <a href="modulo-3-3.html" class="text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors">
+            Proximo Modulo →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    function toggleTopic(num) {
+      const content = document.getElementById('content-' + num);
+      const icon = document.getElementById('icon-' + num);
+
+      content.classList.toggle('active');
+      icon.classList.toggle('rotate-180');
+    }
+
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>

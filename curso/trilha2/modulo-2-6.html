@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2.6 Tratamento de Imagens e Midia | WebP</title>
+  <meta name="description" content="Domine formatos de imagem, imagens responsivas, otimizacao, object-fit, backgrounds e video para criar experiencias visuais performaticas.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Demo styles */
+    .demo-img-cover {
+      object-fit: cover;
+    }
+    .demo-img-contain {
+      object-fit: contain;
+    }
+    .demo-img-fill {
+      object-fit: fill;
+    }
+    .gradient-overlay {
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+    }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-blue-400">Inicio</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-blue-400">Trilha 2</a>
+      <span>/</span>
+      <span class="text-blue-400">Modulo 2.6</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">
+        MODULO 2.6
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🖼️ Tratamento de Imagens e Midia</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Domine formatos de imagem, tecnicas responsivas, otimizacao de performance,
+        controle de dimensoes e integracao de video para criar experiencias visuais rapidas e impactantes.
+      </p>
+
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">6</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">30</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">Medio</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">Pratico</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">1</span>
+        <h2 class="text-2xl font-bold">📷 Formatos de Imagem</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Escolher o formato certo de imagem impacta diretamente a <strong class="text-blue-400">performance</strong> e
+        <strong class="text-blue-400">qualidade visual</strong> do seu site. Cada formato tem suas vantagens e casos de uso ideais.
+      </p>
+
+      <!-- Comparacao de Formatos -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📊</span> Comparacao de Formatos
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-dark-600">
+                <th class="text-left py-3 px-2 text-white">Formato</th>
+                <th class="text-left py-3 px-2 text-white">Melhor Para</th>
+                <th class="text-left py-3 px-2 text-white">Compressao</th>
+                <th class="text-left py-3 px-2 text-white">Suporte</th>
+              </tr>
+            </thead>
+            <tbody class="text-neutral-300">
+              <tr class="border-b border-dark-700">
+                <td class="py-3 px-2 font-semibold text-blue-400">JPEG</td>
+                <td class="py-3 px-2">Fotos, imagens complexas</td>
+                <td class="py-3 px-2">Lossy, bom</td>
+                <td class="py-3 px-2"><span class="text-green-400">Universal</span></td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-3 px-2 font-semibold text-blue-400">PNG</td>
+                <td class="py-3 px-2">Transparencia, graficos</td>
+                <td class="py-3 px-2">Lossless</td>
+                <td class="py-3 px-2"><span class="text-green-400">Universal</span></td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-3 px-2 font-semibold text-blue-400">WebP</td>
+                <td class="py-3 px-2">Tudo (fotos + graficos)</td>
+                <td class="py-3 px-2">Lossy/Lossless, otimo</td>
+                <td class="py-3 px-2"><span class="text-green-400">97%+ browsers</span></td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-3 px-2 font-semibold text-blue-400">AVIF</td>
+                <td class="py-3 px-2">Maxima compressao</td>
+                <td class="py-3 px-2">Lossy, excelente</td>
+                <td class="py-3 px-2"><span class="text-yellow-400">92%+ browsers</span></td>
+              </tr>
+              <tr>
+                <td class="py-3 px-2 font-semibold text-blue-400">SVG</td>
+                <td class="py-3 px-2">Icones, logos, graficos vetoriais</td>
+                <td class="py-3 px-2">Vetor (escalavel)</td>
+                <td class="py-3 px-2"><span class="text-green-400">Universal</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Quando usar cada um -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">🎯</span> Quando Usar Cada Formato
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-2">JPEG / WebP / AVIF</h4>
+            <ul class="text-sm text-neutral-300 space-y-1">
+              <li>• Fotografias e imagens realistas</li>
+              <li>• Backgrounds com muitas cores</li>
+              <li>• Imagens de produto</li>
+            </ul>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-2">PNG</h4>
+            <ul class="text-sm text-neutral-300 space-y-1">
+              <li>• Imagens com transparencia</li>
+              <li>• Screenshots e UI elements</li>
+              <li>• Graficos com texto nitido</li>
+            </ul>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-2">SVG</h4>
+            <ul class="text-sm text-neutral-300 space-y-1">
+              <li>• Logos e icones</li>
+              <li>• Ilustracoes vetoriais</li>
+              <li>• Graficos animados</li>
+            </ul>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-2">GIF / WebP Animado</h4>
+            <ul class="text-sm text-neutral-300 space-y-1">
+              <li>• Animacoes curtas</li>
+              <li>• Memes e stickers</li>
+              <li>• Demos de UI</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Codigo HTML -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💻</span> Codigo HTML - Fallbacks
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-neutral-400">&lt;!-- Usando picture para fallbacks --&gt;</div>
+          <div class="text-blue-400">&lt;picture&gt;</div>
+          <div class="text-green-400 ml-4">&lt;source srcset="imagem.avif" type="image/avif"&gt;</div>
+          <div class="text-green-400 ml-4">&lt;source srcset="imagem.webp" type="image/webp"&gt;</div>
+          <div class="text-green-400 ml-4">&lt;img src="imagem.jpg" alt="Descricao"&gt;</div>
+          <div class="text-blue-400">&lt;/picture&gt;</div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vibe Coding Prompt
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">WebP como formato principal com JPEG fallback</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">SVG para todos os icones e logos</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">picture element para servir formatos modernos com fallbacks</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">2</span>
+        <h2 class="text-2xl font-bold">📱 Imagens Responsivas</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Servir a imagem certa para cada dispositivo usando <strong class="text-blue-400">srcset</strong>,
+        <strong class="text-blue-400">sizes</strong> e <strong class="text-blue-400">picture element</strong>.
+        Economiza banda e melhora performance drasticamente.
+      </p>
+
+      <!-- srcset e sizes -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📐</span> srcset e sizes
+        </h3>
+        <div class="space-y-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">srcset - Define as opcoes</h4>
+            <p class="text-sm text-neutral-400 mb-3">Lista de imagens disponiveis com suas larguras reais (w) ou densidade (x)</p>
+            <div class="bg-dark-700 rounded-lg p-3 font-mono text-sm">
+              <span class="text-blue-400">srcset="</span><span class="text-green-400">img-320.jpg 320w, img-640.jpg 640w, img-1280.jpg 1280w</span><span class="text-blue-400">"</span>
+            </div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">sizes - Define quando usar</h4>
+            <p class="text-sm text-neutral-400 mb-3">Diz ao browser o tamanho que a imagem ocupara na tela</p>
+            <div class="bg-dark-700 rounded-lg p-3 font-mono text-sm">
+              <span class="text-blue-400">sizes="</span><span class="text-green-400">(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw</span><span class="text-blue-400">"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Codigo completo -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💻</span> Codigo HTML Completo
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-neutral-400">&lt;!-- Imagem responsiva basica --&gt;</div>
+          <div class="text-blue-400">&lt;img</div>
+          <div class="text-green-400 ml-4">src="hero-800.jpg"</div>
+          <div class="text-green-400 ml-4">srcset="hero-400.jpg 400w,</div>
+          <div class="text-green-400 ml-12">hero-800.jpg 800w,</div>
+          <div class="text-green-400 ml-12">hero-1200.jpg 1200w,</div>
+          <div class="text-green-400 ml-12">hero-1600.jpg 1600w"</div>
+          <div class="text-green-400 ml-4">sizes="(max-width: 640px) 100vw,</div>
+          <div class="text-green-400 ml-12">(max-width: 1024px) 80vw,</div>
+          <div class="text-green-400 ml-12">1200px"</div>
+          <div class="text-green-400 ml-4">alt="Hero image"</div>
+          <div class="text-blue-400">&gt;</div>
+        </div>
+      </div>
+
+      <!-- Picture Element -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">🖼️</span> Picture Element - Art Direction
+        </h3>
+        <p class="text-sm text-neutral-400 mb-4">Use picture quando precisar de imagens diferentes (nao apenas tamanhos) para cada viewport</p>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-neutral-400">&lt;!-- Art direction - imagens diferentes por viewport --&gt;</div>
+          <div class="text-blue-400">&lt;picture&gt;</div>
+          <div class="text-neutral-400 ml-4">&lt;!-- Mobile: imagem vertical/cropped --&gt;</div>
+          <div class="text-green-400 ml-4">&lt;source media="(max-width: 640px)" srcset="hero-mobile.webp"&gt;</div>
+          <div class="text-neutral-400 ml-4">&lt;!-- Tablet: imagem media --&gt;</div>
+          <div class="text-green-400 ml-4">&lt;source media="(max-width: 1024px)" srcset="hero-tablet.webp"&gt;</div>
+          <div class="text-neutral-400 ml-4">&lt;!-- Desktop: imagem full --&gt;</div>
+          <div class="text-green-400 ml-4">&lt;img src="hero-desktop.webp" alt="Hero"&gt;</div>
+          <div class="text-blue-400">&lt;/picture&gt;</div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vibe Coding Prompt
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">srcset com 4 breakpoints (400w, 800w, 1200w, 1600w)</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">sizes que reflete o layout real</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">picture element para art direction mobile/desktop</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">3</span>
+        <h2 class="text-2xl font-bold">⚡ Otimizacao</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        <strong class="text-blue-400">Compressao</strong>, <strong class="text-blue-400">lazy loading</strong> e
+        <strong class="text-blue-400">CDN</strong> sao as tres tecnicas essenciais para imagens rapidas.
+        A diferenca pode ser de segundos no carregamento.
+      </p>
+
+      <!-- Tecnicas -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">🚀</span> Tecnicas de Otimizacao
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-3">
+              <span class="text-2xl">📦</span>
+            </div>
+            <h4 class="font-semibold text-white mb-2">Compressao</h4>
+            <ul class="text-sm text-neutral-400 space-y-1">
+              <li>• JPEG: qualidade 80-85%</li>
+              <li>• WebP: qualidade 75-80%</li>
+              <li>• Ferramentas: Squoosh, ImageOptim</li>
+            </ul>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-3">
+              <span class="text-2xl">😴</span>
+            </div>
+            <h4 class="font-semibold text-white mb-2">Lazy Loading</h4>
+            <ul class="text-sm text-neutral-400 space-y-1">
+              <li>• loading="lazy" nativo</li>
+              <li>• Carrega so quando visivel</li>
+              <li>• Nao use em above-the-fold</li>
+            </ul>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-3">
+              <span class="text-2xl">🌐</span>
+            </div>
+            <h4 class="font-semibold text-white mb-2">CDN</h4>
+            <ul class="text-sm text-neutral-400 space-y-1">
+              <li>• Cloudflare, Cloudinary</li>
+              <li>• Resize on-the-fly</li>
+              <li>• Cache global</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Codigo Lazy Loading -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💻</span> Lazy Loading Nativo
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-neutral-400">&lt;!-- Lazy loading nativo (moderno) --&gt;</div>
+          <div class="text-blue-400">&lt;img</div>
+          <div class="text-green-400 ml-4">src="produto.webp"</div>
+          <div class="text-green-400 ml-4">alt="Produto"</div>
+          <div class="text-yellow-400 ml-4">loading="lazy"</div>
+          <div class="text-green-400 ml-4">width="400"</div>
+          <div class="text-green-400 ml-4">height="300"</div>
+          <div class="text-blue-400">&gt;</div>
+          <div class="text-neutral-400 mt-4">&lt;!-- IMPORTANTE: Sempre defina width/height --&gt;</div>
+          <div class="text-neutral-400">&lt;!-- para evitar layout shift (CLS) --&gt;</div>
+        </div>
+      </div>
+
+      <!-- Dicas de Performance -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💡</span> Dicas de Performance
+        </h3>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-3">
+            <span class="text-green-400 mt-1">✓</span>
+            <span class="text-neutral-300">Sempre defina <code class="bg-dark-700 px-1 rounded">width</code> e <code class="bg-dark-700 px-1 rounded">height</code> para evitar layout shift</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-green-400 mt-1">✓</span>
+            <span class="text-neutral-300">Use <code class="bg-dark-700 px-1 rounded">fetchpriority="high"</code> para imagens LCP (above-the-fold)</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-green-400 mt-1">✓</span>
+            <span class="text-neutral-300">Use <code class="bg-dark-700 px-1 rounded">decoding="async"</code> para nao bloquear render</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-red-400 mt-1">✗</span>
+            <span class="text-neutral-300">NAO use lazy loading em imagens acima da dobra</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vibe Coding Prompt
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">loading="lazy" em todas imagens abaixo da dobra</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">width e height em todas as imagens para evitar CLS</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">fetchpriority="high" na imagem hero principal</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">4</span>
+        <h2 class="text-2xl font-bold">📐 Object-fit e Aspect Ratio</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        <strong class="text-blue-400">object-fit</strong> controla como a imagem preenche seu container.
+        <strong class="text-blue-400">aspect-ratio</strong> mantem proporcoes consistentes. Essenciais para grids de imagens.
+      </p>
+
+      <!-- Demonstracao Visual -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">👁️</span> object-fit em Acao
+        </h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="text-center">
+            <div class="w-full h-32 bg-dark-700 rounded-lg overflow-hidden mb-2">
+              <div class="w-full h-full bg-gradient-to-br from-blue-500 to-purple-500 object-cover" style="background: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22100%22><rect fill=%22%233B82F6%22 width=%22200%22 height=%22100%22/><text x=%22100%22 y=%2250%22 fill=%22white%22 text-anchor=%22middle%22 dy=%22.3em%22>200x100</text></svg>') center/cover;"></div>
+            </div>
+            <span class="text-sm font-semibold text-white">cover</span>
+            <p class="text-xs text-neutral-400">Preenche, corta</p>
+          </div>
+          <div class="text-center">
+            <div class="w-full h-32 bg-dark-700 rounded-lg overflow-hidden mb-2 flex items-center justify-center">
+              <div class="w-full h-full bg-gradient-to-br from-green-500 to-teal-500" style="background: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22100%22><rect fill=%22%2310B981%22 width=%22200%22 height=%22100%22/><text x=%22100%22 y=%2250%22 fill=%22white%22 text-anchor=%22middle%22 dy=%22.3em%22>200x100</text></svg>') center/contain no-repeat;"></div>
+            </div>
+            <span class="text-sm font-semibold text-white">contain</span>
+            <p class="text-xs text-neutral-400">Cabe inteira</p>
+          </div>
+          <div class="text-center">
+            <div class="w-full h-32 bg-dark-700 rounded-lg overflow-hidden mb-2">
+              <div class="w-full h-full bg-gradient-to-br from-orange-500 to-red-500" style="background: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22100%22><rect fill=%22%23F97316%22 width=%22200%22 height=%22100%22/><text x=%22100%22 y=%2250%22 fill=%22white%22 text-anchor=%22middle%22 dy=%22.3em%22>200x100</text></svg>') center/100% 100%;"></div>
+            </div>
+            <span class="text-sm font-semibold text-white">fill</span>
+            <p class="text-xs text-neutral-400">Estica</p>
+          </div>
+          <div class="text-center">
+            <div class="w-full h-32 bg-dark-700 rounded-lg overflow-hidden mb-2 flex items-center justify-center">
+              <div class="bg-gradient-to-br from-pink-500 to-purple-500" style="width: 80px; height: 40px; background: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%2240%22><rect fill=%22%23EC4899%22 width=%2280%22 height=%2240%22/><text x=%2240%22 y=%2220%22 fill=%22white%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%228%22>80x40</text></svg>');"></div>
+            </div>
+            <span class="text-sm font-semibold text-white">none</span>
+            <p class="text-xs text-neutral-400">Tamanho original</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Codigo CSS -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💻</span> Codigo CSS
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-neutral-400">/* object-fit */</div>
+          <div class="text-blue-400">.img-cover {</div>
+          <div class="text-green-400 ml-4">width: 100%;</div>
+          <div class="text-green-400 ml-4">height: 200px;</div>
+          <div class="text-green-400 ml-4">object-fit: cover; <span class="text-neutral-400">/* mais comum */</span></div>
+          <div class="text-green-400 ml-4">object-position: center; <span class="text-neutral-400">/* controla o foco */</span></div>
+          <div class="text-blue-400">}</div>
+          <div class="text-neutral-400 mt-4">/* aspect-ratio (moderno) */</div>
+          <div class="text-blue-400">.card-img {</div>
+          <div class="text-green-400 ml-4">width: 100%;</div>
+          <div class="text-green-400 ml-4">aspect-ratio: 16 / 9; <span class="text-neutral-400">/* ou 1/1, 4/3, 3/2 */</span></div>
+          <div class="text-green-400 ml-4">object-fit: cover;</div>
+          <div class="text-blue-400">}</div>
+          <div class="text-neutral-400 mt-4">/* Tailwind */</div>
+          <div class="text-purple-400">class="w-full aspect-video object-cover"</div>
+          <div class="text-purple-400">class="w-full aspect-square object-cover"</div>
+        </div>
+      </div>
+
+      <!-- Aspect Ratios Comuns -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4">Aspect Ratios Comuns</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-dark-700 rounded-lg p-3 text-center">
+            <div class="w-full aspect-square bg-blue-500/30 rounded mb-2"></div>
+            <span class="text-sm font-semibold text-white">1:1</span>
+            <p class="text-xs text-neutral-400">Avatar, Instagram</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-3 text-center">
+            <div class="w-full aspect-video bg-blue-500/30 rounded mb-2"></div>
+            <span class="text-sm font-semibold text-white">16:9</span>
+            <p class="text-xs text-neutral-400">Video, YouTube</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-3 text-center">
+            <div class="w-full bg-blue-500/30 rounded mb-2" style="aspect-ratio: 4/3;"></div>
+            <span class="text-sm font-semibold text-white">4:3</span>
+            <p class="text-xs text-neutral-400">Foto classica</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-3 text-center">
+            <div class="w-full bg-blue-500/30 rounded mb-2" style="aspect-ratio: 3/2;"></div>
+            <span class="text-sm font-semibold text-white">3:2</span>
+            <p class="text-xs text-neutral-400">DSLR, cards</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vibe Coding Prompt
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">object-fit: cover para todas imagens em cards</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">aspect-ratio: 16/9 para thumbnails de video</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">aspect-ratio: 1/1 para avatares em circulos</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">5</span>
+        <h2 class="text-2xl font-bold">🎨 Backgrounds e Overlays</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        <strong class="text-blue-400">background-image</strong>, <strong class="text-blue-400">gradients</strong> e
+        <strong class="text-blue-400">blend modes</strong> criam efeitos visuais impactantes.
+        Essenciais para hero sections e cards com texto sobre imagem.
+      </p>
+
+      <!-- Demonstracao Visual -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">✨</span> Exemplos de Overlays
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Gradient Overlay -->
+          <div class="relative h-48 rounded-lg overflow-hidden bg-gradient-to-br from-blue-600 to-purple-600">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-4">
+              <h4 class="font-semibold text-white">Gradient Overlay</h4>
+              <p class="text-sm text-neutral-300">De baixo para cima</p>
+            </div>
+          </div>
+          <!-- Color Overlay -->
+          <div class="relative h-48 rounded-lg overflow-hidden bg-gradient-to-br from-green-600 to-teal-600">
+            <div class="absolute inset-0 bg-blue-900/60"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="text-center">
+                <h4 class="font-semibold text-white">Color Overlay</h4>
+                <p class="text-sm text-neutral-300">Cor solida com opacidade</p>
+              </div>
+            </div>
+          </div>
+          <!-- Dual Gradient -->
+          <div class="relative h-48 rounded-lg overflow-hidden bg-gradient-to-br from-orange-600 to-red-600">
+            <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-black/70"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="text-center">
+                <h4 class="font-semibold text-white">Dual Gradient</h4>
+                <p class="text-sm text-neutral-300">Dos lados para centro</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Codigo CSS -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💻</span> Codigo CSS
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-neutral-400">/* Background image basico */</div>
+          <div class="text-blue-400">.hero {</div>
+          <div class="text-green-400 ml-4">background-image: url('hero.jpg');</div>
+          <div class="text-green-400 ml-4">background-size: cover;</div>
+          <div class="text-green-400 ml-4">background-position: center;</div>
+          <div class="text-green-400 ml-4">background-repeat: no-repeat;</div>
+          <div class="text-blue-400">}</div>
+          <div class="text-neutral-400 mt-4">/* Gradient overlay (metodo moderno) */</div>
+          <div class="text-blue-400">.hero-overlay {</div>
+          <div class="text-green-400 ml-4">background:</div>
+          <div class="text-green-400 ml-8">linear-gradient(to top, rgba(0,0,0,0.8), transparent),</div>
+          <div class="text-green-400 ml-8">url('hero.jpg') center/cover;</div>
+          <div class="text-blue-400">}</div>
+          <div class="text-neutral-400 mt-4">/* Blend mode */</div>
+          <div class="text-blue-400">.blend-overlay {</div>
+          <div class="text-green-400 ml-4">background-color: #3B82F6;</div>
+          <div class="text-green-400 ml-4">background-blend-mode: multiply;</div>
+          <div class="text-blue-400">}</div>
+        </div>
+      </div>
+
+      <!-- Blend Modes -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4">Blend Modes Uteis</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-dark-700 rounded-lg p-3 text-center">
+            <span class="text-sm font-semibold text-blue-400">multiply</span>
+            <p class="text-xs text-neutral-400">Escurece, intensifica</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-3 text-center">
+            <span class="text-sm font-semibold text-blue-400">overlay</span>
+            <p class="text-xs text-neutral-400">Contraste + cor</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-3 text-center">
+            <span class="text-sm font-semibold text-blue-400">soft-light</span>
+            <p class="text-xs text-neutral-400">Sutil, elegante</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-3 text-center">
+            <span class="text-sm font-semibold text-blue-400">color</span>
+            <p class="text-xs text-neutral-400">Tinge a imagem</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vibe Coding Prompt
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">gradient overlay de baixo para cima em hero sections</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">background-size: cover para imagens de fundo</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">blend-mode: multiply para efeito duotone</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">6</span>
+        <h2 class="text-2xl font-bold">🎬 Video e Embed</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        <strong class="text-blue-400">Video HTML5</strong> para conteudo proprio,
+        <strong class="text-blue-400">iframes responsivos</strong> para YouTube/Vimeo.
+        A tecnica do aspect-ratio container e essencial para embeds.
+      </p>
+
+      <!-- Video HTML5 -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📹</span> Video HTML5
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto mb-4">
+          <div class="text-blue-400">&lt;video</div>
+          <div class="text-green-400 ml-4">src="video.mp4"</div>
+          <div class="text-green-400 ml-4">poster="thumbnail.jpg"</div>
+          <div class="text-green-400 ml-4">controls</div>
+          <div class="text-green-400 ml-4">playsinline</div>
+          <div class="text-green-400 ml-4">preload="metadata"</div>
+          <div class="text-green-400 ml-4">class="w-full rounded-lg"</div>
+          <div class="text-blue-400">&gt;</div>
+          <div class="text-neutral-400 ml-4">Seu navegador nao suporta video HTML5.</div>
+          <div class="text-blue-400">&lt;/video&gt;</div>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+          <div class="bg-dark-800 rounded-lg p-2">
+            <span class="text-blue-400 font-semibold">controls</span>
+            <p class="text-xs text-neutral-400">Mostra controles</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-2">
+            <span class="text-blue-400 font-semibold">autoplay</span>
+            <p class="text-xs text-neutral-400">Auto-inicia (muted)</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-2">
+            <span class="text-blue-400 font-semibold">loop</span>
+            <p class="text-xs text-neutral-400">Repete infinito</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-2">
+            <span class="text-blue-400 font-semibold">muted</span>
+            <p class="text-xs text-neutral-400">Sem som (req. autoplay)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Iframe Responsivo -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">📺</span> Iframe Responsivo (YouTube, Vimeo)
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto mb-4">
+          <div class="text-neutral-400">&lt;!-- Metodo moderno: aspect-ratio --&gt;</div>
+          <div class="text-blue-400">&lt;div class="w-full aspect-video"&gt;</div>
+          <div class="text-green-400 ml-4">&lt;iframe</div>
+          <div class="text-green-400 ml-8">src="https://www.youtube.com/embed/VIDEO_ID"</div>
+          <div class="text-green-400 ml-8">class="w-full h-full rounded-lg"</div>
+          <div class="text-green-400 ml-8">frameborder="0"</div>
+          <div class="text-green-400 ml-8">allowfullscreen</div>
+          <div class="text-green-400 ml-8">loading="lazy"</div>
+          <div class="text-green-400 ml-4">&gt;&lt;/iframe&gt;</div>
+          <div class="text-blue-400">&lt;/div&gt;</div>
+        </div>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-neutral-400">&lt;!-- Metodo classico: padding hack --&gt;</div>
+          <div class="text-blue-400">&lt;div class="relative pb-[56.25%] h-0"&gt;</div>
+          <div class="text-green-400 ml-4">&lt;iframe</div>
+          <div class="text-green-400 ml-8">class="absolute top-0 left-0 w-full h-full"</div>
+          <div class="text-green-400 ml-8">...</div>
+          <div class="text-green-400 ml-4">&gt;&lt;/iframe&gt;</div>
+          <div class="text-blue-400">&lt;/div&gt;</div>
+        </div>
+      </div>
+
+      <!-- Video Background -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">🎥</span> Video como Background
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-neutral-400">&lt;!-- Video background hero --&gt;</div>
+          <div class="text-blue-400">&lt;div class="relative h-screen overflow-hidden"&gt;</div>
+          <div class="text-green-400 ml-4">&lt;video</div>
+          <div class="text-green-400 ml-8">autoplay muted loop playsinline</div>
+          <div class="text-green-400 ml-8">class="absolute inset-0 w-full h-full object-cover"</div>
+          <div class="text-green-400 ml-4">&gt;</div>
+          <div class="text-green-400 ml-8">&lt;source src="bg-video.mp4" type="video/mp4"&gt;</div>
+          <div class="text-green-400 ml-4">&lt;/video&gt;</div>
+          <div class="text-neutral-400 ml-4">&lt;!-- Overlay --&gt;</div>
+          <div class="text-green-400 ml-4">&lt;div class="absolute inset-0 bg-black/50"&gt;&lt;/div&gt;</div>
+          <div class="text-neutral-400 ml-4">&lt;!-- Content --&gt;</div>
+          <div class="text-green-400 ml-4">&lt;div class="relative z-10"&gt;...&lt;/div&gt;</div>
+          <div class="text-blue-400">&lt;/div&gt;</div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vibe Coding Prompt
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">aspect-video container para embeds de YouTube</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">loading="lazy" em iframes</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">video background com autoplay muted loop para hero</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">📝</span> Resumo do Modulo
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Formatos de Imagem</strong>
+              <span class="text-neutral-400"> - JPEG para fotos, PNG para transparencia, WebP/AVIF para performance, SVG para vetores</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Imagens Responsivas</strong>
+              <span class="text-neutral-400"> - srcset + sizes para economia de banda, picture para art direction</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Otimizacao</strong>
+              <span class="text-neutral-400"> - Compressao, lazy loading, width/height para evitar CLS</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Object-fit e Aspect Ratio</strong>
+              <span class="text-neutral-400"> - cover para preencher, contain para caber, aspect-ratio para proporcoes</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Backgrounds e Overlays</strong>
+              <span class="text-neutral-400"> - Gradients, blend modes, texto sobre imagem</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Video e Embed</strong>
+              <span class="text-neutral-400"> - Video HTML5, iframes responsivos, video backgrounds</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-blue-400 mb-2">Proximo Modulo:</h3>
+          <p class="text-neutral-300">2.7 - Tecnicas avancadas de layout e componentes reutilizaveis</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-2-5.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Modulo Anterior
+          </a>
+          <a href="modulo-2-7.html" class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors">
+            Proximo Modulo →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>

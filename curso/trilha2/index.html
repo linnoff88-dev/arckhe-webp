@@ -1,0 +1,1972 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trilha 2: Tecnicas | WebP</title>
+  <meta name="description" content="Do conceito a implementacao. Aprenda as tecnicas profissionais para transformar ideias em interfaces reais - sistemas, componentes, grids e interacoes.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <!-- Logo + INEMA.CLUB -->
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <!-- Trilhas + Theme Toggle -->
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <!-- Theme Toggle -->
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">
+        TRILHA 2
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🔧 Tecnicas</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Do conceito a implementacao. Aprenda as tecnicas profissionais para transformar ideias em interfaces reais - sistemas, componentes, grids e interacoes.
+      </p>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">8</div>
+          <div class="text-xs text-neutral-400">Modulos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">48</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">~4h</div>
+          <div class="text-xs text-neutral-400">Duracao</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">Medio</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- NAVEGACAO RAPIDA -->
+    <section class="mb-12">
+      <h2 class="text-lg font-semibold text-neutral-300 mb-4">Navegacao Rapida</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <a href="modulo-2-1.html" class="bg-dark-800 rounded-lg p-4 border border-dark-600 hover:border-blue-500/50 transition-colors group">
+          <span class="text-blue-400 font-bold">2.1</span>
+          <p class="text-sm text-neutral-300 group-hover:text-blue-400 transition-colors">Design Systems e Tokens</p>
+        </a>
+        <a href="modulo-2-2.html" class="bg-dark-800 rounded-lg p-4 border border-dark-600 hover:border-blue-500/50 transition-colors group">
+          <span class="text-blue-400 font-bold">2.2</span>
+          <p class="text-sm text-neutral-300 group-hover:text-blue-400 transition-colors">Componentes UI Essenciais</p>
+        </a>
+        <a href="modulo-2-3.html" class="bg-dark-800 rounded-lg p-4 border border-dark-600 hover:border-blue-500/50 transition-colors group">
+          <span class="text-blue-400 font-bold">2.3</span>
+          <p class="text-sm text-neutral-300 group-hover:text-blue-400 transition-colors">Sistemas de Grid</p>
+        </a>
+        <a href="modulo-2-4.html" class="bg-dark-800 rounded-lg p-4 border border-dark-600 hover:border-blue-500/50 transition-colors group">
+          <span class="text-blue-400 font-bold">2.4</span>
+          <p class="text-sm text-neutral-300 group-hover:text-blue-400 transition-colors">Micro-interacoes</p>
+        </a>
+        <a href="modulo-2-5.html" class="bg-dark-800 rounded-lg p-4 border border-dark-600 hover:border-blue-500/50 transition-colors group">
+          <span class="text-blue-400 font-bold">2.5</span>
+          <p class="text-sm text-neutral-300 group-hover:text-blue-400 transition-colors">Motion Design para Web</p>
+        </a>
+        <a href="modulo-2-6.html" class="bg-dark-800 rounded-lg p-4 border border-dark-600 hover:border-blue-500/50 transition-colors group">
+          <span class="text-blue-400 font-bold">2.6</span>
+          <p class="text-sm text-neutral-300 group-hover:text-blue-400 transition-colors">Tratamento de Imagens e Midia</p>
+        </a>
+        <a href="modulo-2-7.html" class="bg-dark-800 rounded-lg p-4 border border-dark-600 hover:border-blue-500/50 transition-colors group">
+          <span class="text-blue-400 font-bold">2.7</span>
+          <p class="text-sm text-neutral-300 group-hover:text-blue-400 transition-colors">Arquitetura de Informacao</p>
+        </a>
+        <a href="modulo-2-8.html" class="bg-dark-800 rounded-lg p-4 border border-dark-600 hover:border-blue-500/50 transition-colors group">
+          <span class="text-blue-400 font-bold">2.8</span>
+          <p class="text-sm text-neutral-300 group-hover:text-blue-400 transition-colors">Landing Pages que Convertem</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- DIVISOR -->
+    <div class="border-t border-dark-600 my-12"></div>
+    <h2 class="text-xl font-bold mb-8">Conteudo Detalhado</h2>
+
+    <!-- MODULO 2.1 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-blue-400 font-bold">2.1</span>
+          <span class="text-xs text-neutral-500">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">📦 Design Systems e Tokens</h3>
+        <p class="text-neutral-400 text-sm">A base de qualquer projeto escalavel. Tokens, variaveis, temas e a linguagem que conecta design e codigo.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🏗️</span>
+            <div>
+              <span class="font-medium">O que e um Design System</span>
+              <span class="text-neutral-500 text-sm ml-2">- Mais que um style guide</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Um conjunto completo de padroes, componentes e diretrizes que garantem consistencia visual e funcional em todos os produtos.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Design systems aceleram o desenvolvimento e garantem qualidade. "Siga o design system Material Design" - IAs entendem.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Design system, component library, style guide, pattern library.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🎨</span>
+            <div>
+              <span class="font-medium">Design Tokens</span>
+              <span class="text-neutral-500 text-sm ml-2">- Variaveis de design</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Valores atomicos que representam decisoes de design: cores, espacamentos, tipografia, sombras. Ex: --color-primary: #3B82F6.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Tokens facilitam manutencao e temas. "Use CSS variables para cores e espacamentos" - codigo moderno.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Design tokens, CSS variables, custom properties, semantic tokens.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🌈</span>
+            <div>
+              <span class="font-medium">Tokens de Cor</span>
+              <span class="text-neutral-500 text-sm ml-2">- Paletas sistematicas</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Escalas de cores com variantes (50-900), cores semanticas (primary, secondary, success, error) e cores de superficie.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Cores semanticas facilitam temas. "Use color-primary para acoes principais, color-error para erros".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Color scale, semantic colors, surface colors, color roles.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">📏</span>
+            <div>
+              <span class="font-medium">Tokens de Espacamento</span>
+              <span class="text-neutral-500 text-sm ml-2">- Escala de spacing</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Uma escala consistente de espacamentos (4, 8, 12, 16, 24, 32, 48, 64px) usada em padding, margin, gap.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Espacamentos consistentes criam ritmo visual. "Use spacing-4 para gap pequeno, spacing-8 para medio".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Spacing scale, 4px grid, 8px grid, rem-based spacing.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🔤</span>
+            <div>
+              <span class="font-medium">Tokens Tipograficos</span>
+              <span class="text-neutral-500 text-sm ml-2">- Type scales e font tokens</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Tokens para fontes, tamanhos, pesos e line-heights. Estilos compostos como "heading-1", "body-large", "caption".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Tipografia consistente e profissional. "Use text-heading-1 para titulos principais".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Type scale, font tokens, text styles, typography system.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🌙</span>
+            <div>
+              <span class="font-medium">Theming com Tokens</span>
+              <span class="text-neutral-500 text-sm ml-2">- Dark mode e multiplos temas</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Usar tokens semanticos que mudam de valor conforme o tema. O mesmo token --bg-primary pode ser branco em light e cinza escuro em dark.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Theming moderno usa tokens. "Implemente dark mode usando CSS variables com classe .dark".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Theming, dark mode, light mode, theme tokens, color scheme.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-2-1')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">
+          Ver em Modal
+        </button>
+        <a href="modulo-2-1.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+          Ver Completo
+        </a>
+      </div>
+    </div>
+
+    <!-- MODULO 2.2 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-blue-400 font-bold">2.2</span>
+          <span class="text-xs text-neutral-500">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🧱 Componentes UI Essenciais</h3>
+        <p class="text-neutral-400 text-sm">Os blocos de construcao de interfaces. Botoes, cards, forms, modals e os padroes que toda IA conhece.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🔘</span>
+            <div>
+              <span class="font-medium">Botoes e Variantes</span>
+              <span class="text-neutral-500 text-sm ml-2">- Primary, secondary, ghost, icon</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Diferentes estilos de botao para diferentes propositos: primary (acao principal), secondary (alternativa), ghost (discreto), icon-only.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Botoes sao os CTAs da interface. "Botao primary com hover state e focus ring" - IAs criam perfeitamente.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Button variants, states (hover, active, disabled), icon buttons, button groups.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🃏</span>
+            <div>
+              <span class="font-medium">Cards e Containers</span>
+              <span class="text-neutral-500 text-sm ml-2">- Agrupando informacao</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Containers visuais que agrupam informacao relacionada. Cards com imagem, titulo, descricao, acoes.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Cards sao onipresentes em UIs modernas. "Card com imagem no topo, padding interno e hover elevado".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Card, container, panel, bento box, card grid.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">📝</span>
+            <div>
+              <span class="font-medium">Forms e Inputs</span>
+              <span class="text-neutral-500 text-sm ml-2">- Campos, labels, validacao</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Elementos de entrada: text input, textarea, select, checkbox, radio, toggle. Com labels, placeholders e estados de erro.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Forms bem desenhados aumentam conversao. "Input com label flutuante, borda de erro vermelha e mensagem de validacao".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Form fields, input states, validation, floating labels, error messages.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🪟</span>
+            <div>
+              <span class="font-medium">Modals e Dialogs</span>
+              <span class="text-neutral-500 text-sm ml-2">- Overlays e interrupcoes</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Janelas sobrepostas que focam atencao em uma tarefa especifica. Modals, dialogs de confirmacao, drawers.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Modals sao criticos para UX. "Modal centralizado com backdrop escuro, botao de fechar e animacao de fade".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Modal, dialog, overlay, backdrop, drawer, sheet.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🧭</span>
+            <div>
+              <span class="font-medium">Navegacao e Menus</span>
+              <span class="text-neutral-500 text-sm ml-2">- Navbar, sidebar, tabs</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Componentes de navegacao: navbar horizontal, sidebar vertical, tabs, breadcrumbs, dropdown menus.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Navegacao e a espinha dorsal da UX. "Navbar sticky com logo, links centrais e CTA no canto direito".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Navbar, sidebar, tabs, breadcrumb, dropdown, mobile menu.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🔔</span>
+            <div>
+              <span class="font-medium">Feedback e Alertas</span>
+              <span class="text-neutral-500 text-sm ml-2">- Toasts, banners, progress</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Componentes que comunicam status: toast notifications, alert banners, progress bars, spinners, skeleton loaders.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Feedback e essencial para UX. "Toast de sucesso verde no canto inferior direito que desaparece apos 3s".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Toast, snackbar, alert, banner, progress, spinner, skeleton.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-2-2')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">
+          Ver em Modal
+        </button>
+        <a href="modulo-2-2.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+          Ver Completo
+        </a>
+      </div>
+    </div>
+
+    <!-- MODULO 2.3 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-blue-400 font-bold">2.3</span>
+          <span class="text-xs text-neutral-500">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">📐 Sistemas de Grid</h3>
+        <p class="text-neutral-400 text-sm">A estrutura invisivel que organiza tudo. Grids de 12 colunas, CSS Grid, Flexbox e layouts complexos.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🔢</span>
+            <div>
+              <span class="font-medium">Grid de 12 Colunas</span>
+              <span class="text-neutral-500 text-sm ml-2">- O padrao da industria</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Sistema de 12 colunas flexiveis que permite divisoes de 1, 2, 3, 4, 6 colunas. Bootstrap, Tailwind e frameworks usam este padrao.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">E o padrao universal. "Secao com container de 12 colunas, sidebar de 3 e conteudo de 9".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">12-column grid, span, offset, gutter, container.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🎯</span>
+            <div>
+              <span class="font-medium">CSS Grid na Pratica</span>
+              <span class="text-neutral-500 text-sm ml-2">- grid-template-columns e areas</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">CSS Grid permite criar layouts bidimensionais com linhas e colunas. Controle total sobre posicionamento.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Grid e poderoso para layouts complexos. "Grid de 3 colunas com gap-6, auto-fit e minmax".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">grid-template, grid-area, auto-fit, auto-fill, minmax, fr unit.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">📦</span>
+            <div>
+              <span class="font-medium">Flexbox para Componentes</span>
+              <span class="text-neutral-500 text-sm ml-2">- Alinhamento e distribuicao</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Flexbox e ideal para componentes unidimensionais: navbars, cards internos, alinhamento vertical.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Flexbox resolve alinhamento. "Flex container com items centralizados vertical e horizontalmente".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">flex, justify-content, align-items, flex-wrap, flex-grow.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🍱</span>
+            <div>
+              <span class="font-medium">Bento Grids</span>
+              <span class="text-neutral-500 text-sm ml-2">- Layouts assimetricos modernos</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Grids inspirados em caixas de bento japones: cards de tamanhos variados criando layouts visualmente interessantes.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Bento grids sao tendencia. "Bento grid com um card grande a esquerda e dois menores empilhados a direita".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Bento box, asymmetric grid, masonry, span rows/cols.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">📱</span>
+            <div>
+              <span class="font-medium">Grids Responsivos</span>
+              <span class="text-neutral-500 text-sm ml-2">- Breakpoints e adaptacao</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Grids que mudam de layout conforme o tamanho da tela: 1 coluna em mobile, 2 em tablet, 4 em desktop.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Responsividade e obrigatoria. "Grid de 1 coluna em sm, 2 em md, 4 em lg".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Responsive grid, breakpoints, mobile-first, column collapse.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🔲</span>
+            <div>
+              <span class="font-medium">Container Queries</span>
+              <span class="text-neutral-500 text-sm ml-2">- O futuro dos layouts</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Queries baseadas no tamanho do container pai, nao da viewport. Componentes verdadeiramente modulares.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Container queries sao o futuro. "Card que muda de vertical para horizontal baseado no container".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Container queries, @container, container-type, container-name.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-2-3')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">
+          Ver em Modal
+        </button>
+        <a href="modulo-2-3.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+          Ver Completo
+        </a>
+      </div>
+    </div>
+
+    <!-- MODULO 2.4 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-blue-400 font-bold">2.4</span>
+          <span class="text-xs text-neutral-500">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">✨ Micro-interacoes</h3>
+        <p class="text-neutral-400 text-sm">Os detalhes que encantam. Hovers, focus states, toggles animados e feedback visual que faz a diferenca.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🎯</span>
+            <div>
+              <span class="font-medium">O que sao Micro-interacoes</span>
+              <span class="text-neutral-500 text-sm ml-2">- Pequenos momentos, grande impacto</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Pequenas animacoes e feedbacks que respondem a acoes do usuario: hover em botoes, toggle switches, loading states.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Micro-interacoes criam experiencias memoraveis. "Botao com hover scale e transicao de cor suave".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Micro-interaction, feedback, trigger, rules, loops.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">👆</span>
+            <div>
+              <span class="font-medium">Hover States</span>
+              <span class="text-neutral-500 text-sm ml-2">- Feedback de mouse over</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Mudancas visuais quando o mouse passa sobre um elemento: cor, escala, sombra, underline.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Hovers indicam interatividade. "Card com hover:shadow-lg e hover:translate-y-1".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">:hover, transition, transform, opacity change.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🔵</span>
+            <div>
+              <span class="font-medium">Focus States e Acessibilidade</span>
+              <span class="text-neutral-500 text-sm ml-2">- Navegacao por teclado</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Indicadores visuais quando elemento esta focado via teclado: focus rings, outlines, bordas destacadas.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Focus states sao essenciais para acessibilidade. "Focus ring azul de 2px com offset, nao remover outline".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">:focus, :focus-visible, outline, ring, keyboard navigation.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🔄</span>
+            <div>
+              <span class="font-medium">Toggle e Switch Animations</span>
+              <span class="text-neutral-500 text-sm ml-2">- Estados on/off animados</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Animacoes suaves em toggles, checkboxes e switches quando mudam de estado.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Toggles animados sao satisfatorios. "Switch com bolinha que desliza suavemente e muda cor de fundo".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Toggle, switch, checkbox animation, state change.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">⏳</span>
+            <div>
+              <span class="font-medium">Loading States</span>
+              <span class="text-neutral-500 text-sm ml-2">- Spinners, skeletons, progress</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Indicadores visuais de carregamento: spinners, skeleton loaders, progress bars, shimmer effects.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Loading states reduzem percepcao de espera. "Skeleton loader com animacao de shimmer da esquerda para direita".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Skeleton, shimmer, spinner, progress bar, loading state.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">💫</span>
+            <div>
+              <span class="font-medium">Feedback de Acao</span>
+              <span class="text-neutral-500 text-sm ml-2">- Confirmacao visual de interacao</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Resposta visual imediata a acoes: ripple effect em clique, checkmark ao completar, shake em erro.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Feedback confirma que acao foi registrada. "Botao com ripple effect no clique e animacao de sucesso".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Ripple, success animation, error shake, haptic feedback.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-2-4')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">
+          Ver em Modal
+        </button>
+        <a href="modulo-2-4.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+          Ver Completo
+        </a>
+      </div>
+    </div>
+
+    <!-- MODULO 2.5 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-blue-400 font-bold">2.5</span>
+          <span class="text-xs text-neutral-500">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🎬 Motion Design para Web</h3>
+        <p class="text-neutral-400 text-sm">Animacao com proposito. Timing, easing, scroll animations e como o movimento guia o usuario.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🎯</span>
+            <div>
+              <span class="font-medium">Principios de Motion</span>
+              <span class="text-neutral-500 text-sm ml-2">- Animacao com proposito</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Motion design nao e decoracao - guia atencao, mostra relacoes, cria continuidade. Cada animacao deve ter proposito.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Animacao sem proposito distrai. "Animacao sutil que guia o olhar para o CTA".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Purposeful motion, attention guide, hierarchy through motion.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">⏱️</span>
+            <div>
+              <span class="font-medium">Timing e Duration</span>
+              <span class="text-neutral-500 text-sm ml-2">- Velocidade certa para cada acao</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Duracao das animacoes: micro-interacoes (100-200ms), transicoes (200-300ms), animacoes complexas (300-500ms).</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Timing errado parece lento ou brusco. "Transicao de 200ms para hover, 300ms para modal".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Duration, timing, fast/slow, 60fps.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">📈</span>
+            <div>
+              <span class="font-medium">Easing Functions</span>
+              <span class="text-neutral-500 text-sm ml-2">- Curvas de aceleracao</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Como a animacao acelera e desacelera: ease-in, ease-out, ease-in-out, cubic-bezier. Movimentos naturais.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Easing torna movimento natural. "Ease-out para entradas, ease-in para saidas".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Easing, ease-in, ease-out, cubic-bezier, spring.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">📜</span>
+            <div>
+              <span class="font-medium">Scroll Animations</span>
+              <span class="text-neutral-500 text-sm ml-2">- Animacao baseada em scroll</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Animacoes ativadas pelo scroll: fade-in ao entrar na viewport, parallax, scroll-triggered reveals.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Scroll animations engajam. "Elementos que fazem fade-in quando entram na viewport".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Scroll animation, intersection observer, scroll-triggered, reveal.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🔄</span>
+            <div>
+              <span class="font-medium">Transicoes de Pagina</span>
+              <span class="text-neutral-500 text-sm ml-2">- Navegacao fluida</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Animacoes entre paginas ou estados: fade, slide, morph. Criam sensacao de aplicativo.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Transicoes suaves eliminam "flicker". "Transicao de pagina com fade-out e fade-in".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Page transition, view transition, morph, shared element.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🎭</span>
+            <div>
+              <span class="font-medium">Staggered Animations</span>
+              <span class="text-neutral-500 text-sm ml-2">- Animacoes em sequencia</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Elementos que animam em sequencia com delays escalonados, criando efeito de "cascata".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Stagger cria ritmo visual. "Cards que aparecem um apos o outro com delay de 100ms".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Stagger, animation-delay, cascade, orchestrated motion.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-2-5')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">
+          Ver em Modal
+        </button>
+        <a href="modulo-2-5.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+          Ver Completo
+        </a>
+      </div>
+    </div>
+
+    <!-- MODULO 2.6 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-blue-400 font-bold">2.6</span>
+          <span class="text-xs text-neutral-500">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🖼️ Tratamento de Imagens e Midia</h3>
+        <p class="text-neutral-400 text-sm">Otimizacao visual e tecnica. Formatos, aspect ratios, lazy loading, hero images e video embeds.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">📷</span>
+            <div>
+              <span class="font-medium">Formatos de Imagem</span>
+              <span class="text-neutral-500 text-sm ml-2">- WebP, AVIF, SVG, PNG, JPG</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Cada formato tem seu uso: WebP/AVIF para fotos otimizadas, SVG para icones/logos, PNG para transparencia, JPG para fotos simples.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Formato errado = site lento. "Use WebP com fallback para JPG, SVG para icones".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">WebP, AVIF, SVG, PNG, JPG, image optimization.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">📐</span>
+            <div>
+              <span class="font-medium">Aspect Ratios</span>
+              <span class="text-neutral-500 text-sm ml-2">- Proporcoes consistentes</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Proporcao entre largura e altura: 16:9 (widescreen), 4:3 (classico), 1:1 (quadrado), 9:16 (stories).</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Aspect ratios criam consistencia. "Grid de imagens com aspect-ratio 16/9".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Aspect-ratio, 16:9, 4:3, 1:1, object-fit, object-position.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">⚡</span>
+            <div>
+              <span class="font-medium">Lazy Loading</span>
+              <span class="text-neutral-500 text-sm ml-2">- Carregamento sob demanda</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Carregar imagens apenas quando estao prestes a entrar na viewport. Economiza bandwidth e acelera load inicial.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Lazy loading melhora performance. "Imagens com loading=lazy e placeholder blur".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Lazy loading, loading="lazy", LQIP, blur placeholder.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🦸</span>
+            <div>
+              <span class="font-medium">Hero Images e Backgrounds</span>
+              <span class="text-neutral-500 text-sm ml-2">- Imagens de impacto</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Imagens grandes de destaque: hero full-width, background com overlay para texto legivel, parallax.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Hero images definem primeira impressao. "Hero full-width com overlay escuro gradiente e texto branco".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Hero image, background-image, overlay, gradient, object-cover.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🎬</span>
+            <div>
+              <span class="font-medium">Video Embeds</span>
+              <span class="text-neutral-500 text-sm ml-2">- YouTube, Vimeo, autoplay</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Incorporar videos de forma responsiva: iframes 16:9, video background com autoplay muted, lazy load de embeds.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Videos engajam mas afetam performance. "Video embed responsivo com aspect-ratio 16/9 e facade pattern".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Video embed, iframe, autoplay, muted, loop, facade.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">📱</span>
+            <div>
+              <span class="font-medium">Imagens Responsivas</span>
+              <span class="text-neutral-500 text-sm ml-2">- srcset e sizes</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Servir diferentes tamanhos de imagem conforme viewport e densidade de pixels usando srcset e picture element.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Economiza dados em mobile. "Imagem com srcset para 1x, 2x e 3x densidades".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">srcset, sizes, picture element, art direction, retina.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-2-6')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">
+          Ver em Modal
+        </button>
+        <a href="modulo-2-6.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+          Ver Completo
+        </a>
+      </div>
+    </div>
+
+    <!-- MODULO 2.7 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-blue-400 font-bold">2.7</span>
+          <span class="text-xs text-neutral-500">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🗺️ Arquitetura de Informacao</h3>
+        <p class="text-neutral-400 text-sm">Organizando o caos. Hierarquia de conteudo, navegacao intuitiva, sitemaps e fluxos de usuario.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">📊</span>
+            <div>
+              <span class="font-medium">Hierarquia de Conteudo</span>
+              <span class="text-neutral-500 text-sm ml-2">- Organizando informacao</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Estruturar conteudo em niveis de importancia: informacao primaria, secundaria e terciaria. O que o usuario precisa ver primeiro?</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Hierarquia clara melhora compreensao. "Headline principal, subtitulo explicativo, detalhes em texto menor".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Content hierarchy, primary/secondary content, information scent.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🧭</span>
+            <div>
+              <span class="font-medium">Padroes de Navegacao</span>
+              <span class="text-neutral-500 text-sm ml-2">- Como usuarios encontram</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Modelos de navegacao: global nav, local nav, contextual, faceted, breadcrumbs. Cada tipo serve um proposito.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Navegacao intuitiva = usuarios felizes. "Navbar global com 5-7 items, breadcrumb para profundidade".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Global nav, local nav, breadcrumb, faceted navigation.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🗂️</span>
+            <div>
+              <span class="font-medium">Sitemaps e Estrutura</span>
+              <span class="text-neutral-500 text-sm ml-2">- Mapeando o site</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Diagrama hierarquico de todas as paginas e suas relacoes. Define a estrutura antes de construir.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Sitemap evita paginas orfas. "Site com home, sobre, servicos (3 subpaginas), contato".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Sitemap, information architecture, taxonomy, categorization.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🔄</span>
+            <div>
+              <span class="font-medium">Fluxos de Usuario</span>
+              <span class="text-neutral-500 text-sm ml-2">- Jornadas e caminhos</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">O caminho que um usuario percorre para completar uma tarefa: entrar > navegar > decidir > converter.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Fluxos otimizados aumentam conversao. "Fluxo de checkout em 3 passos com progresso visivel".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">User flow, task flow, happy path, edge cases.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🏷️</span>
+            <div>
+              <span class="font-medium">Labels e Naming</span>
+              <span class="text-neutral-500 text-sm ml-2">- Nomes que fazem sentido</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Escolher nomes claros e consistentes para links, botoes e secoes. "Produtos" vs "Loja" vs "Catalogo".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Labels confusos perdem usuarios. "Use verbos em CTAs: 'Comece agora', nao 'Clique aqui'".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Labeling, naming convention, action-oriented copy.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🔍</span>
+            <div>
+              <span class="font-medium">Search e Findability</span>
+              <span class="text-neutral-500 text-sm ml-2">- Quando navegacao nao basta</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Busca interna do site, autocomplete, filtros e facetas. Para quando o usuario sabe o que quer.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Busca e essencial para sites grandes. "Barra de busca com autocomplete e resultados instantaneos".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Site search, autocomplete, filters, facets, search results.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-2-7')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">
+          Ver em Modal
+        </button>
+        <a href="modulo-2-7.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+          Ver Completo
+        </a>
+      </div>
+    </div>
+
+    <!-- MODULO 2.8 -->
+    <div class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-blue-400 font-bold">2.8</span>
+          <span class="text-xs text-neutral-500">~30 min</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">🚀 Landing Pages que Convertem</h3>
+        <p class="text-neutral-400 text-sm">A formula que funciona. Estrutura, copywriting visual, CTAs estrategicos e elementos de conversao.</p>
+      </div>
+
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🎯</span>
+            <div>
+              <span class="font-medium">Anatomia de uma Landing Page</span>
+              <span class="text-neutral-500 text-sm ml-2">- Secoes que convertem</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Estrutura classica: Hero > Problema > Solucao > Features > Prova Social > Preco > FAQ > CTA Final.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Estrutura testada converte. "Landing page com hero, 3 features, testimonials e CTA final".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Landing page structure, above the fold, value proposition.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">📝</span>
+            <div>
+              <span class="font-medium">Headlines que Capturam</span>
+              <span class="text-neutral-500 text-sm ml-2">- Copywriting visual</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Headlines claras e diretas que comunicam beneficio em segundos. Formula: O que + Para quem + Beneficio.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Headline decide se usuario le o resto. "Headline que foca no beneficio, nao no produto".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Headline, subheadline, value prop, benefit-focused copy.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🔘</span>
+            <div>
+              <span class="font-medium">CTAs Estrategicos</span>
+              <span class="text-neutral-500 text-sm ml-2">- Posicao, cor e copy</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Botoes de acao posicionados estrategicamente: above the fold, apos cada secao de valor, sticky no mobile.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">CTAs bem posicionados aumentam conversao. "CTA primario no hero, repetido apos prova social".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">CTA placement, button color, action copy, urgency.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">⭐</span>
+            <div>
+              <span class="font-medium">Prova Social</span>
+              <span class="text-neutral-500 text-sm ml-2">- Testimonials, logos, numeros</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Elementos que provam credibilidade: depoimentos com foto, logos de clientes, estatisticas, badges, press mentions.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Prova social reduz objecoes. "Secao de logos 'Empresas que confiam em nos' + 3 testimonials com foto".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Social proof, testimonials, trust badges, client logos, stats.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">❓</span>
+            <div>
+              <span class="font-medium">Objection Handling</span>
+              <span class="text-neutral-500 text-sm ml-2">- FAQ, garantias, riscos</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Antecipar e resolver objecoes: FAQs, garantia de devolucao, risk reversal, comparacoes honestas.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Objecoes nao respondidas viram abandono. "FAQ com as 5 perguntas mais comuns + garantia de 30 dias".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Objection handling, FAQ, guarantee, risk reversal.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">📊</span>
+            <div>
+              <span class="font-medium">Above vs Below the Fold</span>
+              <span class="text-neutral-500 text-sm ml-2">- O que mostrar primeiro</span>
+            </div>
+          </button>
+          <div class="topic-explanation px-6 pb-4">
+            <div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+              <div>
+                <span class="text-blue-400 font-semibold">O que e:</span>
+                <p class="text-neutral-300 text-sm">Conteudo visivel sem scroll (above) vs resto da pagina (below). O que aparece primeiro e crucial.</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Por que aprender:</span>
+                <p class="text-neutral-300 text-sm">Above the fold decide conversao. "Hero com headline, subtitulo e CTA visiveis sem scroll".</p>
+              </div>
+              <div>
+                <span class="text-blue-400 font-semibold">Conceitos-chave:</span>
+                <p class="text-neutral-300 text-sm">Above the fold, first viewport, hero optimization, scroll depth.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-2-8')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">
+          Ver em Modal
+        </button>
+        <a href="modulo-2-8.html" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+          Ver Completo
+        </a>
+      </div>
+    </div>
+
+    <!-- NAVEGACAO -->
+    <div class="flex justify-between items-center mt-12 pt-8 border-t border-dark-600">
+      <a href="../trilha1/index.html" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors">
+        ← Trilha Anterior
+      </a>
+      <a href="../trilha3/index.html" class="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors">
+        Proxima Trilha →
+      </a>
+    </div>
+
+  </main>
+
+  <!-- MODALS -->
+  <div id="modal-2-1" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="fixed inset-0 bg-black/70" onclick="closeModal()"></div>
+      <div class="relative bg-dark-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-dark-600">
+        <div class="sticky top-0 bg-dark-800 p-4 border-b border-dark-600 flex justify-between items-center">
+          <h3 class="text-xl font-bold text-blue-400">2.1 - Design Systems e Tokens</h3>
+          <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6 space-y-4">
+          <p class="text-neutral-300">A base de qualquer projeto escalavel. Tokens, variaveis, temas e a linguagem que conecta design e codigo.</p>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-2">Topicos Principais:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• O que e um Design System</li>
+              <li>• Design Tokens</li>
+              <li>• Tokens de Cor</li>
+              <li>• Tokens de Espacamento</li>
+              <li>• Tokens Tipograficos</li>
+              <li>• Theming com Tokens</li>
+            </ul>
+          </div>
+          <a href="modulo-2-1.html" class="inline-block mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+            Ver Modulo Completo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-2-2" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="fixed inset-0 bg-black/70" onclick="closeModal()"></div>
+      <div class="relative bg-dark-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-dark-600">
+        <div class="sticky top-0 bg-dark-800 p-4 border-b border-dark-600 flex justify-between items-center">
+          <h3 class="text-xl font-bold text-blue-400">2.2 - Componentes UI Essenciais</h3>
+          <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6 space-y-4">
+          <p class="text-neutral-300">Os blocos de construcao de interfaces. Botoes, cards, forms, modals e os padroes que toda IA conhece.</p>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-2">Topicos Principais:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• Botoes e Variantes</li>
+              <li>• Cards e Containers</li>
+              <li>• Forms e Inputs</li>
+              <li>• Modals e Dialogs</li>
+              <li>• Navegacao e Menus</li>
+              <li>• Feedback e Alertas</li>
+            </ul>
+          </div>
+          <a href="modulo-2-2.html" class="inline-block mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+            Ver Modulo Completo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-2-3" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="fixed inset-0 bg-black/70" onclick="closeModal()"></div>
+      <div class="relative bg-dark-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-dark-600">
+        <div class="sticky top-0 bg-dark-800 p-4 border-b border-dark-600 flex justify-between items-center">
+          <h3 class="text-xl font-bold text-blue-400">2.3 - Sistemas de Grid</h3>
+          <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6 space-y-4">
+          <p class="text-neutral-300">A estrutura invisivel que organiza tudo. Grids de 12 colunas, CSS Grid, Flexbox e layouts complexos.</p>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-2">Topicos Principais:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• Grid de 12 Colunas</li>
+              <li>• CSS Grid na Pratica</li>
+              <li>• Flexbox para Componentes</li>
+              <li>• Bento Grids</li>
+              <li>• Grids Responsivos</li>
+              <li>• Container Queries</li>
+            </ul>
+          </div>
+          <a href="modulo-2-3.html" class="inline-block mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+            Ver Modulo Completo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-2-4" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="fixed inset-0 bg-black/70" onclick="closeModal()"></div>
+      <div class="relative bg-dark-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-dark-600">
+        <div class="sticky top-0 bg-dark-800 p-4 border-b border-dark-600 flex justify-between items-center">
+          <h3 class="text-xl font-bold text-blue-400">2.4 - Micro-interacoes</h3>
+          <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6 space-y-4">
+          <p class="text-neutral-300">Os detalhes que encantam. Hovers, focus states, toggles animados e feedback visual que faz a diferenca.</p>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-2">Topicos Principais:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• O que sao Micro-interacoes</li>
+              <li>• Hover States</li>
+              <li>• Focus States e Acessibilidade</li>
+              <li>• Toggle e Switch Animations</li>
+              <li>• Loading States</li>
+              <li>• Feedback de Acao</li>
+            </ul>
+          </div>
+          <a href="modulo-2-4.html" class="inline-block mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+            Ver Modulo Completo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-2-5" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="fixed inset-0 bg-black/70" onclick="closeModal()"></div>
+      <div class="relative bg-dark-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-dark-600">
+        <div class="sticky top-0 bg-dark-800 p-4 border-b border-dark-600 flex justify-between items-center">
+          <h3 class="text-xl font-bold text-blue-400">2.5 - Motion Design para Web</h3>
+          <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6 space-y-4">
+          <p class="text-neutral-300">Animacao com proposito. Timing, easing, scroll animations e como o movimento guia o usuario.</p>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-2">Topicos Principais:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• Principios de Motion</li>
+              <li>• Timing e Duration</li>
+              <li>• Easing Functions</li>
+              <li>• Scroll Animations</li>
+              <li>• Transicoes de Pagina</li>
+              <li>• Staggered Animations</li>
+            </ul>
+          </div>
+          <a href="modulo-2-5.html" class="inline-block mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+            Ver Modulo Completo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-2-6" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="fixed inset-0 bg-black/70" onclick="closeModal()"></div>
+      <div class="relative bg-dark-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-dark-600">
+        <div class="sticky top-0 bg-dark-800 p-4 border-b border-dark-600 flex justify-between items-center">
+          <h3 class="text-xl font-bold text-blue-400">2.6 - Tratamento de Imagens e Midia</h3>
+          <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6 space-y-4">
+          <p class="text-neutral-300">Otimizacao visual e tecnica. Formatos, aspect ratios, lazy loading, hero images e video embeds.</p>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-2">Topicos Principais:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• Formatos de Imagem</li>
+              <li>• Aspect Ratios</li>
+              <li>• Lazy Loading</li>
+              <li>• Hero Images e Backgrounds</li>
+              <li>• Video Embeds</li>
+              <li>• Imagens Responsivas</li>
+            </ul>
+          </div>
+          <a href="modulo-2-6.html" class="inline-block mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+            Ver Modulo Completo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-2-7" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="fixed inset-0 bg-black/70" onclick="closeModal()"></div>
+      <div class="relative bg-dark-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-dark-600">
+        <div class="sticky top-0 bg-dark-800 p-4 border-b border-dark-600 flex justify-between items-center">
+          <h3 class="text-xl font-bold text-blue-400">2.7 - Arquitetura de Informacao</h3>
+          <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6 space-y-4">
+          <p class="text-neutral-300">Organizando o caos. Hierarquia de conteudo, navegacao intuitiva, sitemaps e fluxos de usuario.</p>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-2">Topicos Principais:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• Hierarquia de Conteudo</li>
+              <li>• Padroes de Navegacao</li>
+              <li>• Sitemaps e Estrutura</li>
+              <li>• Fluxos de Usuario</li>
+              <li>• Labels e Naming</li>
+              <li>• Search e Findability</li>
+            </ul>
+          </div>
+          <a href="modulo-2-7.html" class="inline-block mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+            Ver Modulo Completo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-2-8" class="modal hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="fixed inset-0 bg-black/70" onclick="closeModal()"></div>
+      <div class="relative bg-dark-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-dark-600">
+        <div class="sticky top-0 bg-dark-800 p-4 border-b border-dark-600 flex justify-between items-center">
+          <h3 class="text-xl font-bold text-blue-400">2.8 - Landing Pages que Convertem</h3>
+          <button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div class="p-6 space-y-4">
+          <p class="text-neutral-300">A formula que funciona. Estrutura, copywriting visual, CTAs estrategicos e elementos de conversao.</p>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-2">Topicos Principais:</h4>
+            <ul class="space-y-2 text-neutral-300 text-sm">
+              <li>• Anatomia de uma Landing Page</li>
+              <li>• Headlines que Capturam</li>
+              <li>• CTAs Estrategicos</li>
+              <li>• Prova Social</li>
+              <li>• Objection Handling</li>
+              <li>• Above vs Below the Fold</li>
+            </ul>
+          </div>
+          <a href="modulo-2-8.html" class="inline-block mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+            Ver Modulo Completo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Toggle Topics
+    function toggleTopic(button) {
+      const topicItem = button.closest('.topic-item');
+      const explanation = topicItem.querySelector('.topic-explanation');
+      const moduleCard = button.closest('.bg-dark-800');
+
+      // Close others in same module
+      moduleCard.querySelectorAll('.topic-explanation.active').forEach(exp => {
+        if (exp !== explanation) {
+          exp.classList.remove('active');
+        }
+      });
+
+      // Toggle current
+      explanation.classList.toggle('active');
+    }
+
+    // Modal Functions
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeModal() {
+      document.querySelectorAll('.modal').forEach(modal => {
+        modal.classList.add('hidden');
+      });
+      document.body.style.overflow = 'auto';
+    }
+
+    // Close with ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Theme Toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>

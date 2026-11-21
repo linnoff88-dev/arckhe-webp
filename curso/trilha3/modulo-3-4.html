@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3.4 Acessibilidade Universal | WebP</title>
+  <meta name="description" content="Design para todos. Aprenda contraste, navegacao por teclado, screen readers, WCAG e como criar experiencias inclusivas.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Expandable content */
+    .topic-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+    .topic-content.expanded {
+      max-height: 2000px;
+      transition: max-height 0.5s ease-in;
+    }
+    .topic-toggle svg {
+      transition: transform 0.3s ease;
+    }
+    .topic-toggle.expanded svg {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-purple-400">Inicio</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-purple-400">Trilha 3</a>
+      <span>/</span>
+      <span class="text-purple-400">Modulo 3.4</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">
+        Trilha 3 • Modulo 4
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">Acessibilidade Universal</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Design para todos. Aprenda a criar experiencias web inclusivas que funcionam para pessoas
+        com diferentes habilidades, usando o vocabulario certo para comunicar com IAs.
+      </p>
+
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">6</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">30</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">Avancado</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">Essencial</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1: Contraste e Legibilidade -->
+    <section id="topico-1" class="mb-8">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(this)" class="topic-toggle w-full p-6 flex items-center justify-between text-left hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">1</span>
+            <div>
+              <h2 class="text-xl font-bold">Contraste e Legibilidade</h2>
+              <p class="text-neutral-400 text-sm">Cores que todos conseguem ler</p>
+            </div>
+          </div>
+          <svg class="w-6 h-6 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class="topic-content">
+          <div class="px-6 pb-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+              <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                <span class="mr-2">💡</span> O que e:
+              </h3>
+              <p class="text-neutral-300 leading-relaxed">
+                Contraste e a <strong class="text-purple-400">diferenca de luminosidade</strong> entre texto e fundo.
+                Um contraste adequado garante que pessoas com baixa visao, daltonismo ou em ambientes com muita luz
+                consigam ler o conteudo. A razao de contraste e medida como proporacao (ex: 4.5:1).
+              </p>
+              <div class="grid grid-cols-2 gap-4 mt-4">
+                <div class="bg-dark-800 rounded-lg p-4 border-2 border-green-500/50">
+                  <div class="text-white text-lg font-semibold mb-1">Bom Contraste</div>
+                  <div class="text-sm text-neutral-400">Texto branco em fundo escuro (ratio 15:1)</div>
+                </div>
+                <div class="bg-dark-700 rounded-lg p-4 border-2 border-red-500/50">
+                  <div class="text-neutral-500 text-lg font-semibold mb-1">Contraste Ruim</div>
+                  <div class="text-sm text-neutral-600">Cinza em cinza (ratio 2:1)</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Por que aprender:
+              </h3>
+              <ul class="space-y-3 text-neutral-300">
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">8% dos homens</strong> tem algum tipo de daltonismo</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Usuarios mais velhos</strong> precisam de mais contraste</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Luz solar</strong> reduz contraste percebido em telas</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Requisito legal</strong> em muitos paises para sites publicos</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🔑</span> Conceitos-chave:
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Ratio Minimo 4.5:1</h4>
+                  <p class="text-sm text-neutral-400">Para texto normal (menor que 18px)</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Ratio Minimo 3:1</h4>
+                  <p class="text-sm text-neutral-400">Para texto grande (18px+ ou 14px bold)</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Nivel AAA: 7:1</h4>
+                  <p class="text-sm text-neutral-400">Maximo contraste, ideal para leitura longa</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Nao depender so de cor</h4>
+                  <p class="text-sm text-neutral-400">Use icones, sublinhado ou texto junto</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 2: Navegacao por Teclado -->
+    <section id="topico-2" class="mb-8">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(this)" class="topic-toggle w-full p-6 flex items-center justify-between text-left hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">2</span>
+            <div>
+              <h2 class="text-xl font-bold">Navegacao por Teclado</h2>
+              <p class="text-neutral-400 text-sm">Acessibilidade sem mouse</p>
+            </div>
+          </div>
+          <svg class="w-6 h-6 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class="topic-content">
+          <div class="px-6 pb-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+              <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                <span class="mr-2">💡</span> O que e:
+              </h3>
+              <p class="text-neutral-300 leading-relaxed">
+                Navegacao por teclado permite usar um site <strong class="text-purple-400">sem mouse</strong>.
+                Usuarios navegam com Tab (proximo elemento), Shift+Tab (anterior), Enter (ativar) e setas.
+                Essencial para pessoas com deficiencias motoras que usam teclado ou dispositivos alternativos.
+              </p>
+              <div class="bg-dark-800 rounded-lg p-4 mt-4">
+                <p class="text-sm text-neutral-400 mb-2">Experimente agora: pressione Tab nesta pagina para ver os elementos focaveis.</p>
+                <div class="flex space-x-2">
+                  <span class="px-3 py-1 bg-purple-500/20 text-purple-400 rounded text-sm font-mono">Tab</span>
+                  <span class="px-3 py-1 bg-purple-500/20 text-purple-400 rounded text-sm font-mono">Shift+Tab</span>
+                  <span class="px-3 py-1 bg-purple-500/20 text-purple-400 rounded text-sm font-mono">Enter</span>
+                  <span class="px-3 py-1 bg-purple-500/20 text-purple-400 rounded text-sm font-mono">Esc</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Por que aprender:
+              </h3>
+              <ul class="space-y-3 text-neutral-300">
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Usuarios avancados</strong> preferem teclado por velocidade</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Lesoes temporarias</strong> podem impedir uso do mouse</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Dispositivos alternativos</strong> emulam teclado</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Screen readers</strong> dependem de navegacao por teclado</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🔑</span> Conceitos-chave:
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Focus Visible</h4>
+                  <p class="text-sm text-neutral-400">Indicador visual claro do elemento focado</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Tab Order Logica</h4>
+                  <p class="text-sm text-neutral-400">Ordem de navegacao segue fluxo visual</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Skip Links</h4>
+                  <p class="text-sm text-neutral-400">Atalhos para pular navegacao repetitiva</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Focus Trap</h4>
+                  <p class="text-sm text-neutral-400">Manter foco dentro de modais abertos</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 3: Screen Readers -->
+    <section id="topico-3" class="mb-8">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(this)" class="topic-toggle w-full p-6 flex items-center justify-between text-left hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">3</span>
+            <div>
+              <h2 class="text-xl font-bold">Screen Readers</h2>
+              <p class="text-neutral-400 text-sm">Design para quem ouve a web</p>
+            </div>
+          </div>
+          <svg class="w-6 h-6 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class="topic-content">
+          <div class="px-6 pb-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+              <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                <span class="mr-2">💡</span> O que e:
+              </h3>
+              <p class="text-neutral-300 leading-relaxed">
+                Screen readers sao softwares que <strong class="text-purple-400">leem o conteudo da tela em voz alta</strong>.
+                Usados por pessoas cegas ou com baixa visao, eles interpretam o HTML e descrevem a interface.
+                NVDA (Windows), VoiceOver (Mac/iOS) e TalkBack (Android) sao os mais comuns.
+              </p>
+              <div class="bg-dark-800 rounded-lg p-4 mt-4">
+                <p class="text-sm text-neutral-300 mb-2">O que um screen reader le:</p>
+                <code class="text-xs text-purple-400 block">"Link: Inicio. Botao: Menu. Imagem: Logo da empresa. Heading nivel 1: Bem-vindo."</code>
+              </div>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Por que aprender:
+              </h3>
+              <ul class="space-y-3 text-neutral-300">
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">285 milhoes de pessoas</strong> no mundo tem deficiencia visual</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">HTML semantico</strong> beneficia SEO e screen readers</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Alt text em imagens</strong> e indexado por buscadores</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">ARIA labels</strong> melhoram experiencia de todos</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🔑</span> Conceitos-chave:
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Alt Text Descritivo</h4>
+                  <p class="text-sm text-neutral-400">Descreva imagens: "Pessoa sorrindo ao telefone"</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Headings Hierarquicos</h4>
+                  <p class="text-sm text-neutral-400">h1, h2, h3 em ordem logica para navegacao</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">ARIA Labels</h4>
+                  <p class="text-sm text-neutral-400">aria-label para elementos sem texto visivel</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Landmarks</h4>
+                  <p class="text-sm text-neutral-400">nav, main, aside, footer para estrutura</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 4: Design Inclusivo -->
+    <section id="topico-4" class="mb-8">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(this)" class="topic-toggle w-full p-6 flex items-center justify-between text-left hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">4</span>
+            <div>
+              <h2 class="text-xl font-bold">Design Inclusivo</h2>
+              <p class="text-neutral-400 text-sm">Projetando para a diversidade humana</p>
+            </div>
+          </div>
+          <svg class="w-6 h-6 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class="topic-content">
+          <div class="px-6 pb-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+              <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                <span class="mr-2">💡</span> O que e:
+              </h3>
+              <p class="text-neutral-300 leading-relaxed">
+                Design inclusivo e uma <strong class="text-purple-400">metodologia que considera a diversidade humana</strong>
+                desde o inicio do projeto. Vai alem de acessibilidade: considera idade, cultura, idioma, contexto,
+                habilidades cognitivas e situacoes temporarias (mao ocupada, ambiente barulhento).
+              </p>
+              <div class="bg-dark-800 rounded-lg p-4 mt-4">
+                <p class="text-sm text-neutral-300 mb-2">Exemplos de situacoes:</p>
+                <div class="grid grid-cols-3 gap-2 text-xs">
+                  <div class="bg-dark-700 rounded p-2 text-center">
+                    <div class="text-purple-400 font-semibold">Permanente</div>
+                    <div class="text-neutral-400">Cego</div>
+                  </div>
+                  <div class="bg-dark-700 rounded p-2 text-center">
+                    <div class="text-purple-400 font-semibold">Temporaria</div>
+                    <div class="text-neutral-400">Catarata pos-cirurgia</div>
+                  </div>
+                  <div class="bg-dark-700 rounded p-2 text-center">
+                    <div class="text-purple-400 font-semibold">Situacional</div>
+                    <div class="text-neutral-400">Sol forte na tela</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Por que aprender:
+              </h3>
+              <ul class="space-y-3 text-neutral-300">
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">1 bilhao de pessoas</strong> tem alguma deficiencia no mundo</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Todos envelhecem</strong> e perdem capacidades gradualmente</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Design inclusivo</strong> beneficia todos os usuarios</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Legendas em videos</strong> ajudam em ambientes barulhentos</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🔑</span> Conceitos-chave:
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Solve for One, Extend to Many</h4>
+                  <p class="text-sm text-neutral-400">Resolver para um caso beneficia muitos</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Multimodalidade</h4>
+                  <p class="text-sm text-neutral-400">Oferecer multiplas formas de interacao</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Carga Cognitiva</h4>
+                  <p class="text-sm text-neutral-400">Reduzir esforco mental necessario</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Consistencia</h4>
+                  <p class="text-sm text-neutral-400">Padroes previsiveis reduzem aprendizado</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 5: WCAG Guidelines -->
+    <section id="topico-5" class="mb-8">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(this)" class="topic-toggle w-full p-6 flex items-center justify-between text-left hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">5</span>
+            <div>
+              <h2 class="text-xl font-bold">WCAG Guidelines</h2>
+              <p class="text-neutral-400 text-sm">O padrao internacional de acessibilidade</p>
+            </div>
+          </div>
+          <svg class="w-6 h-6 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class="topic-content">
+          <div class="px-6 pb-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+              <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                <span class="mr-2">💡</span> O que e:
+              </h3>
+              <p class="text-neutral-300 leading-relaxed">
+                WCAG (Web Content Accessibility Guidelines) sao as <strong class="text-purple-400">diretrizes internacionais</strong>
+                da W3C para acessibilidade web. Organizadas em 4 principios: Perceivable (perceber), Operable (operar),
+                Understandable (entender) e Robust (robusto). Niveis A, AA e AAA indicam conformidade.
+              </p>
+              <div class="grid grid-cols-4 gap-2 mt-4">
+                <div class="bg-dark-800 rounded-lg p-3 text-center">
+                  <div class="text-2xl mb-1">👁️</div>
+                  <div class="text-xs text-purple-400 font-semibold">Perceivable</div>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-3 text-center">
+                  <div class="text-2xl mb-1">🖱️</div>
+                  <div class="text-xs text-purple-400 font-semibold">Operable</div>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-3 text-center">
+                  <div class="text-2xl mb-1">🧠</div>
+                  <div class="text-xs text-purple-400 font-semibold">Understandable</div>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-3 text-center">
+                  <div class="text-2xl mb-1">💪</div>
+                  <div class="text-xs text-purple-400 font-semibold">Robust</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Por que aprender:
+              </h3>
+              <ul class="space-y-3 text-neutral-300">
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Lei brasileira</strong> exige acessibilidade em sites governamentais</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">ADA nos EUA</strong> ja resultou em processos contra sites inacessiveis</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">WCAG 2.1 AA</strong> e o nivel minimo recomendado</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Clientes corporativos</strong> exigem conformidade</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🔑</span> Conceitos-chave:
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Nivel A (Minimo)</h4>
+                  <p class="text-sm text-neutral-400">Requisitos basicos, essenciais para funcionar</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Nivel AA (Recomendado)</h4>
+                  <p class="text-sm text-neutral-400">Padrao para maioria dos sites comerciais</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Nivel AAA (Ideal)</h4>
+                  <p class="text-sm text-neutral-400">Maximo de acessibilidade, nem sempre viavel</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">POUR Principles</h4>
+                  <p class="text-sm text-neutral-400">Perceivable, Operable, Understandable, Robust</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 6: Teste de Acessibilidade -->
+    <section id="topico-6" class="mb-8">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(this)" class="topic-toggle w-full p-6 flex items-center justify-between text-left hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">6</span>
+            <div>
+              <h2 class="text-xl font-bold">Teste de Acessibilidade</h2>
+              <p class="text-neutral-400 text-sm">Verificando e validando seu trabalho</p>
+            </div>
+          </div>
+          <svg class="w-6 h-6 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class="topic-content">
+          <div class="px-6 pb-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+              <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                <span class="mr-2">💡</span> O que e:
+              </h3>
+              <p class="text-neutral-300 leading-relaxed">
+                Teste de acessibilidade e o processo de <strong class="text-purple-400">verificar se um site e acessivel</strong>.
+                Combina testes automatizados (ferramentas que escaneiam o codigo), manuais (navegacao por teclado,
+                screen readers) e com usuarios reais que tem deficiencias.
+              </p>
+              <div class="bg-dark-800 rounded-lg p-4 mt-4">
+                <p class="text-sm text-neutral-300 mb-2">Ferramentas de teste:</p>
+                <div class="flex flex-wrap gap-2">
+                  <span class="px-3 py-1 bg-purple-500/20 text-purple-400 rounded text-sm">Lighthouse</span>
+                  <span class="px-3 py-1 bg-purple-500/20 text-purple-400 rounded text-sm">axe DevTools</span>
+                  <span class="px-3 py-1 bg-purple-500/20 text-purple-400 rounded text-sm">WAVE</span>
+                  <span class="px-3 py-1 bg-purple-500/20 text-purple-400 rounded text-sm">Contrast Checker</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Por que aprender:
+              </h3>
+              <ul class="space-y-3 text-neutral-300">
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Ferramentas automaticas</strong> encontram ate 30% dos problemas</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Testes manuais</strong> capturam problemas de contexto</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Lighthouse score</strong> e facil de verificar e compartilhar</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">CI/CD pode automatizar</strong> verificacao em cada deploy</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🔑</span> Conceitos-chave:
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Teste Automatizado</h4>
+                  <p class="text-sm text-neutral-400">Ferramentas que escaneiam codigo rapidamente</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Teste Manual</h4>
+                  <p class="text-sm text-neutral-400">Navegar com teclado e screen reader</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Teste com Usuarios</h4>
+                  <p class="text-sm text-neutral-400">Feedback real de pessoas com deficiencias</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Auditoria WCAG</h4>
+                  <p class="text-sm text-neutral-400">Verificacao formal contra criterios</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VOCABULARIO PARA PROMPTS -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-primary/20 via-dark-800 to-dark-800 rounded-xl border border-primary/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">🎯</span> Vocabulario para Prompts
+        </h2>
+        <p class="text-neutral-300 mb-6">
+          Use estes termos ao pedir sites acessiveis para IAs:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-3">
+            <h3 class="font-semibold text-purple-400">Contraste e Cores</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">contraste WCAG AA (4.5:1)</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">cores acessiveis para daltonicos</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">nao depender apenas de cor</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">indicadores visuais alem de cor</code>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="font-semibold text-purple-400">Navegacao</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">navegavel por teclado</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">focus visible em todos elementos</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">skip link para conteudo principal</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">tab order logica</code>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="font-semibold text-purple-400">Semantica HTML</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">HTML semantico (nav, main, article)</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">headings hierarquicos h1-h6</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">landmarks ARIA</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">labels em todos os inputs</code>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="font-semibold text-purple-400">Screen Readers</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">alt text descritivo em imagens</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">aria-label em botoes de icone</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">aria-describedby para instrucoes</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">sr-only para texto oculto</code>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="font-semibold text-purple-400">Formularios</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">labels associados a inputs</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">mensagens de erro claras</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">fieldset e legend para grupos</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">autocomplete attributes</code>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="font-semibold text-purple-400">Geral</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">site acessivel WCAG 2.1 AA</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">design inclusivo</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">reduced motion para animacoes</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">texto redimensionavel ate 200%</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 p-4 bg-dark-800 rounded-lg border border-dark-600">
+          <h3 class="font-semibold text-white mb-2">Exemplo de Prompt Completo:</h3>
+          <p class="text-neutral-300 text-sm italic">
+            "Crie um formulario de contato acessivel: labels associados a cada input, mensagens de erro claras
+            com aria-describedby, contraste WCAG AA, navegavel por teclado com focus visible, e fieldset
+            agrupando campos relacionados."
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">📝</span> Resumo do Modulo
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Contraste</strong>
+              <span class="text-neutral-400"> - Minimo 4.5:1 para texto, use ferramentas para verificar</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Teclado</strong>
+              <span class="text-neutral-400"> - Tudo deve ser acessivel via Tab, com focus visivel</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Screen Readers</strong>
+              <span class="text-neutral-400"> - Alt text, headings hierarquicos, ARIA labels</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Design Inclusivo</strong>
+              <span class="text-neutral-400"> - Projetar para diversidade beneficia todos</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">WCAG</strong>
+              <span class="text-neutral-400"> - Nivel AA e o padrao recomendado para a maioria</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Testes</strong>
+              <span class="text-neutral-400"> - Combine automatizados + manuais + usuarios reais</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-purple-400 mb-2">Proximo Modulo:</h3>
+          <p class="text-neutral-300">3.5 - Escrevendo Prompts Efetivos: Estrutura e tecnicas avancadas de vibe coding</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-start gap-4">
+          <a href="index.html" class="px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors text-center">
+            Voltar ao Indice
+          </a>
+          <a href="modulo-3-3.html" class="px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors text-center">
+            ← Modulo Anterior
+          </a>
+          <a href="modulo-3-5.html" class="px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors text-center">
+            Proximo Modulo →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Toggle topic expansion
+    function toggleTopic(button) {
+      const content = button.nextElementSibling;
+      const isExpanded = content.classList.contains('expanded');
+
+      // Close all other topics
+      document.querySelectorAll('.topic-content.expanded').forEach(el => {
+        el.classList.remove('expanded');
+        el.previousElementSibling.classList.remove('expanded');
+      });
+
+      // Toggle current topic
+      if (!isExpanded) {
+        content.classList.add('expanded');
+        button.classList.add('expanded');
+      }
+    }
+
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>

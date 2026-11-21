@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3.1 Estetica Contemporanea | WebP</title>
+  <meta name="description" content="Tendencias visuais atuais do web design: Brutalismo Digital, Glassmorphism, Neomorfismo, Design Organico, Dark Mode e Minimalismo Radical.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-content { display: none; }
+    .topic-content.active { display: block; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-purple-400">Inicio</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-purple-400">Trilha 3</a>
+      <span>/</span>
+      <span class="text-purple-400">Modulo 3.1</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">
+        TRILHA 3 - MODULO 1
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🎨 Estetica Contemporanea</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Domine as tendencias visuais mais influentes do web design atual. Aprenda o vocabulario
+        especifico para descrever cada estilo e peca exatamente o que quer para IAs.
+      </p>
+
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">6</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">30</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">Avancado</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">Pratico</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1: Brutalismo Digital -->
+    <section id="topico-1" class="mb-12">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(1)" class="w-full p-6 flex items-center justify-between hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">1</span>
+            <div class="text-left">
+              <h2 class="text-xl font-bold">Brutalismo Digital</h2>
+              <p class="text-sm text-neutral-400">Estetica crua, anti-design e autenticidade radical</p>
+            </div>
+          </div>
+          <svg id="icon-1" class="w-6 h-6 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div id="content-1" class="topic-content px-6 pb-6">
+          <!-- O que e -->
+          <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+              <span class="mr-2">📖</span> O que e:
+            </h3>
+            <p class="text-neutral-300 leading-relaxed">
+              Brutalismo Digital e uma estetica que rejeita o design "polido" e abraca a crueza visual.
+              Inspirado no Brutalismo arquitetonico, valoriza <strong class="text-purple-400">honestidade estrutural</strong>,
+              tipografia impactante, layouts assimetricos e uma aparencia "nao-projetada" intencional.
+              E o anti-minimalismo: chocante, expressivo e memoravel.
+            </p>
+          </div>
+
+          <!-- Por que aprender -->
+          <div class="bg-dark-700 rounded-xl border border-dark-600 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+              <span class="mr-2">🎯</span> Por que aprender:
+            </h3>
+            <ul class="space-y-2 text-neutral-300">
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Diferenciacao radical em mercados saturados de designs "clean"</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Perfeito para marcas artisticas, criativas e contraculturais</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Alta memorabilidade - usuarios nao esquecem experiencias brutais</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Tendencia crescente em portfolios de designers e agencias</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Conceitos-chave -->
+          <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+              <span class="mr-2">🔑</span> Conceitos-chave:
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Raw Typography</h4>
+                <p class="text-sm text-neutral-400">Fontes system, monospace, tamanhos extremos, sem refinamento</p>
+              </div>
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Anti-Grid</h4>
+                <p class="text-sm text-neutral-400">Layouts quebrados, sobreposicoes, assimetria proposital</p>
+              </div>
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Honest Materials</h4>
+                <p class="text-sm text-neutral-400">HTML sem styling, bordas visiveis, elementos "crus"</p>
+              </div>
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Confrontational</h4>
+                <p class="text-sm text-neutral-400">Design que desafia, incomoda e exige atencao</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vocabulario para Prompts -->
+          <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+            <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+              <span class="mr-2">💬</span> Vocabulario para Prompts
+            </h3>
+            <div class="space-y-2">
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Estilo brutalista com tipografia crua e sistema de cores primarias"</code>
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Layout anti-grid com sobreposicoes e assimetria intencional"</code>
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Design raw HTML aesthetic com bordas visiveis e fontes monospace"</code>
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Brutalist web design inspirado em sites como Craigslist e Bloomberg"</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 2: Glassmorphism -->
+    <section id="topico-2" class="mb-12">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(2)" class="w-full p-6 flex items-center justify-between hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">2</span>
+            <div class="text-left">
+              <h2 class="text-xl font-bold">Glassmorphism</h2>
+              <p class="text-sm text-neutral-400">Efeitos de vidro fosco, blur e transparencia elegante</p>
+            </div>
+          </div>
+          <svg id="icon-2" class="w-6 h-6 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div id="content-2" class="topic-content px-6 pb-6">
+          <!-- O que e -->
+          <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+              <span class="mr-2">📖</span> O que e:
+            </h3>
+            <p class="text-neutral-300 leading-relaxed">
+              Glassmorphism cria a ilusao de vidro fosco atraves de <strong class="text-purple-400">transparencia</strong>,
+              <strong class="text-purple-400">blur de fundo</strong> e bordas sutis. Popularizado pelo macOS Big Sur e Windows 11,
+              esse estilo adiciona profundidade e elegancia sem peso visual. Elementos parecem "flutuar"
+              sobre o conteudo, criando hierarquia atraves de camadas translucidas.
+            </p>
+          </div>
+
+          <!-- Por que aprender -->
+          <div class="bg-dark-700 rounded-xl border border-dark-600 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+              <span class="mr-2">🎯</span> Por que aprender:
+            </h3>
+            <ul class="space-y-2 text-neutral-300">
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Estilo dominante em interfaces modernas (Apple, Microsoft, Stripe)</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Cria profundidade sem sombras pesadas ou elementos solidos</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Funciona magnificamente em dark mode com gradientes vibrantes</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>IAs conhecem bem o estilo e produzem resultados consistentes</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Conceitos-chave -->
+          <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+              <span class="mr-2">🔑</span> Conceitos-chave:
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Backdrop Blur</h4>
+                <p class="text-sm text-neutral-400">backdrop-filter: blur(10px-20px) para efeito fosco</p>
+              </div>
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Semi-Transparency</h4>
+                <p class="text-sm text-neutral-400">Fundos com 10-30% de opacidade (rgba ou /20)</p>
+              </div>
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Subtle Borders</h4>
+                <p class="text-sm text-neutral-400">Bordas brancas/claras com 10-20% opacidade</p>
+              </div>
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Gradient Backgrounds</h4>
+                <p class="text-sm text-neutral-400">Gradientes coloridos atras dos elementos glass</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vocabulario para Prompts -->
+          <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+            <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+              <span class="mr-2">💬</span> Vocabulario para Prompts
+            </h3>
+            <div class="space-y-2">
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Card glassmorphism com backdrop-blur e borda sutil translucida"</code>
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Efeito vidro fosco sobre gradiente vibrante purple-to-blue"</code>
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Frosted glass UI com transparencia 20% e blur 16px"</code>
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Modal glassmorphism estilo Apple com sombra difusa"</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 3: Neomorfismo -->
+    <section id="topico-3" class="mb-12">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(3)" class="w-full p-6 flex items-center justify-between hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">3</span>
+            <div class="text-left">
+              <h2 class="text-xl font-bold">Neomorfismo</h2>
+              <p class="text-sm text-neutral-400">Soft UI com sombras internas e extrusao suave</p>
+            </div>
+          </div>
+          <svg id="icon-3" class="w-6 h-6 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div id="content-3" class="topic-content px-6 pb-6">
+          <!-- O que e -->
+          <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+              <span class="mr-2">📖</span> O que e:
+            </h3>
+            <p class="text-neutral-300 leading-relaxed">
+              Neomorfismo (ou Soft UI) cria elementos que parecem <strong class="text-purple-400">extrudados</strong>
+              ou <strong class="text-purple-400">pressionados</strong> da superficie. Usa combinacoes de sombras claras
+              e escuras para simular profundidade fisica. Elementos parecem moldados no proprio fundo,
+              como se fossem feitos do mesmo material - plastico suave ou argila.
+            </p>
+          </div>
+
+          <!-- Por que aprender -->
+          <div class="bg-dark-700 rounded-xl border border-dark-600 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+              <span class="mr-2">🎯</span> Por que aprender:
+            </h3>
+            <ul class="space-y-2 text-neutral-300">
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Estetica unica que se destaca de flat design e material design</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Excelente para interfaces de controle (sliders, botoes, toggles)</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Cria sensacao tatil e convida a interacao</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Popular em dashboards, apps de musica e interfaces premium</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Conceitos-chave -->
+          <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+              <span class="mr-2">🔑</span> Conceitos-chave:
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Dual Shadows</h4>
+                <p class="text-sm text-neutral-400">Sombra clara (luz) e sombra escura simultaneas</p>
+              </div>
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Same-Color Background</h4>
+                <p class="text-sm text-neutral-400">Elemento e fundo na mesma cor para efeito moldado</p>
+              </div>
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Inset Shadows</h4>
+                <p class="text-sm text-neutral-400">box-shadow: inset para estados pressed/active</p>
+              </div>
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Soft Radius</h4>
+                <p class="text-sm text-neutral-400">Border-radius generosos (16px-24px) para suavidade</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vocabulario para Prompts -->
+          <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+            <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+              <span class="mr-2">💬</span> Vocabulario para Prompts
+            </h3>
+            <div class="space-y-2">
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Botao neumorphism com sombras duais (clara e escura) em fundo neutro"</code>
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Soft UI card extrudado com efeito pressed no estado active"</code>
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Interface neumorphic com elementos moldados do fundo cinza"</code>
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Slider neumorfismo com sombra inset e knob elevado"</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 4: Design Organico -->
+    <section id="topico-4" class="mb-12">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(4)" class="w-full p-6 flex items-center justify-between hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">4</span>
+            <div class="text-left">
+              <h2 class="text-xl font-bold">Design Organico</h2>
+              <p class="text-sm text-neutral-400">Formas fluidas, curvas naturais e movimento biologico</p>
+            </div>
+          </div>
+          <svg id="icon-4" class="w-6 h-6 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div id="content-4" class="topic-content px-6 pb-6">
+          <!-- O que e -->
+          <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+              <span class="mr-2">📖</span> O que e:
+            </h3>
+            <p class="text-neutral-300 leading-relaxed">
+              Design Organico abandona formas geometricas rigidas por <strong class="text-purple-400">curvas naturais</strong>,
+              <strong class="text-purple-400">blobs amorfos</strong> e <strong class="text-purple-400">formas fluidas</strong>.
+              Inspirado na natureza - celulas, nuvens, liquidos - cria interfaces que parecem vivas e acolhedoras.
+              Contrasta com o angular do design corporativo tradicional, transmitindo humanidade e criatividade.
+            </p>
+          </div>
+
+          <!-- Por que aprender -->
+          <div class="bg-dark-700 rounded-xl border border-dark-600 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+              <span class="mr-2">🎯</span> Por que aprender:
+            </h3>
+            <ul class="space-y-2 text-neutral-300">
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Transmite calor humano em interfaces digitais frias</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Perfeito para marcas de bem-estar, criatividade e lifestyle</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Tendencia forte em SaaS modernos (Notion, Linear, Loom)</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Combina lindamente com gradientes e glassmorphism</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Conceitos-chave -->
+          <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+              <span class="mr-2">🔑</span> Conceitos-chave:
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Blob Shapes</h4>
+                <p class="text-sm text-neutral-400">Formas amorfas com border-radius assimetricos ou SVG</p>
+              </div>
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Fluid Gradients</h4>
+                <p class="text-sm text-neutral-400">Gradientes que fluem como liquido ou aurora boreal</p>
+              </div>
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Organic Motion</h4>
+                <p class="text-sm text-neutral-400">Animacoes suaves, elasticas, como respiracao</p>
+              </div>
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Nature-Inspired</h4>
+                <p class="text-sm text-neutral-400">Referencias a agua, plantas, celulas, nuvens</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vocabulario para Prompts -->
+          <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+            <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+              <span class="mr-2">💬</span> Vocabulario para Prompts
+            </h3>
+            <div class="space-y-2">
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Background com blob shapes organicos em gradiente purple-pink"</code>
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Hero section com formas fluidas e curvas naturais"</code>
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Design organico com elementos amorfos e animacao suave"</code>
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Layout com fluid gradient mesh e border-radius assimetrico"</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 5: Dark Mode Design -->
+    <section id="topico-5" class="mb-12">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(5)" class="w-full p-6 flex items-center justify-between hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">5</span>
+            <div class="text-left">
+              <h2 class="text-xl font-bold">Dark Mode Design</h2>
+              <p class="text-sm text-neutral-400">Interfaces escuras elegantes, contraste e hierarquia de cinzas</p>
+            </div>
+          </div>
+          <svg id="icon-5" class="w-6 h-6 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div id="content-5" class="topic-content px-6 pb-6">
+          <!-- O que e -->
+          <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+              <span class="mr-2">📖</span> O que e:
+            </h3>
+            <p class="text-neutral-300 leading-relaxed">
+              Dark Mode Design nao e apenas "inverter cores". E uma <strong class="text-purple-400">filosofia completa</strong>
+              de projetar interfaces com fundos escuros, criando hierarquia atraves de <strong class="text-purple-400">niveis de elevacao</strong>,
+              usando cores de acento vibrantes estrategicamente, e garantindo contraste adequado para legibilidade.
+              Requer pensamento reverso: superficies elevadas sao mais claras, nao mais escuras.
+            </p>
+          </div>
+
+          <!-- Por que aprender -->
+          <div class="bg-dark-700 rounded-xl border border-dark-600 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+              <span class="mr-2">🎯</span> Por que aprender:
+            </h3>
+            <ul class="space-y-2 text-neutral-300">
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Dark mode e preferencia de 80%+ dos usuarios em 2026</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Reduz fadiga ocular e economiza bateria em OLED</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Cores vibrantes "pop" muito mais em fundos escuros</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Transmite sofisticacao, modernidade e profissionalismo tech</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Conceitos-chave -->
+          <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+              <span class="mr-2">🔑</span> Conceitos-chave:
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Elevation Hierarchy</h4>
+                <p class="text-sm text-neutral-400">Mais alto = mais claro. background < surface < elevated</p>
+              </div>
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Gray Scale</h4>
+                <p class="text-sm text-neutral-400">Multiplos niveis de cinza (900, 800, 700, 600...)</p>
+              </div>
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Accent Colors</h4>
+                <p class="text-sm text-neutral-400">Cores vibrantes usadas com moderacao para destaque</p>
+              </div>
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Reduced White</h4>
+                <p class="text-sm text-neutral-400">Texto em tons de cinza claro, nao branco puro (#F9FAFB)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vocabulario para Prompts -->
+          <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+            <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+              <span class="mr-2">💬</span> Vocabulario para Prompts
+            </h3>
+            <div class="space-y-2">
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Dark mode interface com hierarquia de elevacao (gray-900, 800, 700)"</code>
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Paleta escura com acento purple vibrante e texto neutral-100"</code>
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Dark theme com cards elevados mais claros que o background"</code>
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Interface dark com contraste WCAG AA e cores de feedback saturadas"</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 6: Minimalismo Radical -->
+    <section id="topico-6" class="mb-12">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(6)" class="w-full p-6 flex items-center justify-between hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">6</span>
+            <div class="text-left">
+              <h2 class="text-xl font-bold">Minimalismo Radical</h2>
+              <p class="text-sm text-neutral-400">Reducao extrema, whitespace generoso e foco absoluto</p>
+            </div>
+          </div>
+          <svg id="icon-6" class="w-6 h-6 text-purple-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div id="content-6" class="topic-content px-6 pb-6">
+          <!-- O que e -->
+          <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+              <span class="mr-2">📖</span> O que e:
+            </h3>
+            <p class="text-neutral-300 leading-relaxed">
+              Minimalismo Radical leva o "menos e mais" ao extremo. Cada elemento precisa <strong class="text-purple-400">justificar sua existencia</strong>.
+              Whitespace abundante, tipografia como elemento central, paletas monocromaticas ou com um unico acento.
+              Nada decora - tudo comunica. Inspirado por Apple, Dieter Rams e movimento Bauhaus. A complexidade
+              esta na <strong class="text-purple-400">simplicidade intencional</strong>.
+            </p>
+          </div>
+
+          <!-- Por que aprender -->
+          <div class="bg-dark-700 rounded-xl border border-dark-600 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+              <span class="mr-2">🎯</span> Por que aprender:
+            </h3>
+            <ul class="space-y-2 text-neutral-300">
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Transmite confianca, sofisticacao e clareza de proposito</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Melhora drasticamente UX ao remover distracao</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Sites minimalistas carregam mais rapido (menos assets)</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-purple-400 mt-1">•</span>
+                <span>Estetica atemporal que nao envelhece</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Conceitos-chave -->
+          <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+              <span class="mr-2">🔑</span> Conceitos-chave:
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Generous Whitespace</h4>
+                <p class="text-sm text-neutral-400">Espacamento exagerado, paginas respiram</p>
+              </div>
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Typography-First</h4>
+                <p class="text-sm text-neutral-400">Tipografia como elemento visual principal</p>
+              </div>
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Single Accent</h4>
+                <p class="text-sm text-neutral-400">Uma cor de destaque apenas, resto monocromatico</p>
+              </div>
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="font-semibold text-white mb-2">Intentional Reduction</h4>
+                <p class="text-sm text-neutral-400">Cada elemento tem proposito claro ou e removido</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vocabulario para Prompts -->
+          <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+            <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+              <span class="mr-2">💬</span> Vocabulario para Prompts
+            </h3>
+            <div class="space-y-2">
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Landing page minimalista radical com muito whitespace e tipografia grande"</code>
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Design Apple-inspired com paleta monocromatica e um acento"</code>
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Interface ultra-clean sem decoracao, foco total no conteudo"</code>
+              <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Layout Dieter Rams: cada elemento justifica sua existencia"</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VOCABULARIO COMPLETO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">📚</span> Vocabulario para Prompts - Resumo Completo
+        </h2>
+
+        <p class="text-neutral-300 mb-6">
+          Termos essenciais para descrever estilos esteticos contemporaneos em prompts para IAs:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-purple-400 mb-2">Brutalismo</h4>
+            <p class="text-sm text-neutral-400">raw, anti-design, monospace, asymmetric, confrontational, honest materials</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-purple-400 mb-2">Glassmorphism</h4>
+            <p class="text-sm text-neutral-400">backdrop-blur, frosted glass, translucent, semi-transparent, subtle border</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-purple-400 mb-2">Neomorfismo</h4>
+            <p class="text-sm text-neutral-400">soft UI, dual shadows, extruded, inset, same-color background, pressed</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-purple-400 mb-2">Organico</h4>
+            <p class="text-sm text-neutral-400">blob, fluid, amorphous, natural curves, organic motion, nature-inspired</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-purple-400 mb-2">Dark Mode</h4>
+            <p class="text-sm text-neutral-400">elevation hierarchy, gray scale, accent colors, reduced white, WCAG contrast</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-purple-400 mb-2">Minimalismo</h4>
+            <p class="text-sm text-neutral-400">whitespace, typography-first, single accent, intentional reduction, clean</p>
+          </div>
+        </div>
+
+        <div class="bg-primary/10 rounded-xl border border-primary/30 p-6">
+          <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+            <span class="mr-2">💡</span> Dica: Combinando Estilos
+          </h3>
+          <p class="text-neutral-300 mb-4">
+            IAs entendem combinacoes! Misture estilos para resultados unicos:
+          </p>
+          <div class="space-y-2">
+            <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Dark mode minimalista com cards glassmorphism sobre gradiente organico"</code>
+            <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Neomorfismo em paleta escura com acento purple e tipografia bold"</code>
+            <code class="block bg-dark-700 px-3 py-2 rounded text-purple-400 text-sm">"Minimalismo radical com blob shapes organicos em fundo dark"</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">📝</span> Resumo do Modulo
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">1</span>
+            <div>
+              <strong class="text-white">Brutalismo Digital</strong>
+              <span class="text-neutral-400"> - Estetica crua, anti-design, tipografia impactante, autenticidade radical</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">2</span>
+            <div>
+              <strong class="text-white">Glassmorphism</strong>
+              <span class="text-neutral-400"> - Vidro fosco com blur, transparencia elegante, bordas sutis</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">3</span>
+            <div>
+              <strong class="text-white">Neomorfismo</strong>
+              <span class="text-neutral-400"> - Soft UI com sombras duais, elementos extrudados do fundo</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">4</span>
+            <div>
+              <strong class="text-white">Design Organico</strong>
+              <span class="text-neutral-400"> - Formas fluidas, blobs, curvas naturais, movimento biologico</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">5</span>
+            <div>
+              <strong class="text-white">Dark Mode Design</strong>
+              <span class="text-neutral-400"> - Hierarquia de elevacao, escala de cinzas, cores de acento vibrantes</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">6</span>
+            <div>
+              <strong class="text-white">Minimalismo Radical</strong>
+              <span class="text-neutral-400"> - Whitespace generoso, tipografia como foco, reducao intencional</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-purple-400 mb-2">Proximo Modulo:</h3>
+          <p class="text-neutral-300">3.2 - Design Emocional: Conexoes atraves do design, personalidade e momentos de encantamento</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-start">
+          <a href="index.html" class="text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Voltar para Trilha
+          </a>
+          <a href="modulo-3-2.html" class="text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors">
+            Proximo Modulo →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    function toggleTopic(num) {
+      const content = document.getElementById('content-' + num);
+      const icon = document.getElementById('icon-' + num);
+
+      content.classList.toggle('active');
+      icon.classList.toggle('rotate-180');
+    }
+
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>

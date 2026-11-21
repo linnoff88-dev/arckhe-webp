@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2.3 Sistemas de Grid | WebP</title>
+  <meta name="description" content="Domine sistemas de grid para criar layouts profissionais. CSS Grid, Flexbox, Container Queries e padroes de layout modernos.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .font-mono-code { font-family: 'Fira Code', monospace; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Grid demo styles */
+    .grid-demo-item {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0.1));
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-blue-400">Inicio</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-blue-400">Trilha 2</a>
+      <span>/</span>
+      <span class="text-blue-400">Modulo 2.3</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">
+        MODULO 2.3
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">📐 Sistemas de Grid</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Domine os sistemas de layout modernos. De grids de 12 colunas a CSS Grid e Container Queries -
+        construa layouts flexiveis, responsivos e semanticos.
+      </p>
+
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">6</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">30</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">Medio</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">Pratico</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">1</span>
+        <h2 class="text-2xl font-bold">📊 Grid de 12 Colunas - O Sistema Classico</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O sistema de 12 colunas e o <strong class="text-blue-400">padrao da industria</strong> desde Bootstrap.
+        Por que 12? E divisivel por 2, 3, 4 e 6 - permitindo layouts flexiveis com math simples.
+      </p>
+
+      <!-- Box Conceito Principal -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">🧮</span> Por que 12 Colunas?
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">12 / 2 = 6</h4>
+            <p class="text-sm text-neutral-400">Duas colunas iguais (50% cada)</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">12 / 3 = 4</h4>
+            <p class="text-sm text-neutral-400">Tres colunas iguais (33.3% cada)</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">12 / 4 = 3</h4>
+            <p class="text-sm text-neutral-400">Quatro colunas iguais (25% cada)</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">8 + 4 = 12</h4>
+            <p class="text-sm text-neutral-400">Sidebar classico (66% + 33%)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exemplo Visual -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">👁️</span> Visualizacao: Grid de 12 Colunas
+        </h3>
+        <div class="grid grid-cols-12 gap-2 mb-4">
+          <div class="col-span-1 bg-blue-500/20 border border-blue-500/30 rounded p-2 text-center text-xs text-blue-400">1</div>
+          <div class="col-span-1 bg-blue-500/20 border border-blue-500/30 rounded p-2 text-center text-xs text-blue-400">2</div>
+          <div class="col-span-1 bg-blue-500/20 border border-blue-500/30 rounded p-2 text-center text-xs text-blue-400">3</div>
+          <div class="col-span-1 bg-blue-500/20 border border-blue-500/30 rounded p-2 text-center text-xs text-blue-400">4</div>
+          <div class="col-span-1 bg-blue-500/20 border border-blue-500/30 rounded p-2 text-center text-xs text-blue-400">5</div>
+          <div class="col-span-1 bg-blue-500/20 border border-blue-500/30 rounded p-2 text-center text-xs text-blue-400">6</div>
+          <div class="col-span-1 bg-blue-500/20 border border-blue-500/30 rounded p-2 text-center text-xs text-blue-400">7</div>
+          <div class="col-span-1 bg-blue-500/20 border border-blue-500/30 rounded p-2 text-center text-xs text-blue-400">8</div>
+          <div class="col-span-1 bg-blue-500/20 border border-blue-500/30 rounded p-2 text-center text-xs text-blue-400">9</div>
+          <div class="col-span-1 bg-blue-500/20 border border-blue-500/30 rounded p-2 text-center text-xs text-blue-400">10</div>
+          <div class="col-span-1 bg-blue-500/20 border border-blue-500/30 rounded p-2 text-center text-xs text-blue-400">11</div>
+          <div class="col-span-1 bg-blue-500/20 border border-blue-500/30 rounded p-2 text-center text-xs text-blue-400">12</div>
+        </div>
+        <div class="space-y-2">
+          <div class="grid grid-cols-12 gap-2">
+            <div class="col-span-6 bg-blue-600/30 border border-blue-500/50 rounded p-3 text-center text-sm text-white">col-span-6</div>
+            <div class="col-span-6 bg-blue-600/30 border border-blue-500/50 rounded p-3 text-center text-sm text-white">col-span-6</div>
+          </div>
+          <div class="grid grid-cols-12 gap-2">
+            <div class="col-span-4 bg-blue-600/30 border border-blue-500/50 rounded p-3 text-center text-sm text-white">col-span-4</div>
+            <div class="col-span-4 bg-blue-600/30 border border-blue-500/50 rounded p-3 text-center text-sm text-white">col-span-4</div>
+            <div class="col-span-4 bg-blue-600/30 border border-blue-500/50 rounded p-3 text-center text-sm text-white">col-span-4</div>
+          </div>
+          <div class="grid grid-cols-12 gap-2">
+            <div class="col-span-8 bg-blue-600/30 border border-blue-500/50 rounded p-3 text-center text-sm text-white">col-span-8 (Conteudo)</div>
+            <div class="col-span-4 bg-blue-600/30 border border-blue-500/50 rounded p-3 text-center text-sm text-white">col-span-4 (Sidebar)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Codigo -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💻</span> Codigo Tailwind
+        </h3>
+        <pre class="bg-dark-900 rounded-lg p-4 overflow-x-auto text-sm font-mono-code"><code class="text-blue-300">&lt;!-- Layout 8 + 4 (Conteudo + Sidebar) --&gt;
+<span class="text-purple-400">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-400">"grid grid-cols-12 gap-6"</span><span class="text-purple-400">&gt;</span>
+  <span class="text-purple-400">&lt;main</span> <span class="text-yellow-300">class</span>=<span class="text-green-400">"col-span-12 md:col-span-8"</span><span class="text-purple-400">&gt;</span>
+    Conteudo principal
+  <span class="text-purple-400">&lt;/main&gt;</span>
+  <span class="text-purple-400">&lt;aside</span> <span class="text-yellow-300">class</span>=<span class="text-green-400">"col-span-12 md:col-span-4"</span><span class="text-purple-400">&gt;</span>
+    Sidebar
+  <span class="text-purple-400">&lt;/aside&gt;</span>
+<span class="text-purple-400">&lt;/div&gt;</span></code></pre>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">grid de 12 colunas</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">layout 8+4 para sidebar</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">gap de 24px entre colunas</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">col-span-6 para metade da largura</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">2</span>
+        <h2 class="text-2xl font-bold">🔲 CSS Grid Basico - display: grid</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        CSS Grid e o sistema de layout <strong class="text-blue-400">bidimensional nativo</strong> do CSS.
+        Diferente de Flexbox (unidimensional), Grid controla linhas E colunas simultaneamente.
+      </p>
+
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📐</span> Propriedades Fundamentais
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">display: grid</h4>
+            <p class="text-sm text-neutral-400">Transforma elemento em grid container</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">grid-template-columns</h4>
+            <p class="text-sm text-neutral-400">Define numero e tamanho das colunas</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">grid-template-rows</h4>
+            <p class="text-sm text-neutral-400">Define numero e tamanho das linhas</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-1">gap</h4>
+            <p class="text-sm text-neutral-400">Espacamento entre celulas (row-gap, column-gap)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exemplo Visual -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">👁️</span> Exemplos de grid-template-columns
+        </h3>
+        <div class="space-y-6">
+          <div>
+            <p class="text-sm text-neutral-400 mb-2"><code class="text-blue-400">grid-template-columns: repeat(3, 1fr)</code></p>
+            <div class="grid grid-cols-3 gap-2">
+              <div class="grid-demo-item rounded p-4 text-center text-sm">1fr</div>
+              <div class="grid-demo-item rounded p-4 text-center text-sm">1fr</div>
+              <div class="grid-demo-item rounded p-4 text-center text-sm">1fr</div>
+            </div>
+          </div>
+          <div>
+            <p class="text-sm text-neutral-400 mb-2"><code class="text-blue-400">grid-template-columns: 200px 1fr 200px</code></p>
+            <div class="grid gap-2" style="grid-template-columns: 100px 1fr 100px;">
+              <div class="grid-demo-item rounded p-4 text-center text-sm">Fixed</div>
+              <div class="grid-demo-item rounded p-4 text-center text-sm">Flex (1fr)</div>
+              <div class="grid-demo-item rounded p-4 text-center text-sm">Fixed</div>
+            </div>
+          </div>
+          <div>
+            <p class="text-sm text-neutral-400 mb-2"><code class="text-blue-400">grid-template-columns: 2fr 1fr</code></p>
+            <div class="grid gap-2" style="grid-template-columns: 2fr 1fr;">
+              <div class="grid-demo-item rounded p-4 text-center text-sm">2fr (66%)</div>
+              <div class="grid-demo-item rounded p-4 text-center text-sm">1fr (33%)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Codigo -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💻</span> Codigo CSS Grid
+        </h3>
+        <pre class="bg-dark-900 rounded-lg p-4 overflow-x-auto text-sm font-mono-code"><code class="text-blue-300"><span class="text-neutral-500">/* CSS Puro */</span>
+<span class="text-purple-400">.container</span> {
+  <span class="text-yellow-300">display</span>: grid;
+  <span class="text-yellow-300">grid-template-columns</span>: repeat(<span class="text-green-400">3</span>, <span class="text-green-400">1fr</span>);
+  <span class="text-yellow-300">gap</span>: <span class="text-green-400">1.5rem</span>;
+}
+
+<span class="text-neutral-500">/* Tailwind equivalente */</span>
+<span class="text-purple-400">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-400">"grid grid-cols-3 gap-6"</span><span class="text-purple-400">&gt;</span>
+  <span class="text-purple-400">&lt;div&gt;</span>Item 1<span class="text-purple-400">&lt;/div&gt;</span>
+  <span class="text-purple-400">&lt;div&gt;</span>Item 2<span class="text-purple-400">&lt;/div&gt;</span>
+  <span class="text-purple-400">&lt;div&gt;</span>Item 3<span class="text-purple-400">&lt;/div&gt;</span>
+<span class="text-purple-400">&lt;/div&gt;</span></code></pre>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">CSS Grid com 3 colunas iguais (1fr)</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">grid-template-columns: repeat(4, 1fr)</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">gap de 24px</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">unidade fr para colunas flexiveis</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">3</span>
+        <h2 class="text-2xl font-bold">🚀 CSS Grid Avancado - areas, auto-fill, minmax</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O verdadeiro poder do CSS Grid aparece com <strong class="text-blue-400">grid-template-areas</strong>,
+        <strong class="text-blue-400">auto-fill/auto-fit</strong> e <strong class="text-blue-400">minmax()</strong>.
+        Layouts complexos em poucas linhas.
+      </p>
+
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">🗺️</span> Grid Template Areas
+        </h3>
+        <p class="text-neutral-300 mb-4">
+          Defina layouts de forma visual usando nomes para cada area:
+        </p>
+        <pre class="bg-dark-800 rounded-lg p-4 overflow-x-auto text-sm font-mono-code mb-4"><code class="text-blue-300"><span class="text-purple-400">.layout</span> {
+  <span class="text-yellow-300">display</span>: grid;
+  <span class="text-yellow-300">grid-template-areas</span>:
+    <span class="text-green-400">"header header header"</span>
+    <span class="text-green-400">"sidebar main main"</span>
+    <span class="text-green-400">"footer footer footer"</span>;
+  <span class="text-yellow-300">grid-template-columns</span>: <span class="text-green-400">200px</span> <span class="text-green-400">1fr</span> <span class="text-green-400">1fr</span>;
+}
+
+<span class="text-purple-400">.header</span>  { <span class="text-yellow-300">grid-area</span>: header; }
+<span class="text-purple-400">.sidebar</span> { <span class="text-yellow-300">grid-area</span>: sidebar; }
+<span class="text-purple-400">.main</span>    { <span class="text-yellow-300">grid-area</span>: main; }
+<span class="text-purple-400">.footer</span>  { <span class="text-yellow-300">grid-area</span>: footer; }</code></pre>
+
+        <!-- Visual Demo -->
+        <div class="grid gap-2" style="grid-template-areas: 'header header header' 'sidebar main main' 'footer footer footer'; grid-template-columns: 80px 1fr 1fr; grid-template-rows: 40px 80px 40px;">
+          <div class="grid-demo-item rounded p-2 text-center text-xs" style="grid-area: header;">header</div>
+          <div class="grid-demo-item rounded p-2 text-center text-xs" style="grid-area: sidebar;">sidebar</div>
+          <div class="grid-demo-item rounded p-2 text-center text-xs" style="grid-area: main;">main</div>
+          <div class="grid-demo-item rounded p-2 text-center text-xs" style="grid-area: footer;">footer</div>
+        </div>
+      </div>
+
+      <!-- auto-fill e minmax -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">🔄</span> auto-fill + minmax() = Grids Responsivos Automaticos
+        </h3>
+        <p class="text-neutral-300 mb-4">
+          O combo <code class="text-blue-400">repeat(auto-fill, minmax(250px, 1fr))</code> cria grids
+          que se ajustam automaticamente sem media queries:
+        </p>
+        <pre class="bg-dark-900 rounded-lg p-4 overflow-x-auto text-sm font-mono-code mb-4"><code class="text-blue-300"><span class="text-purple-400">.auto-grid</span> {
+  <span class="text-yellow-300">display</span>: grid;
+  <span class="text-yellow-300">grid-template-columns</span>: repeat(<span class="text-green-400">auto-fill</span>, minmax(<span class="text-green-400">250px</span>, <span class="text-green-400">1fr</span>));
+  <span class="text-yellow-300">gap</span>: <span class="text-green-400">1rem</span>;
+}</code></pre>
+        <div class="grid gap-4" style="grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));">
+          <div class="grid-demo-item rounded p-4 text-center text-sm">Card 1</div>
+          <div class="grid-demo-item rounded p-4 text-center text-sm">Card 2</div>
+          <div class="grid-demo-item rounded p-4 text-center text-sm">Card 3</div>
+          <div class="grid-demo-item rounded p-4 text-center text-sm">Card 4</div>
+          <div class="grid-demo-item rounded p-4 text-center text-sm">Card 5</div>
+        </div>
+        <p class="text-sm text-neutral-400 mt-3">Redimensione a janela para ver o grid se ajustar automaticamente!</p>
+      </div>
+
+      <!-- Diferenca auto-fill vs auto-fit -->
+      <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-3 flex items-center">
+          <span class="mr-2">🔍</span> auto-fill vs auto-fit
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">auto-fill</h4>
+            <p class="text-sm text-neutral-400">Cria colunas vazias se sobrar espaco. Mantem o grid preenchido.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">auto-fit</h4>
+            <p class="text-sm text-neutral-400">Colapsa colunas vazias. Itens expandem para preencher espaco.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">grid-template-areas para layout semantico</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">auto-fill com minmax(250px, 1fr) para cards responsivos</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">grid auto-responsivo sem media queries</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">minmax para colunas flexiveis com minimo</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">4</span>
+        <h2 class="text-2xl font-bold">⚖️ Flexbox vs Grid - Quando Usar Cada Um</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A pergunta mais comum: quando usar Flexbox e quando usar Grid? A resposta:
+        <strong class="text-blue-400">Flexbox para componentes, Grid para layouts</strong>.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6">
+          <h3 class="text-lg font-semibold text-blue-400 mb-4">🔲 CSS Grid</h3>
+          <ul class="space-y-2 text-neutral-300">
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400 mt-1">✓</span>
+              <span>Layout bidimensional (linhas E colunas)</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400 mt-1">✓</span>
+              <span>Layouts de pagina complexos</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400 mt-1">✓</span>
+              <span>Quando voce sabe quantas colunas quer</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400 mt-1">✓</span>
+              <span>Galerias de imagens/cards</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400 mt-1">✓</span>
+              <span>Layout "Holy Grail"</span>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+          <h3 class="text-lg font-semibold text-purple-400 mb-4">📏 Flexbox</h3>
+          <ul class="space-y-2 text-neutral-300">
+            <li class="flex items-start space-x-2">
+              <span class="text-purple-400 mt-1">✓</span>
+              <span>Layout unidimensional (linha OU coluna)</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-purple-400 mt-1">✓</span>
+              <span>Alinhamento e distribuicao</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-purple-400 mt-1">✓</span>
+              <span>Quando o conteudo dita o layout</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-purple-400 mt-1">✓</span>
+              <span>Navbars, botoes, cards internos</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-purple-400 mt-1">✓</span>
+              <span>Centralizar elementos</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Exemplo Pratico -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💡</span> Exemplo: Combinando Grid + Flexbox
+        </h3>
+        <p class="text-neutral-300 mb-4">
+          O segredo e combinar: Grid para o layout geral, Flexbox dentro dos componentes.
+        </p>
+        <pre class="bg-dark-900 rounded-lg p-4 overflow-x-auto text-sm font-mono-code"><code class="text-blue-300"><span class="text-neutral-500">/* Layout da pagina com Grid */</span>
+<span class="text-purple-400">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-400">"grid grid-cols-12 gap-6"</span><span class="text-purple-400">&gt;</span>
+
+  <span class="text-neutral-500">&lt;!-- Card usando Flexbox interno --&gt;</span>
+  <span class="text-purple-400">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-400">"col-span-4 flex flex-col"</span><span class="text-purple-400">&gt;</span>
+    <span class="text-purple-400">&lt;img</span> ... <span class="text-purple-400">/&gt;</span>
+    <span class="text-purple-400">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-400">"flex-1"</span><span class="text-purple-400">&gt;</span>Conteudo<span class="text-purple-400">&lt;/div&gt;</span>
+    <span class="text-purple-400">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-400">"flex justify-between"</span><span class="text-purple-400">&gt;</span>
+      <span class="text-purple-400">&lt;span&gt;</span>Preco<span class="text-purple-400">&lt;/span&gt;</span>
+      <span class="text-purple-400">&lt;button&gt;</span>Comprar<span class="text-purple-400">&lt;/button&gt;</span>
+    <span class="text-purple-400">&lt;/div&gt;</span>
+  <span class="text-purple-400">&lt;/div&gt;</span>
+
+<span class="text-purple-400">&lt;/div&gt;</span></code></pre>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">Grid para layout da pagina, Flexbox para componentes</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">flex para centralizar verticalmente</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">grid para galeria de cards</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">combinar Grid + Flexbox</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">5</span>
+        <h2 class="text-2xl font-bold">📦 Container Queries - Responsividade Baseada em Container</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Container Queries sao a <strong class="text-blue-400">revolucao da responsividade</strong>.
+        Em vez de responder ao tamanho da viewport, componentes respondem ao tamanho do seu container pai.
+      </p>
+
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">🆚</span> Media Queries vs Container Queries
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-red-400 mb-2">Media Queries (antigo)</h4>
+            <p class="text-sm text-neutral-400 mb-2">Responde ao tamanho da JANELA do navegador.</p>
+            <code class="text-xs text-neutral-300 bg-dark-700 px-2 py-1 rounded">@media (min-width: 768px)</code>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-green-400 mb-2">Container Queries (novo)</h4>
+            <p class="text-sm text-neutral-400 mb-2">Responde ao tamanho do CONTAINER pai.</p>
+            <code class="text-xs text-neutral-300 bg-dark-700 px-2 py-1 rounded">@container (min-width: 400px)</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- Codigo -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💻</span> Implementando Container Queries
+        </h3>
+        <pre class="bg-dark-900 rounded-lg p-4 overflow-x-auto text-sm font-mono-code"><code class="text-blue-300"><span class="text-neutral-500">/* 1. Definir o container */</span>
+<span class="text-purple-400">.card-container</span> {
+  <span class="text-yellow-300">container-type</span>: inline-size;
+  <span class="text-yellow-300">container-name</span>: card;
+}
+
+<span class="text-neutral-500">/* 2. Estilos baseados no container */</span>
+<span class="text-purple-400">@container</span> card (<span class="text-green-400">min-width: 400px</span>) {
+  <span class="text-purple-400">.card-content</span> {
+    <span class="text-yellow-300">display</span>: grid;
+    <span class="text-yellow-300">grid-template-columns</span>: <span class="text-green-400">1fr 2fr</span>;
+  }
+}
+
+<span class="text-neutral-500">/* Tailwind CSS (v3.2+) */</span>
+<span class="text-purple-400">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-400">"@container"</span><span class="text-purple-400">&gt;</span>
+  <span class="text-purple-400">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-400">"@md:grid @md:grid-cols-2"</span><span class="text-purple-400">&gt;</span>
+    ...
+  <span class="text-purple-400">&lt;/div&gt;</span>
+<span class="text-purple-400">&lt;/div&gt;</span></code></pre>
+      </div>
+
+      <!-- Caso de uso -->
+      <div class="bg-green-900/20 rounded-xl border border-green-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-green-400 mb-3 flex items-center">
+          <span class="mr-2">✨</span> Caso de Uso Perfeito
+        </h3>
+        <p class="text-neutral-300">
+          Um card que aparece em diferentes contextos: sidebar (estreito), grid de 3 colunas (medio),
+          e destaque (largo). Com Container Queries, o MESMO componente se adapta automaticamente
+          ao espaco disponivel, sem precisar de variantes diferentes.
+        </p>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">container queries para componentes reutilizaveis</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">container-type: inline-size</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">@container para responsividade baseada em container</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">componente auto-responsivo</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">6</span>
+        <h2 class="text-2xl font-bold">🏗️ Layouts Comuns - Sidebar, Holy Grail, Masonry</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Existem padroes de layout que aparecem em <strong class="text-blue-400">90% dos sites</strong>.
+        Dominar esses padroes acelera drasticamente o desenvolvimento.
+      </p>
+
+      <!-- Sidebar Layout -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📋</span> Sidebar Layout
+        </h3>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <p class="text-neutral-300 mb-3">O layout mais comum: conteudo principal + sidebar.</p>
+            <pre class="bg-dark-800 rounded-lg p-3 overflow-x-auto text-xs font-mono-code"><code class="text-blue-300"><span class="text-purple-400">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-400">"grid grid-cols-1
+     md:grid-cols-[250px_1fr] gap-6"</span><span class="text-purple-400">&gt;</span>
+  <span class="text-purple-400">&lt;aside&gt;</span>Sidebar<span class="text-purple-400">&lt;/aside&gt;</span>
+  <span class="text-purple-400">&lt;main&gt;</span>Conteudo<span class="text-purple-400">&lt;/main&gt;</span>
+<span class="text-purple-400">&lt;/div&gt;</span></code></pre>
+          </div>
+          <div class="grid gap-2" style="grid-template-columns: 80px 1fr;">
+            <div class="grid-demo-item rounded p-4 text-center text-xs">Sidebar</div>
+            <div class="grid-demo-item rounded p-4 text-center text-xs">Main Content</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Holy Grail Layout -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">🏆</span> Holy Grail Layout
+        </h3>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <p class="text-neutral-300 mb-3">Header, footer, sidebar esquerda, sidebar direita, conteudo central.</p>
+            <pre class="bg-dark-900 rounded-lg p-3 overflow-x-auto text-xs font-mono-code"><code class="text-blue-300"><span class="text-purple-400">.holy-grail</span> {
+  <span class="text-yellow-300">display</span>: grid;
+  <span class="text-yellow-300">grid-template</span>:
+    <span class="text-green-400">"header header header"</span> auto
+    <span class="text-green-400">"left main right"</span> 1fr
+    <span class="text-green-400">"footer footer footer"</span> auto
+    / <span class="text-green-400">200px 1fr 200px</span>;
+  <span class="text-yellow-300">min-height</span>: <span class="text-green-400">100vh</span>;
+}</code></pre>
+          </div>
+          <div class="grid gap-1" style="grid-template: 'header header header' 30px 'left main right' 1fr 'footer footer footer' 30px / 50px 1fr 50px; height: 150px;">
+            <div class="grid-demo-item rounded p-1 text-center text-xs flex items-center justify-center" style="grid-area: header;">Header</div>
+            <div class="grid-demo-item rounded p-1 text-center text-xs flex items-center justify-center" style="grid-area: left;">L</div>
+            <div class="grid-demo-item rounded p-1 text-center text-xs flex items-center justify-center" style="grid-area: main;">Main</div>
+            <div class="grid-demo-item rounded p-1 text-center text-xs flex items-center justify-center" style="grid-area: right;">R</div>
+            <div class="grid-demo-item rounded p-1 text-center text-xs flex items-center justify-center" style="grid-area: footer;">Footer</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Masonry Layout -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">🧱</span> Masonry Layout (Pinterest-style)
+        </h3>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <p class="text-neutral-300 mb-3">Items de alturas diferentes que preenchem espacos verticais.</p>
+            <pre class="bg-dark-900 rounded-lg p-3 overflow-x-auto text-xs font-mono-code"><code class="text-blue-300"><span class="text-neutral-500">/* CSS columns approach */</span>
+<span class="text-purple-400">.masonry</span> {
+  <span class="text-yellow-300">columns</span>: <span class="text-green-400">3</span>;
+  <span class="text-yellow-300">column-gap</span>: <span class="text-green-400">1rem</span>;
+}
+<span class="text-purple-400">.masonry-item</span> {
+  <span class="text-yellow-300">break-inside</span>: avoid;
+  <span class="text-yellow-300">margin-bottom</span>: <span class="text-green-400">1rem</span>;
+}</code></pre>
+          </div>
+          <div class="columns-3 gap-2">
+            <div class="grid-demo-item rounded p-2 text-center text-xs mb-2" style="height: 60px;">1</div>
+            <div class="grid-demo-item rounded p-2 text-center text-xs mb-2" style="height: 80px;">2</div>
+            <div class="grid-demo-item rounded p-2 text-center text-xs mb-2" style="height: 50px;">3</div>
+            <div class="grid-demo-item rounded p-2 text-center text-xs mb-2" style="height: 70px;">4</div>
+            <div class="grid-demo-item rounded p-2 text-center text-xs mb-2" style="height: 90px;">5</div>
+            <div class="grid-demo-item rounded p-2 text-center text-xs mb-2" style="height: 55px;">6</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sticky Sidebar -->
+      <div class="bg-purple-900/20 rounded-xl border border-purple-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-purple-400 mb-3 flex items-center">
+          <span class="mr-2">📌</span> Bonus: Sticky Sidebar
+        </h3>
+        <p class="text-neutral-300 mb-3">
+          Sidebar que acompanha o scroll sem cobrir o footer:
+        </p>
+        <pre class="bg-dark-800 rounded-lg p-3 overflow-x-auto text-xs font-mono-code"><code class="text-blue-300"><span class="text-purple-400">&lt;aside</span> <span class="text-yellow-300">class</span>=<span class="text-green-400">"sticky top-20 h-fit"</span><span class="text-purple-400">&gt;</span>
+  Sidebar content
+<span class="text-purple-400">&lt;/aside&gt;</span></code></pre>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">layout sidebar esquerda fixa 250px</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">holy grail layout com header sticky</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">masonry grid estilo Pinterest</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">sidebar sticky que para antes do footer</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">📝</span> Resumo do Modulo
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Grid 12 Colunas</strong>
+              <span class="text-neutral-400"> - Sistema classico divisivel por 2, 3, 4, 6. col-span-X para ocupar colunas</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">CSS Grid Basico</strong>
+              <span class="text-neutral-400"> - display: grid, grid-template-columns, unidade fr, gap</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">CSS Grid Avancado</strong>
+              <span class="text-neutral-400"> - grid-template-areas, auto-fill/auto-fit + minmax() para grids auto-responsivos</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Flexbox vs Grid</strong>
+              <span class="text-neutral-400"> - Grid para layouts de pagina, Flexbox para componentes e alinhamento</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Container Queries</strong>
+              <span class="text-neutral-400"> - Responsividade baseada no container pai, nao na viewport</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Layouts Comuns</strong>
+              <span class="text-neutral-400"> - Sidebar, Holy Grail, Masonry - padroes que cobrem 90% dos casos</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-blue-400 mb-2">Proximo Modulo:</h3>
+          <p class="text-neutral-300">2.4 - Micro-interacoes: Feedback visual e animacoes sutis que encantam</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-2-2.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Modulo Anterior
+          </a>
+          <a href="modulo-2-4.html" class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors">
+            Proximo Modulo →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>

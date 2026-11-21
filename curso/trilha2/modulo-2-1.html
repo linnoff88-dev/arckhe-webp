@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2.1 Design Systems e Tokens | WebP</title>
+  <meta name="description" content="Aprenda a estrutura fundamental de design systems: tokens para cores, espacamento, tipografia e como implementar com CSS Variables e Tailwind.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-blue-400">Inicio</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-blue-400">Trilha 2</a>
+      <span>/</span>
+      <span class="text-blue-400">Modulo 2.1</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">
+        MODULO 2.1
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🎨 Design Systems e Tokens</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        A base de qualquer projeto escalavel. Aprenda como tokens transformam decisoes de design em variaveis reutilizaveis
+        que IAs entendem e aplicam consistentemente em todo o projeto.
+      </p>
+
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">6</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">30</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">Medio</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">Pratico</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">1</span>
+        <h2 class="text-2xl font-bold">🏗️ O que sao Design Systems</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Um <strong class="text-blue-400">Design System</strong> e muito mais que um style guide ou uma biblioteca de componentes.
+        E uma <strong class="text-blue-400">linguagem completa</strong> que conecta design e codigo, garantindo consistencia
+        em todos os produtos e acelerando drasticamente o desenvolvimento.
+      </p>
+
+      <!-- Box Conceito Principal -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">💡</span> Design System = Single Source of Truth
+        </h3>
+        <p class="text-neutral-300 mb-4">
+          Pense no Design System como o "dicionario oficial" do seu projeto. Todos - designers, desenvolvedores, IAs -
+          falam a mesma lingua e usam as mesmas definicoes.
+        </p>
+        <ul class="space-y-2 text-neutral-300">
+          <li class="flex items-start space-x-2">
+            <span class="text-blue-400 mt-1">•</span>
+            <span><strong>Tokens:</strong> As variaveis fundamentais (cores, espacamentos, fontes)</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-blue-400 mt-1">•</span>
+            <span><strong>Componentes:</strong> Blocos de UI reutilizaveis (botoes, cards, inputs)</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-blue-400 mt-1">•</span>
+            <span><strong>Padroes:</strong> Como combinar componentes (forms, navigation, layouts)</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-blue-400 mt-1">•</span>
+            <span><strong>Diretrizes:</strong> Regras de uso e boas praticas</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Grid Exemplos Famosos -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-4">
+          <h4 class="font-semibold text-white mb-2">Material Design</h4>
+          <p class="text-sm text-neutral-400 mb-2">Google - O mais documentado e usado por IAs.</p>
+          <code class="text-xs bg-dark-700 px-2 py-1 rounded text-blue-400">material-design-system</code>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-4">
+          <h4 class="font-semibold text-white mb-2">Human Interface</h4>
+          <p class="text-sm text-neutral-400 mb-2">Apple - Foco em iOS, macOS, visionOS.</p>
+          <code class="text-xs bg-dark-700 px-2 py-1 rounded text-blue-400">apple-hig</code>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-4">
+          <h4 class="font-semibold text-white mb-2">Fluent Design</h4>
+          <p class="text-sm text-neutral-400 mb-2">Microsoft - Windows, Office, web apps.</p>
+          <code class="text-xs bg-dark-700 px-2 py-1 rounded text-blue-400">fluent-design</code>
+        </div>
+      </div>
+
+      <!-- Box Vocabulario -->
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300 mb-4">
+          Ao pedir para uma IA criar interfaces, mencione o design system:
+        </p>
+        <div class="space-y-2">
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Use Material Design 3 tokens para cores e espacamento"</code>
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Siga o design system do Tailwind UI"</code>
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Crie um design system proprio com tokens semanticos"</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">2</span>
+        <h2 class="text-2xl font-bold">🔢 Design Tokens - Variaveis como Fundamento</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        <strong class="text-blue-400">Design tokens</strong> sao as menores unidades de decisao de design.
+        Sao variaveis nomeadas que armazenam valores como cores, tamanhos e espacamentos.
+        A magia esta em usar <strong class="text-blue-400">nomes semanticos</strong> em vez de valores brutos.
+      </p>
+
+      <!-- Grid Comparacao -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ Sem Tokens (Valores Hardcoded)</h4>
+          <div class="bg-dark-800 rounded-lg p-4 font-mono text-sm">
+            <p class="text-neutral-400">/* Dificil de manter */</p>
+            <p class="text-red-300">.button {</p>
+            <p class="text-red-300 pl-4">background: #3B82F6;</p>
+            <p class="text-red-300 pl-4">padding: 12px 24px;</p>
+            <p class="text-red-300 pl-4">font-size: 14px;</p>
+            <p class="text-red-300">}</p>
+          </div>
+          <p class="text-sm text-neutral-400 mt-3">Valores "magicos" espalhados pelo codigo. Mudar a cor primaria exige buscar e substituir em centenas de lugares.</p>
+        </div>
+        <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+          <h4 class="font-bold text-blue-400 mb-4">✓ Com Tokens (Variaveis Semanticas)</h4>
+          <div class="bg-dark-800 rounded-lg p-4 font-mono text-sm">
+            <p class="text-neutral-400">/* Facil de manter */</p>
+            <p class="text-blue-300">.button {</p>
+            <p class="text-blue-300 pl-4">background: var(--color-primary);</p>
+            <p class="text-blue-300 pl-4">padding: var(--spacing-3) var(--spacing-6);</p>
+            <p class="text-blue-300 pl-4">font-size: var(--font-size-sm);</p>
+            <p class="text-blue-300">}</p>
+          </div>
+          <p class="text-sm text-neutral-400 mt-3">Um lugar para mudar, todo o sistema atualiza. IAs entendem e aplicam consistentemente.</p>
+        </div>
+      </div>
+
+      <!-- Box Tipos de Tokens -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📦</span> Hierarquia de Tokens
+        </h3>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-4">
+            <div class="w-10 h-10 rounded-full bg-blue-500/30 flex items-center justify-center text-blue-400 font-bold flex-shrink-0">1</div>
+            <div class="flex-1 bg-dark-700 rounded-lg p-3">
+              <span class="text-white font-semibold">Primitive Tokens (Raiz)</span>
+              <p class="text-neutral-400 text-sm mt-1">Valores brutos: <code class="text-blue-400">blue-500: #3B82F6</code>, <code class="text-blue-400">gray-100: #F3F4F6</code></p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="w-10 h-10 rounded-full bg-blue-500/30 flex items-center justify-center text-blue-400 font-bold flex-shrink-0">2</div>
+            <div class="flex-1 bg-dark-700 rounded-lg p-3">
+              <span class="text-white font-semibold">Semantic Tokens (Significado)</span>
+              <p class="text-neutral-400 text-sm mt-1">Referencias com contexto: <code class="text-blue-400">color-primary: blue-500</code>, <code class="text-blue-400">color-background: gray-100</code></p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="w-10 h-10 rounded-full bg-blue-500/30 flex items-center justify-center text-blue-400 font-bold flex-shrink-0">3</div>
+            <div class="flex-1 bg-dark-700 rounded-lg p-3">
+              <span class="text-white font-semibold">Component Tokens (Especificos)</span>
+              <p class="text-neutral-400 text-sm mt-1">Para componentes: <code class="text-blue-400">button-bg: color-primary</code>, <code class="text-blue-400">card-bg: color-background</code></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Box Vocabulario -->
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <div class="space-y-2">
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Crie tokens semanticos para cores: primary, secondary, background, surface, text"</code>
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Use uma escala de tokens de espacamento baseada em 4px (4, 8, 12, 16, 24, 32, 48)"</code>
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Defina tokens primitivos primeiro, depois mapeie para tokens semanticos"</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">3</span>
+        <h2 class="text-2xl font-bold">🌈 Cores como Tokens</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Cores sao os tokens mais importantes. Um sistema de cores bem estruturado usa
+        <strong class="text-blue-400">nomes semanticos</strong> que descrevem a funcao, nao a aparencia.
+        Isso permite temas (dark/light) e manutencao facil.
+      </p>
+
+      <!-- Box Sistema de Cores -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">🎨</span> Anatomia de um Sistema de Cores
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h4 class="font-semibold text-white mb-3">Tokens de Marca</h4>
+            <div class="space-y-2">
+              <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded bg-blue-500"></div>
+                <code class="text-sm text-neutral-300">--color-primary</code>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded bg-purple-500"></div>
+                <code class="text-sm text-neutral-300">--color-secondary</code>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded bg-yellow-400"></div>
+                <code class="text-sm text-neutral-300">--color-accent</code>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h4 class="font-semibold text-white mb-3">Tokens de Superficie</h4>
+            <div class="space-y-2">
+              <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded bg-gray-900 border border-gray-700"></div>
+                <code class="text-sm text-neutral-300">--color-background</code>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded bg-gray-800 border border-gray-700"></div>
+                <code class="text-sm text-neutral-300">--color-surface</code>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded bg-gray-700 border border-gray-600"></div>
+                <code class="text-sm text-neutral-300">--color-surface-elevated</code>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h4 class="font-semibold text-white mb-3">Tokens de Texto</h4>
+            <div class="space-y-2">
+              <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded bg-white border border-gray-300"></div>
+                <code class="text-sm text-neutral-300">--color-text-primary</code>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded bg-gray-400"></div>
+                <code class="text-sm text-neutral-300">--color-text-secondary</code>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded bg-gray-500"></div>
+                <code class="text-sm text-neutral-300">--color-text-muted</code>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h4 class="font-semibold text-white mb-3">Tokens de Feedback</h4>
+            <div class="space-y-2">
+              <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded bg-green-500"></div>
+                <code class="text-sm text-neutral-300">--color-success</code>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded bg-red-500"></div>
+                <code class="text-sm text-neutral-300">--color-error</code>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded bg-yellow-500"></div>
+                <code class="text-sm text-neutral-300">--color-warning</code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid Fazer vs Evitar -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+          <h4 class="font-bold text-blue-400 mb-4">✓ Nomes Semanticos</h4>
+          <ul class="space-y-3 text-neutral-300 font-mono text-sm">
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400">✓</span>
+              <span>--color-primary</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400">✓</span>
+              <span>--color-background</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400">✓</span>
+              <span>--color-text-primary</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400">✓</span>
+              <span>--color-surface-hover</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400">✓</span>
+              <span>--color-border-subtle</span>
+            </li>
+          </ul>
+          <p class="text-sm text-neutral-400 mt-3">Descrevem a funcao. Funcionam em qualquer tema.</p>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ Nomes Literais</h4>
+          <ul class="space-y-3 text-neutral-300 font-mono text-sm">
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>--blue-500</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>--dark-gray</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>--white</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>--light-blue-hover</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>--gray-border</span>
+            </li>
+          </ul>
+          <p class="text-sm text-neutral-400 mt-3">Descrevem a cor. Quebram em temas diferentes.</p>
+        </div>
+      </div>
+
+      <!-- Box Vocabulario -->
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <div class="space-y-2">
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Sistema de cores com tokens semanticos: primary, secondary, background, surface, text-primary, text-muted"</code>
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Inclua tokens de feedback: success, error, warning, info"</code>
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Crie variacoes para estados: hover, active, disabled, focus"</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">4</span>
+        <h2 class="text-2xl font-bold">📏 Espacamento como Tokens</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Espacamento consistente e o segredo de interfaces harmoniosas. Use uma <strong class="text-blue-400">escala matematica</strong>
+        (geralmente baseada em 4px ou 8px) para criar ritmo visual. IAs entendem escalas como
+        <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">spacing-1, spacing-2, spacing-4</code>.
+      </p>
+
+      <!-- Box Escala de Espacamento -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📐</span> Escala de Espacamento (Base 4px)
+        </h3>
+        <div class="space-y-3">
+          <div class="flex items-center space-x-4">
+            <code class="w-24 text-sm text-neutral-300">--spacing-1</code>
+            <div class="w-1 h-4 bg-blue-400"></div>
+            <span class="text-sm text-neutral-400">4px - Micro espacamentos</span>
+          </div>
+          <div class="flex items-center space-x-4">
+            <code class="w-24 text-sm text-neutral-300">--spacing-2</code>
+            <div class="w-2 h-4 bg-blue-400"></div>
+            <span class="text-sm text-neutral-400">8px - Entre elementos relacionados</span>
+          </div>
+          <div class="flex items-center space-x-4">
+            <code class="w-24 text-sm text-neutral-300">--spacing-3</code>
+            <div class="w-3 h-4 bg-blue-400"></div>
+            <span class="text-sm text-neutral-400">12px - Padding interno pequeno</span>
+          </div>
+          <div class="flex items-center space-x-4">
+            <code class="w-24 text-sm text-neutral-300">--spacing-4</code>
+            <div class="w-4 h-4 bg-blue-400"></div>
+            <span class="text-sm text-neutral-400">16px - Padding padrao, gaps</span>
+          </div>
+          <div class="flex items-center space-x-4">
+            <code class="w-24 text-sm text-neutral-300">--spacing-6</code>
+            <div class="w-6 h-4 bg-blue-400"></div>
+            <span class="text-sm text-neutral-400">24px - Entre grupos de conteudo</span>
+          </div>
+          <div class="flex items-center space-x-4">
+            <code class="w-24 text-sm text-neutral-300">--spacing-8</code>
+            <div class="w-8 h-4 bg-blue-400"></div>
+            <span class="text-sm text-neutral-400">32px - Entre secoes</span>
+          </div>
+          <div class="flex items-center space-x-4">
+            <code class="w-24 text-sm text-neutral-300">--spacing-12</code>
+            <div class="w-12 h-4 bg-blue-400"></div>
+            <span class="text-sm text-neutral-400">48px - Espacamento de secao</span>
+          </div>
+          <div class="flex items-center space-x-4">
+            <code class="w-24 text-sm text-neutral-300">--spacing-16</code>
+            <div class="w-16 h-4 bg-blue-400"></div>
+            <span class="text-sm text-neutral-400">64px - Espacamento major</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Box Aplicacao -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">🧩</span> Onde Usar Cada Token
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-2">Padding Interno</h4>
+            <ul class="text-sm text-neutral-300 space-y-1">
+              <li>Botoes: <code class="text-blue-400">spacing-2</code> a <code class="text-blue-400">spacing-4</code></li>
+              <li>Cards: <code class="text-blue-400">spacing-4</code> a <code class="text-blue-400">spacing-6</code></li>
+              <li>Modais: <code class="text-blue-400">spacing-6</code> a <code class="text-blue-400">spacing-8</code></li>
+            </ul>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-2">Gaps e Margens</h4>
+            <ul class="text-sm text-neutral-300 space-y-1">
+              <li>Entre icone e texto: <code class="text-blue-400">spacing-2</code></li>
+              <li>Entre itens de lista: <code class="text-blue-400">spacing-3</code></li>
+              <li>Entre secoes: <code class="text-blue-400">spacing-12</code> a <code class="text-blue-400">spacing-16</code></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Box Vocabulario -->
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <div class="space-y-2">
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Use escala de espacamento 4px: 4, 8, 12, 16, 24, 32, 48, 64"</code>
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Espacamento consistente com tokens: spacing-sm (8px), spacing-md (16px), spacing-lg (24px)"</code>
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Gap de 16px entre cards, padding de 24px dentro dos cards"</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">5</span>
+        <h2 class="text-2xl font-bold">✏️ Tipografia como Tokens</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Tipografia vai alem de escolher uma fonte. Envolve <strong class="text-blue-400">tamanhos</strong>,
+        <strong class="text-blue-400">pesos</strong>, <strong class="text-blue-400">line-heights</strong> e
+        <strong class="text-blue-400">letter-spacing</strong>. Cada um deve ser um token para consistencia total.
+      </p>
+
+      <!-- Box Sistema Tipografico -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📝</span> Escala Tipografica Modular
+        </h3>
+        <div class="space-y-4">
+          <div class="flex items-baseline space-x-4 border-b border-dark-600 pb-3">
+            <code class="w-28 text-sm text-neutral-400">--font-size-xs</code>
+            <span class="text-xs">12px - Captions, labels</span>
+          </div>
+          <div class="flex items-baseline space-x-4 border-b border-dark-600 pb-3">
+            <code class="w-28 text-sm text-neutral-400">--font-size-sm</code>
+            <span class="text-sm">14px - Texto secundario</span>
+          </div>
+          <div class="flex items-baseline space-x-4 border-b border-dark-600 pb-3">
+            <code class="w-28 text-sm text-neutral-400">--font-size-base</code>
+            <span class="text-base">16px - Texto principal (body)</span>
+          </div>
+          <div class="flex items-baseline space-x-4 border-b border-dark-600 pb-3">
+            <code class="w-28 text-sm text-neutral-400">--font-size-lg</code>
+            <span class="text-lg">18px - Texto enfatizado</span>
+          </div>
+          <div class="flex items-baseline space-x-4 border-b border-dark-600 pb-3">
+            <code class="w-28 text-sm text-neutral-400">--font-size-xl</code>
+            <span class="text-xl">20px - Subtitulos</span>
+          </div>
+          <div class="flex items-baseline space-x-4 border-b border-dark-600 pb-3">
+            <code class="w-28 text-sm text-neutral-400">--font-size-2xl</code>
+            <span class="text-2xl">24px - Titulos de secao</span>
+          </div>
+          <div class="flex items-baseline space-x-4 border-b border-dark-600 pb-3">
+            <code class="w-28 text-sm text-neutral-400">--font-size-3xl</code>
+            <span class="text-3xl">30px - Titulos de pagina</span>
+          </div>
+          <div class="flex items-baseline space-x-4">
+            <code class="w-28 text-sm text-neutral-400">--font-size-4xl</code>
+            <span class="text-4xl">36px - Hero headlines</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid Font Weight e Line Height -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <h4 class="font-bold text-white mb-4">Font Weight Tokens</h4>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center">
+              <code class="text-sm text-neutral-400">--font-weight-normal</code>
+              <span class="font-normal">400 - Regular</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <code class="text-sm text-neutral-400">--font-weight-medium</code>
+              <span class="font-medium">500 - Medium</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <code class="text-sm text-neutral-400">--font-weight-semibold</code>
+              <span class="font-semibold">600 - Semibold</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <code class="text-sm text-neutral-400">--font-weight-bold</code>
+              <span class="font-bold">700 - Bold</span>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <h4 class="font-bold text-white mb-4">Line Height Tokens</h4>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center">
+              <code class="text-sm text-neutral-400">--line-height-tight</code>
+              <span>1.25 - Headlines</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <code class="text-sm text-neutral-400">--line-height-snug</code>
+              <span>1.375 - Subtitulos</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <code class="text-sm text-neutral-400">--line-height-normal</code>
+              <span>1.5 - Body text</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <code class="text-sm text-neutral-400">--line-height-relaxed</code>
+              <span>1.625 - Leitura longa</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Box Vocabulario -->
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <div class="space-y-2">
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Escala tipografica modular: xs (12px), sm (14px), base (16px), lg (18px), xl (20px), 2xl (24px)"</code>
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Headlines com font-weight-bold e line-height-tight (1.25)"</code>
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Body text com font-size-base, line-height-relaxed para melhor legibilidade"</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">6</span>
+        <h2 class="text-2xl font-bold">⚙️ Implementando Tokens</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Tokens podem ser implementados de varias formas. As duas mais comuns sao
+        <strong class="text-blue-400">CSS Custom Properties</strong> (variaveis nativas) e
+        <strong class="text-blue-400">Tailwind Config</strong> (para quem usa Tailwind CSS).
+        IAs dominam ambas as abordagens.
+      </p>
+
+      <!-- Box CSS Variables -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">🎨</span> CSS Custom Properties (Variaveis Nativas)
+        </h3>
+        <div class="bg-dark-800 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <p class="text-neutral-500">/* Definicao dos tokens na :root */</p>
+          <p class="text-blue-300">:root {</p>
+          <p class="text-neutral-400 pl-4">/* Cores */</p>
+          <p class="text-blue-300 pl-4">--color-primary: #3B82F6;</p>
+          <p class="text-blue-300 pl-4">--color-background: #111827;</p>
+          <p class="text-blue-300 pl-4">--color-surface: #1F2937;</p>
+          <p class="text-blue-300 pl-4">--color-text-primary: #F9FAFB;</p>
+          <p class="text-neutral-400 pl-4 mt-2">/* Espacamento */</p>
+          <p class="text-blue-300 pl-4">--spacing-1: 4px;</p>
+          <p class="text-blue-300 pl-4">--spacing-2: 8px;</p>
+          <p class="text-blue-300 pl-4">--spacing-4: 16px;</p>
+          <p class="text-neutral-400 pl-4 mt-2">/* Tipografia */</p>
+          <p class="text-blue-300 pl-4">--font-size-base: 16px;</p>
+          <p class="text-blue-300 pl-4">--font-weight-bold: 700;</p>
+          <p class="text-blue-300">}</p>
+          <p class="text-neutral-500 mt-4">/* Uso */</p>
+          <p class="text-blue-300">.card {</p>
+          <p class="text-blue-300 pl-4">background: var(--color-surface);</p>
+          <p class="text-blue-300 pl-4">padding: var(--spacing-4);</p>
+          <p class="text-blue-300 pl-4">color: var(--color-text-primary);</p>
+          <p class="text-blue-300">}</p>
+        </div>
+      </div>
+
+      <!-- Box Tailwind Config -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">🌊</span> Tailwind CSS Config
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <p class="text-neutral-500">// tailwind.config.js</p>
+          <p class="text-blue-300">module.exports = {</p>
+          <p class="text-blue-300 pl-4">theme: {</p>
+          <p class="text-blue-300 pl-6">extend: {</p>
+          <p class="text-blue-300 pl-8">colors: {</p>
+          <p class="text-blue-300 pl-10">primary: '#3B82F6',</p>
+          <p class="text-blue-300 pl-10">background: '#111827',</p>
+          <p class="text-blue-300 pl-10">surface: '#1F2937',</p>
+          <p class="text-blue-300 pl-8">},</p>
+          <p class="text-blue-300 pl-8">spacing: {</p>
+          <p class="text-blue-300 pl-10">'1': '4px',</p>
+          <p class="text-blue-300 pl-10">'2': '8px',</p>
+          <p class="text-blue-300 pl-10">'4': '16px',</p>
+          <p class="text-blue-300 pl-8">},</p>
+          <p class="text-blue-300 pl-8">fontSize: {</p>
+          <p class="text-blue-300 pl-10">'base': '16px',</p>
+          <p class="text-blue-300 pl-10">'lg': '18px',</p>
+          <p class="text-blue-300 pl-8">}</p>
+          <p class="text-blue-300 pl-6">}</p>
+          <p class="text-blue-300 pl-4">}</p>
+          <p class="text-blue-300">}</p>
+        </div>
+        <p class="text-sm text-neutral-400 mt-3">
+          Uso: <code class="text-blue-400">bg-primary</code>, <code class="text-blue-400">p-4</code>, <code class="text-blue-400">text-base</code>
+        </p>
+      </div>
+
+      <!-- Grid Comparacao -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+          <h4 class="font-bold text-blue-400 mb-4">✓ CSS Variables - Quando Usar</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400">✓</span>
+              <span>Projetos sem framework CSS</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400">✓</span>
+              <span>Precisa de temas dinamicos (dark/light)</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400">✓</span>
+              <span>Quer controle total sobre o CSS</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400">✓</span>
+              <span>Integracao com Web Components</span>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+          <h4 class="font-bold text-blue-400 mb-4">✓ Tailwind Config - Quando Usar</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400">✓</span>
+              <span>Ja usa Tailwind no projeto</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400">✓</span>
+              <span>Quer desenvolvimento ultra-rapido</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400">✓</span>
+              <span>IAs como v0/Lovable usam Tailwind</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-blue-400">✓</span>
+              <span>Equipe ja conhece utility-first CSS</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Box Vocabulario -->
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <div class="space-y-2">
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Crie CSS custom properties para o design system: cores, espacamentos, tipografia"</code>
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Configure tailwind.config.js com tokens customizados para cores e espacamento"</code>
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Use var(--token-name) para referenciar os design tokens"</code>
+          <code class="block bg-dark-700 px-3 py-2 rounded text-blue-400 text-sm">"Implemente tema dark/light usando CSS variables no :root e .dark"</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">📝</span> Resumo do Modulo
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Design Systems</strong>
+              <span class="text-neutral-400"> - Conjunto completo de padroes que conecta design e codigo</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Design Tokens</strong>
+              <span class="text-neutral-400"> - Variaveis nomeadas que armazenam decisoes de design</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Cores Semanticas</strong>
+              <span class="text-neutral-400"> - Nomes que descrevem funcao: primary, background, text-muted</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Escala de Espacamento</strong>
+              <span class="text-neutral-400"> - Base matematica (4px) para ritmo visual: spacing-1, spacing-2, spacing-4</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Tipografia Modular</strong>
+              <span class="text-neutral-400"> - font-size, font-weight, line-height como tokens</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Implementacao</strong>
+              <span class="text-neutral-400"> - CSS Variables ou Tailwind Config - IAs dominam ambos</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-blue-400 mb-2">Proximo Modulo:</h3>
+          <p class="text-neutral-300">2.2 - Componentes UI Essenciais: Botoes, cards, inputs e como descreve-los para IAs</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Voltar para Trilha
+          </a>
+          <a href="modulo-2-2.html" class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors">
+            Proximo Modulo →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>

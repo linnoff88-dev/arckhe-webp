@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3.6 Refinamento e Iteracao | WebP</title>
+  <meta name="description" content="Aprenda a refinar e iterar outputs de IA. Domine analise de output, feedback especifico, correcoes incrementais, versioning e A/B testing visual.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Expandable content */
+    .topic-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+    .topic-content.expanded {
+      max-height: 2000px;
+      transition: max-height 0.5s ease-in;
+    }
+    .topic-toggle svg {
+      transition: transform 0.3s ease;
+    }
+    .topic-toggle.expanded svg {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-purple-400">Inicio</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-purple-400">Trilha 3</a>
+      <span>/</span>
+      <span class="text-purple-400">Modulo 3.6</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">
+        Trilha 3 • Modulo 6
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">Refinamento e Iteracao</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Domine a arte de refinar outputs de IA. Aprenda a analisar resultados, fornecer feedback preciso,
+        fazer correcoes incrementais e documentar decisoes para criar designs cada vez melhores.
+      </p>
+
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">6</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">35</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">Avancado</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">Pratico</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1: Analise de Output -->
+    <section id="topico-1" class="mb-8">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(this)" class="topic-toggle w-full p-6 flex items-center justify-between text-left hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">1</span>
+            <div>
+              <h2 class="text-xl font-bold">Analise de Output</h2>
+              <p class="text-neutral-400 text-sm">Avaliando resultados gerados pela IA</p>
+            </div>
+          </div>
+          <svg class="w-6 h-6 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class="topic-content">
+          <div class="px-6 pb-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+              <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                <span class="mr-2">💡</span> O que e:
+              </h3>
+              <p class="text-neutral-300 leading-relaxed">
+                Analise de output e o processo de <strong class="text-purple-400">avaliar criticamente o resultado gerado pela IA</strong>
+                antes de aceita-lo ou solicitar alteracoes. Envolve verificar se o design atende aos requisitos,
+                identificar pontos fortes e fracos, e determinar o que precisa ser ajustado.
+              </p>
+              <div class="bg-dark-800 rounded-lg p-4 mt-4">
+                <p class="text-sm text-neutral-300 mb-2">Checklist de analise:</p>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                  <div class="flex items-center space-x-2">
+                    <span class="text-purple-400">✓</span>
+                    <span class="text-neutral-400">Atende ao briefing?</span>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <span class="text-purple-400">✓</span>
+                    <span class="text-neutral-400">Hierarquia visual clara?</span>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <span class="text-purple-400">✓</span>
+                    <span class="text-neutral-400">Cores harmonicas?</span>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <span class="text-purple-400">✓</span>
+                    <span class="text-neutral-400">Tipografia legivel?</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Por que aprender:
+              </h3>
+              <ul class="space-y-3 text-neutral-300">
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">IAs nem sempre acertam</strong> de primeira - analise critica e essencial</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Identificar problemas cedo</strong> economiza tempo de iteracao</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Melhora sua capacidade</strong> de dar feedback especifico</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Desenvolve senso critico</strong> para design e usabilidade</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🔑</span> Conceitos-chave:
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Analise Estrutural</h4>
+                  <p class="text-sm text-neutral-400">Verificar layout, grid, espacamentos e alinhamentos</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Analise Visual</h4>
+                  <p class="text-sm text-neutral-400">Avaliar cores, tipografia, imagens e iconografia</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Analise Funcional</h4>
+                  <p class="text-sm text-neutral-400">Testar interacoes, navegacao e responsividade</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Analise de Contexto</h4>
+                  <p class="text-sm text-neutral-400">Verificar adequacao ao publico e objetivo</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 2: Feedback Especifico -->
+    <section id="topico-2" class="mb-8">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(this)" class="topic-toggle w-full p-6 flex items-center justify-between text-left hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">2</span>
+            <div>
+              <h2 class="text-xl font-bold">Feedback Especifico</h2>
+              <p class="text-neutral-400 text-sm">Comunicando ajustes de forma clara</p>
+            </div>
+          </div>
+          <svg class="w-6 h-6 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class="topic-content">
+          <div class="px-6 pb-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+              <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                <span class="mr-2">💡</span> O que e:
+              </h3>
+              <p class="text-neutral-300 leading-relaxed">
+                Feedback especifico e a habilidade de <strong class="text-purple-400">comunicar exatamente o que precisa mudar</strong>
+                no output da IA. Em vez de dizer "nao gostei", voce descreve precisamente o problema e,
+                idealmente, sugere uma direcao para a solucao.
+              </p>
+              <div class="bg-dark-800 rounded-lg p-4 mt-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="border-2 border-red-500/50 rounded-lg p-3">
+                    <div class="text-red-400 text-xs font-semibold mb-1">Feedback Vago</div>
+                    <p class="text-sm text-neutral-400">"O header esta feio, muda ai"</p>
+                  </div>
+                  <div class="border-2 border-green-500/50 rounded-lg p-3">
+                    <div class="text-green-400 text-xs font-semibold mb-1">Feedback Especifico</div>
+                    <p class="text-sm text-neutral-400">"Reduza o padding do header para 16px e alinhe o logo a esquerda"</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Por que aprender:
+              </h3>
+              <ul class="space-y-3 text-neutral-300">
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Feedback vago</strong> resulta em mudancas imprevisiveis</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Feedback preciso</strong> acelera o processo de iteracao</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">IAs entendem melhor</strong> instrucoes concretas e mensuraveis</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Reduz frustracao</strong> de ambos os lados da conversa</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🔑</span> Conceitos-chave:
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Localizar o Elemento</h4>
+                  <p class="text-sm text-neutral-400">"No botao principal do hero", "na terceira secao"</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Descrever o Problema</h4>
+                  <p class="text-sm text-neutral-400">"O contraste e baixo", "o espacamento e inconsistente"</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Usar Valores Concretos</h4>
+                  <p class="text-sm text-neutral-400">"Mude para 24px", "use #3B82F6", "border-radius de 8px"</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Explicar o Motivo</h4>
+                  <p class="text-sm text-neutral-400">"Para melhor hierarquia", "para manter consistencia"</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 3: Correcoes Incrementais -->
+    <section id="topico-3" class="mb-8">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(this)" class="topic-toggle w-full p-6 flex items-center justify-between text-left hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">3</span>
+            <div>
+              <h2 class="text-xl font-bold">Correcoes Incrementais</h2>
+              <p class="text-neutral-400 text-sm">Ajustes pequenos, resultados grandes</p>
+            </div>
+          </div>
+          <svg class="w-6 h-6 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class="topic-content">
+          <div class="px-6 pb-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+              <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                <span class="mr-2">💡</span> O que e:
+              </h3>
+              <p class="text-neutral-300 leading-relaxed">
+                Correcoes incrementais sao <strong class="text-purple-400">ajustes pequenos e focados</strong> feitos um de cada vez.
+                Em vez de pedir uma reformulacao completa, voce faz mudancas pontuais que preservam o que esta
+                funcionando enquanto melhora aspectos especificos do design.
+              </p>
+              <div class="bg-dark-800 rounded-lg p-4 mt-4">
+                <p class="text-sm text-neutral-300 mb-2">Fluxo de correcao incremental:</p>
+                <div class="flex items-center justify-between text-xs">
+                  <div class="text-center">
+                    <div class="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center mx-auto mb-1">1</div>
+                    <span class="text-neutral-400">Identificar</span>
+                  </div>
+                  <div class="text-purple-400">→</div>
+                  <div class="text-center">
+                    <div class="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center mx-auto mb-1">2</div>
+                    <span class="text-neutral-400">Ajustar</span>
+                  </div>
+                  <div class="text-purple-400">→</div>
+                  <div class="text-center">
+                    <div class="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center mx-auto mb-1">3</div>
+                    <span class="text-neutral-400">Avaliar</span>
+                  </div>
+                  <div class="text-purple-400">→</div>
+                  <div class="text-center">
+                    <div class="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center mx-auto mb-1">4</div>
+                    <span class="text-neutral-400">Repetir</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Por que aprender:
+              </h3>
+              <ul class="space-y-3 text-neutral-300">
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Mudancas grandes</strong> podem quebrar o que ja funcionava</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Ajustes pequenos</strong> sao mais faceis de reverter se necessario</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Permite testar</strong> o impacto de cada mudanca isoladamente</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Controle maior</strong> sobre o resultado final do design</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🔑</span> Conceitos-chave:
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Uma Mudanca por Vez</h4>
+                  <p class="text-sm text-neutral-400">Ajuste cor OU tamanho OU posicao, nao tudo junto</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Preservar o Bom</h4>
+                  <p class="text-sm text-neutral-400">"Mantenha X, mas mude Y" protege o que funciona</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Testar Apos Cada Mudanca</h4>
+                  <p class="text-sm text-neutral-400">Verificar se a alteracao melhorou ou piorou</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Saber Quando Parar</h4>
+                  <p class="text-sm text-neutral-400">Reconhecer quando o design esta "bom o suficiente"</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 4: Versioning de Design -->
+    <section id="topico-4" class="mb-8">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(this)" class="topic-toggle w-full p-6 flex items-center justify-between text-left hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">4</span>
+            <div>
+              <h2 class="text-xl font-bold">Versioning de Design</h2>
+              <p class="text-neutral-400 text-sm">Gerenciando multiplas versoes</p>
+            </div>
+          </div>
+          <svg class="w-6 h-6 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class="topic-content">
+          <div class="px-6 pb-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+              <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                <span class="mr-2">💡</span> O que e:
+              </h3>
+              <p class="text-neutral-300 leading-relaxed">
+                Versioning e o processo de <strong class="text-purple-400">salvar e organizar diferentes versoes</strong> do seu design
+                durante o processo de criacao. Permite comparar opcoes, voltar a versoes anteriores e
+                manter um historico do progresso do projeto.
+              </p>
+              <div class="bg-dark-800 rounded-lg p-4 mt-4">
+                <p class="text-sm text-neutral-300 mb-2">Nomenclatura de versoes:</p>
+                <div class="space-y-2 text-xs font-mono">
+                  <div class="flex items-center justify-between p-2 bg-dark-700 rounded">
+                    <span class="text-purple-400">v1.0</span>
+                    <span class="text-neutral-400">Versao inicial aprovada</span>
+                  </div>
+                  <div class="flex items-center justify-between p-2 bg-dark-700 rounded">
+                    <span class="text-purple-400">v1.1</span>
+                    <span class="text-neutral-400">Ajustes de cores</span>
+                  </div>
+                  <div class="flex items-center justify-between p-2 bg-dark-700 rounded">
+                    <span class="text-purple-400">v1.2</span>
+                    <span class="text-neutral-400">Nova tipografia</span>
+                  </div>
+                  <div class="flex items-center justify-between p-2 bg-dark-700 rounded">
+                    <span class="text-purple-400">v2.0</span>
+                    <span class="text-neutral-400">Redesign do layout</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Por que aprender:
+              </h3>
+              <ul class="space-y-3 text-neutral-300">
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Evita perder trabalho</strong> quando uma mudanca nao funciona</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Facilita comparacoes</strong> entre diferentes abordagens</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Cliente pode escolher</strong> entre opcoes apresentadas</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Documenta evolucao</strong> do projeto para referencia futura</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🔑</span> Conceitos-chave:
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Versionamento Semantico</h4>
+                  <p class="text-sm text-neutral-400">Major.Minor.Patch (1.2.3) para clareza</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Salvar Antes de Mudar</h4>
+                  <p class="text-sm text-neutral-400">Sempre guardar versao atual antes de alteracoes</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Notas de Versao</h4>
+                  <p class="text-sm text-neutral-400">Documentar o que mudou em cada versao</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Branches de Exploracao</h4>
+                  <p class="text-sm text-neutral-400">Versoes alternativas para testar ideias</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 5: A/B Testing Visual -->
+    <section id="topico-5" class="mb-8">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(this)" class="topic-toggle w-full p-6 flex items-center justify-between text-left hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">5</span>
+            <div>
+              <h2 class="text-xl font-bold">A/B Testing Visual</h2>
+              <p class="text-neutral-400 text-sm">Comparando alternativas de design</p>
+            </div>
+          </div>
+          <svg class="w-6 h-6 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class="topic-content">
+          <div class="px-6 pb-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+              <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                <span class="mr-2">💡</span> O que e:
+              </h3>
+              <p class="text-neutral-300 leading-relaxed">
+                A/B Testing Visual e a pratica de <strong class="text-purple-400">criar e comparar duas ou mais versoes</strong>
+                de um elemento de design para determinar qual funciona melhor. No contexto de vibe coding,
+                significa pedir a IA para gerar alternativas e avaliar qual atende melhor aos objetivos.
+              </p>
+              <div class="bg-dark-800 rounded-lg p-4 mt-4">
+                <p class="text-sm text-neutral-300 mb-3">Exemplo de A/B Testing:</p>
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="border border-purple-500/30 rounded-lg p-3 text-center">
+                    <div class="text-lg font-bold text-purple-400 mb-1">Versao A</div>
+                    <div class="bg-purple-600 text-white py-2 px-4 rounded-lg text-sm">Botao Roxo</div>
+                  </div>
+                  <div class="border border-purple-500/30 rounded-lg p-3 text-center">
+                    <div class="text-lg font-bold text-purple-400 mb-1">Versao B</div>
+                    <div class="bg-green-600 text-white py-2 px-4 rounded-lg text-sm">Botao Verde</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Por que aprender:
+              </h3>
+              <ul class="space-y-3 text-neutral-300">
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Remove subjetividade</strong> de decisoes de design</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">IAs geram alternativas rapidamente</strong> para comparacao</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Clientes apreciam</strong> ter opcoes para escolher</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Descobrir solucoes</strong> que voce nao consideraria sozinho</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🔑</span> Conceitos-chave:
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Mudar Uma Variavel</h4>
+                  <p class="text-sm text-neutral-400">Compare A vs B mudando apenas um elemento</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Criterios Claros</h4>
+                  <p class="text-sm text-neutral-400">Definir como avaliar qual versao e melhor</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Testar com Usuarios</h4>
+                  <p class="text-sm text-neutral-400">Feedback real supera opiniao pessoal</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Documentar Resultados</h4>
+                  <p class="text-sm text-neutral-400">Guardar aprendizados para projetos futuros</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 6: Documentacao de Decisoes -->
+    <section id="topico-6" class="mb-8">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(this)" class="topic-toggle w-full p-6 flex items-center justify-between text-left hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">6</span>
+            <div>
+              <h2 class="text-xl font-bold">Documentacao de Decisoes</h2>
+              <p class="text-neutral-400 text-sm">Registrando o porque das escolhas</p>
+            </div>
+          </div>
+          <svg class="w-6 h-6 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class="topic-content">
+          <div class="px-6 pb-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+              <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                <span class="mr-2">💡</span> O que e:
+              </h3>
+              <p class="text-neutral-300 leading-relaxed">
+                Documentacao de decisoes e o habito de <strong class="text-purple-400">registrar o raciocinio por tras de cada escolha</strong>
+                de design. Nao apenas o que foi feito, mas por que foi feito dessa forma, quais alternativas foram
+                consideradas e que restricoes influenciaram a decisao.
+              </p>
+              <div class="bg-dark-800 rounded-lg p-4 mt-4">
+                <p class="text-sm text-neutral-300 mb-2">Exemplo de documentacao:</p>
+                <div class="text-xs space-y-2">
+                  <div class="p-2 bg-dark-700 rounded">
+                    <span class="text-purple-400 font-semibold">Decisao:</span>
+                    <span class="text-neutral-400"> Usar cards com sombra suave em vez de bordas</span>
+                  </div>
+                  <div class="p-2 bg-dark-700 rounded">
+                    <span class="text-purple-400 font-semibold">Motivo:</span>
+                    <span class="text-neutral-400"> Sombras criam hierarquia mais elegante no dark mode</span>
+                  </div>
+                  <div class="p-2 bg-dark-700 rounded">
+                    <span class="text-purple-400 font-semibold">Alternativas:</span>
+                    <span class="text-neutral-400"> Bordas coloridas, gradientes de fundo</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Por que aprender:
+              </h3>
+              <ul class="space-y-3 text-neutral-300">
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Facilita handoff</strong> para outros designers ou desenvolvedores</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Justifica escolhas</strong> quando questionado por stakeholders</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Evita refazer trabalho</strong> quando retornar ao projeto</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Constroi base de conhecimento</strong> para projetos futuros</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🔑</span> Conceitos-chave:
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Design Rationale</h4>
+                  <p class="text-sm text-neutral-400">O "porque" e mais importante que o "o que"</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Decision Log</h4>
+                  <p class="text-sm text-neutral-400">Registro cronologico de escolhas feitas</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Trade-offs</h4>
+                  <p class="text-sm text-neutral-400">Documentar o que foi sacrificado em cada escolha</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Contexto de Restricoes</h4>
+                  <p class="text-sm text-neutral-400">Prazo, orcamento, tecnologia que limitaram opcoes</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VOCABULARIO PARA PROMPTS -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-primary/20 via-dark-800 to-dark-800 rounded-xl border border-primary/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">🎯</span> Vocabulario para Prompts
+        </h2>
+        <p class="text-neutral-300 mb-6">
+          Use estes termos ao iterar e refinar outputs com IAs:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-3">
+            <h3 class="font-semibold text-purple-400">Analise e Feedback</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">mantenha X, mas mude Y</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">ajuste apenas o [elemento]</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">refine a hierarquia visual</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">melhore o contraste do texto</code>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="font-semibold text-purple-400">Correcoes Especificas</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">aumente o padding para 24px</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">mude a cor para #3B82F6</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">reduza o font-size do subtitulo</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">alinhe os elementos a esquerda</code>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="font-semibold text-purple-400">Versoes e Alternativas</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">crie duas versoes alternativas</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">mostre opcao A e opcao B</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">volte a versao anterior do header</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">explore abordagem diferente</code>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="font-semibold text-purple-400">Refinamento Iterativo</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">itere sobre esta versao</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">faca ajuste fino nos espacamentos</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">polimento final do design</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">revisao de consistencia visual</code>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="font-semibold text-purple-400">Comparacao</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">compare com a versao X</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">qual versao tem melhor legibilidade</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">combine o melhor de A e B</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">mostre lado a lado</code>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="font-semibold text-purple-400">Documentacao</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">explique essa escolha de design</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">documente as mudancas feitas</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">liste as decisoes de design</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">quais alternativas foram descartadas</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 p-4 bg-dark-800 rounded-lg border border-dark-600">
+          <h3 class="font-semibold text-white mb-2">Exemplo de Prompt de Iteracao:</h3>
+          <p class="text-neutral-300 text-sm italic">
+            "Mantenha o layout atual, mas ajuste apenas a secao de depoimentos: aumente o padding interno
+            para 32px, mude a cor de fundo para um roxo mais suave (#7C3AED com 10% de opacidade), e
+            reduza o tamanho do texto de citacao para 18px. Crie tambem uma versao alternativa com
+            cards individuais em vez de carrossel."
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">📝</span> Resumo do Modulo
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Analise de Output</strong>
+              <span class="text-neutral-400"> - Avalie criticamente antes de aceitar ou modificar</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Feedback Especifico</strong>
+              <span class="text-neutral-400"> - Seja preciso: elemento + problema + solucao</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Correcoes Incrementais</strong>
+              <span class="text-neutral-400"> - Mude uma coisa por vez para manter controle</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Versioning</strong>
+              <span class="text-neutral-400"> - Salve versoes para comparar e poder voltar atras</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">A/B Testing</strong>
+              <span class="text-neutral-400"> - Crie alternativas e compare objetivamente</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Documentacao</strong>
+              <span class="text-neutral-400"> - Registre o "porque" de cada decisao de design</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-purple-400 mb-2">Proximo Modulo:</h3>
+          <p class="text-neutral-300">3.7 - Otimizacao de Performance: Tecnicas para garantir velocidade e eficiencia</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-start gap-4">
+          <a href="index.html" class="px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors text-center">
+            Voltar ao Indice
+          </a>
+          <a href="modulo-3-5.html" class="px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors text-center">
+            ← Modulo Anterior
+          </a>
+          <a href="modulo-3-7.html" class="px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors text-center">
+            Proximo Modulo →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Toggle topic expansion
+    function toggleTopic(button) {
+      const content = button.nextElementSibling;
+      const isExpanded = content.classList.contains('expanded');
+
+      // Close all other topics
+      document.querySelectorAll('.topic-content.expanded').forEach(el => {
+        el.classList.remove('expanded');
+        el.previousElementSibling.classList.remove('expanded');
+      });
+
+      // Toggle current topic
+      if (!isExpanded) {
+        content.classList.add('expanded');
+        button.classList.add('expanded');
+      }
+    }
+
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>

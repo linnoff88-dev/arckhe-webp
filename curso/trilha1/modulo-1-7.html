@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1.7 Responsividade e Mobile-First | WebP</title>
+  <meta name="description" content="Design que funciona em qualquer tela. Aprenda sobre mobile-first, breakpoints, layouts fluidos, Flexbox, Grid e touch targets.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-emerald-400">Inicio</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-emerald-400">Trilha 1</a>
+      <span>/</span>
+      <span class="text-emerald-400">Modulo 1.7</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">
+        MODULO 1.7
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">📱 Responsividade e Mobile-First</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Design que funciona em qualquer tela. Domine a abordagem mobile-first, breakpoints,
+        layouts fluidos e as ferramentas modernas Flexbox e Grid.
+      </p>
+
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">6</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">40</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Basico</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Tecnico</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+        <h2 class="text-2xl font-bold">📱 Mobile-First</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Mobile-first significa <strong class="text-emerald-400">desenhar primeiro para mobile, depois expandir para telas maiores</strong>.
+        Com mais de 60% do trafego web vindo de dispositivos moveis, isso nao e mais opcional.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🔄</span> Desktop-First vs Mobile-First
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-red-400 mb-3">❌ Desktop-First (Antigo)</h4>
+            <ol class="space-y-2 text-sm text-neutral-300">
+              <li>1. Desenha para desktop (1440px)</li>
+              <li>2. Tenta encaixar em tablet</li>
+              <li>3. Espreme tudo no mobile</li>
+              <li>4. Resultado: mobile quebrado</li>
+            </ol>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-emerald-400 mb-3">✓ Mobile-First (Correto)</h4>
+            <ol class="space-y-2 text-sm text-neutral-300">
+              <li>1. Desenha para mobile (320px)</li>
+              <li>2. Expande para tablet</li>
+              <li>3. Adiciona mais em desktop</li>
+              <li>4. Resultado: funciona em tudo</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center">
+          <span class="mr-2">💡</span> Por que Mobile-First Funciona
+        </h3>
+        <ul class="space-y-2 text-neutral-300">
+          <li class="flex items-start space-x-2">
+            <span class="text-blue-400 mt-1">•</span>
+            <span>Forca a <strong>priorizar conteudo</strong> - espaco limitado</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-blue-400 mt-1">•</span>
+            <span>Performance melhor - menos CSS para carregar</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-blue-400 mt-1">•</span>
+            <span>Mais facil adicionar do que remover elementos</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">design mobile-first</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">comecando do mobile e expandindo</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">layout que prioriza mobile</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">responsivo mobile-first com Tailwind</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+        <h2 class="text-2xl font-bold">📐 Breakpoints</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Breakpoints sao os <strong class="text-emerald-400">pontos de largura onde o layout muda</strong>.
+        Nao existe um padrao universal, mas ha valores comuns que funcionam bem para a maioria dos casos.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">📊</span> Breakpoints Tailwind (Padrao)
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-neutral-400 border-b border-dark-600">
+                <th class="py-2 pr-4">Prefixo</th>
+                <th class="py-2 px-4">Min-width</th>
+                <th class="py-2 px-4">Dispositivo</th>
+              </tr>
+            </thead>
+            <tbody class="text-neutral-300">
+              <tr class="border-b border-dark-700">
+                <td class="py-3 pr-4 font-mono text-emerald-400">(default)</td>
+                <td class="py-3 px-4">0px</td>
+                <td class="py-3 px-4">Mobile pequeno</td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-3 pr-4 font-mono text-emerald-400">sm:</td>
+                <td class="py-3 px-4">640px</td>
+                <td class="py-3 px-4">Mobile grande / Tablet pequeno</td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-3 pr-4 font-mono text-emerald-400">md:</td>
+                <td class="py-3 px-4">768px</td>
+                <td class="py-3 px-4">Tablet</td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-3 pr-4 font-mono text-emerald-400">lg:</td>
+                <td class="py-3 px-4">1024px</td>
+                <td class="py-3 px-4">Laptop / Desktop pequeno</td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-3 pr-4 font-mono text-emerald-400">xl:</td>
+                <td class="py-3 px-4">1280px</td>
+                <td class="py-3 px-4">Desktop</td>
+              </tr>
+              <tr>
+                <td class="py-3 pr-4 font-mono text-emerald-400">2xl:</td>
+                <td class="py-3 px-4">1536px</td>
+                <td class="py-3 px-4">Desktop grande</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💻</span> Exemplo Mobile-First com Tailwind
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-neutral-400">&lt;!-- Coluna unica no mobile, 2 em tablet, 3 em desktop --&gt;</div>
+          <div class="text-emerald-400 mt-2">
+            &lt;div class="<span class="text-blue-400">grid</span> <span class="text-white">grid-cols-1</span> <span class="text-yellow-400">md:grid-cols-2</span> <span class="text-purple-400">lg:grid-cols-3</span> gap-4"&gt;
+          </div>
+        </div>
+        <p class="text-sm text-neutral-400 mt-4">
+          Sem prefixo = mobile. <code class="text-yellow-400">md:</code> = tablet+. <code class="text-purple-400">lg:</code> = desktop+
+        </p>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">breakpoints padrao Tailwind</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">1 coluna mobile, 2 tablet, 3 desktop</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">layout responsivo em md: e lg:</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">adaptar para 768px e 1024px</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+        <h2 class="text-2xl font-bold">🌊 Layouts Fluidos</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Layouts fluidos usam <strong class="text-emerald-400">unidades relativas (%, vw, vh, rem)</strong> em vez de
+        pixels fixos. Isso permite que o design se adapte suavemente entre breakpoints.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">📏</span> Unidades Relativas
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">%</h4>
+            <p class="text-sm text-neutral-400">Porcentagem do pai. Ex: width: 50%</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">vw / vh</h4>
+            <p class="text-sm text-neutral-400">Porcentagem da viewport. 100vw = largura total</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">rem</h4>
+            <p class="text-sm text-neutral-400">Relativo ao font-size do root (16px = 1rem)</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">em</h4>
+            <p class="text-sm text-neutral-400">Relativo ao font-size do elemento pai</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">🔄</span> Container Fluido com Max-Width
+        </h3>
+        <p class="text-neutral-300 mb-4">
+          Padrao comum: largura 100% ate um maximo, depois centraliza:
+        </p>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm">
+          <div class="text-emerald-400">&lt;div class="<span class="text-white">w-full</span> <span class="text-blue-400">max-w-6xl</span> <span class="text-yellow-400">mx-auto</span> <span class="text-purple-400">px-4</span>"&gt;</div>
+        </div>
+        <ul class="mt-4 space-y-1 text-sm text-neutral-400">
+          <li><code class="text-white">w-full</code> = 100% da largura disponivel</li>
+          <li><code class="text-blue-400">max-w-6xl</code> = maximo de 1152px</li>
+          <li><code class="text-yellow-400">mx-auto</code> = centraliza horizontalmente</li>
+          <li><code class="text-purple-400">px-4</code> = padding lateral de 16px</li>
+        </ul>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">layout fluido com max-width</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">container centralizado max-w-6xl</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">larguras em porcentagem</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">espacamento em rem</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+        <h2 class="text-2xl font-bold">📦 Flexbox e Grid</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Flexbox e CSS Grid sao os dois sistemas modernos de layout.
+        <strong class="text-emerald-400">Flexbox</strong> e ideal para layouts 1D (linha ou coluna).
+        <strong class="text-emerald-400">Grid</strong> e ideal para layouts 2D (linhas e colunas).
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6">
+          <h3 class="text-lg font-semibold text-blue-400 mb-4">📐 Flexbox</h3>
+          <p class="text-sm text-neutral-300 mb-4">Use para:</p>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li>• Navegacao horizontal</li>
+            <li>• Centralizar elementos</li>
+            <li>• Distribuir espaco</li>
+            <li>• Alinhar items</li>
+          </ul>
+          <div class="mt-4 bg-dark-800 rounded-lg p-3 font-mono text-xs">
+            <span class="text-blue-400">flex</span> <span class="text-yellow-400">justify-between</span> <span class="text-emerald-400">items-center</span>
+          </div>
+        </div>
+        <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+          <h3 class="text-lg font-semibold text-purple-400 mb-4">🔲 CSS Grid</h3>
+          <p class="text-sm text-neutral-300 mb-4">Use para:</p>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li>• Grid de cards</li>
+            <li>• Layouts de pagina</li>
+            <li>• Galerias de imagens</li>
+            <li>• Layouts complexos</li>
+          </ul>
+          <div class="mt-4 bg-dark-800 rounded-lg p-3 font-mono text-xs">
+            <span class="text-purple-400">grid</span> <span class="text-yellow-400">grid-cols-3</span> <span class="text-emerald-400">gap-4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">⚡</span> Quando Usar Cada Um
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-neutral-400 border-b border-dark-600">
+                <th class="py-2 pr-4">Situacao</th>
+                <th class="py-2 px-4">Recomendado</th>
+              </tr>
+            </thead>
+            <tbody class="text-neutral-300">
+              <tr class="border-b border-dark-700">
+                <td class="py-2 pr-4">Navbar com logo e menu</td>
+                <td class="py-2 px-4"><span class="text-blue-400">Flexbox</span></td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-2 pr-4">Grid de 3 cards</td>
+                <td class="py-2 px-4"><span class="text-purple-400">Grid</span></td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-2 pr-4">Centralizar um botao</td>
+                <td class="py-2 px-4"><span class="text-blue-400">Flexbox</span></td>
+              </tr>
+              <tr class="border-b border-dark-700">
+                <td class="py-2 pr-4">Layout sidebar + content</td>
+                <td class="py-2 px-4"><span class="text-purple-400">Grid</span></td>
+              </tr>
+              <tr>
+                <td class="py-2 pr-4">Lista de tags/badges</td>
+                <td class="py-2 px-4"><span class="text-blue-400">Flexbox</span> (com wrap)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">flexbox para navbar</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">CSS grid para cards</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">flex justify-between items-center</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">grid-cols-1 md:grid-cols-3</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+        <h2 class="text-2xl font-bold">🖼️ Imagens Responsivas</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Imagens precisam <strong class="text-emerald-400">adaptar ao container</strong> e
+        <strong class="text-emerald-400">carregar em tamanhos apropriados</strong> para nao desperdicar banda.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🔧</span> Tecnicas Essenciais
+        </h3>
+        <div class="space-y-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">max-width: 100%</h4>
+            <p class="text-sm text-neutral-400 mb-2">A imagem nunca ultrapassa o container</p>
+            <code class="text-emerald-400 text-sm">class="max-w-full h-auto"</code>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">object-fit</h4>
+            <p class="text-sm text-neutral-400 mb-2">Controla como a imagem preenche o container</p>
+            <code class="text-emerald-400 text-sm">class="object-cover" ou "object-contain"</code>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">aspect-ratio</h4>
+            <p class="text-sm text-neutral-400 mb-2">Mantem proporcao consistente</p>
+            <code class="text-emerald-400 text-sm">class="aspect-video" (16:9) ou "aspect-square"</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">👁️</span> object-fit Comparacao
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="text-center">
+            <div class="w-full h-32 bg-dark-700 rounded-lg flex items-center justify-center overflow-hidden">
+              <div class="w-20 h-16 bg-emerald-500 rounded"></div>
+            </div>
+            <p class="text-xs text-neutral-400 mt-2">contain - mostra tudo</p>
+          </div>
+          <div class="text-center">
+            <div class="w-full h-32 bg-emerald-500 rounded-lg"></div>
+            <p class="text-xs text-neutral-400 mt-2">cover - preenche tudo</p>
+          </div>
+          <div class="text-center">
+            <div class="w-full h-32 bg-dark-700 rounded-lg flex items-center justify-center overflow-hidden">
+              <div class="w-full h-12 bg-emerald-500"></div>
+            </div>
+            <p class="text-xs text-neutral-400 mt-2">fill - distorce</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">imagens responsivas com max-w-full</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">object-cover para preencher container</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">aspect-ratio 16:9 para videos</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">lazy loading em imagens</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+        <h2 class="text-2xl font-bold">👆 Touch Targets</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Em mobile, dedos sao menos precisos que cursores. Elementos interativos precisam ter
+        <strong class="text-emerald-400">tamanho minimo para toque confortavel</strong>.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">📏</span> Tamanhos Minimos Recomendados
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Apple (iOS)</h4>
+            <p class="text-sm text-neutral-400">Minimo: <strong class="text-emerald-400">44x44 pontos</strong></p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Google (Material)</h4>
+            <p class="text-sm text-neutral-400">Minimo: <strong class="text-emerald-400">48x48 dp</strong></p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">WCAG 2.2</h4>
+            <p class="text-sm text-neutral-400">Minimo: <strong class="text-emerald-400">24x24 CSS pixels</strong></p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Recomendacao Pratica</h4>
+            <p class="text-sm text-neutral-400">Use: <strong class="text-emerald-400">44-48px</strong> de altura</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">👆</span> Comparacao de Touch Targets
+        </h3>
+        <div class="flex flex-wrap gap-4 items-center justify-center">
+          <div class="text-center">
+            <button class="w-6 h-6 bg-red-500 rounded text-xs text-white">X</button>
+            <p class="text-xs text-red-400 mt-2">24px - muito pequeno</p>
+          </div>
+          <div class="text-center">
+            <button class="w-10 h-10 bg-yellow-500 rounded text-sm text-white">OK</button>
+            <p class="text-xs text-yellow-400 mt-2">40px - minimo</p>
+          </div>
+          <div class="text-center">
+            <button class="px-6 py-3 bg-emerald-500 rounded text-white font-medium">Botao</button>
+            <p class="text-xs text-emerald-400 mt-2">48px+ - ideal</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center">
+          <span class="mr-2">💡</span> Outras Consideracoes Mobile
+        </h3>
+        <ul class="space-y-2 text-neutral-300">
+          <li class="flex items-start space-x-2">
+            <span class="text-blue-400 mt-1">•</span>
+            <span>Espaco entre elementos tocaveis: minimo 8px</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-blue-400 mt-1">•</span>
+            <span>Inputs com altura minima de 44px</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-blue-400 mt-1">•</span>
+            <span>Evitar hover-only interactions em mobile</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">botoes com altura minima 44-48px</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">touch targets adequados para mobile</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">espaco entre elementos tocaveis</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">inputs otimizados para touch</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">📝</span> Resumo do Modulo
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Mobile-First</strong>
+              <span class="text-neutral-400"> - Comece pelo mobile, expanda para desktop. Priorize conteudo</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Breakpoints</strong>
+              <span class="text-neutral-400"> - sm (640px), md (768px), lg (1024px), xl (1280px)</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Fluido</strong>
+              <span class="text-neutral-400"> - Use %, vw, rem. Container com max-width centralizado</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Flexbox/Grid</strong>
+              <span class="text-neutral-400"> - Flex para 1D (navbar), Grid para 2D (cards)</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Imagens</strong>
+              <span class="text-neutral-400"> - max-w-full, object-cover/contain, aspect-ratio</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Touch</strong>
+              <span class="text-neutral-400"> - Minimo 44-48px para elementos interativos em mobile</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-emerald-400 mb-2">Proximo Modulo:</h3>
+          <p class="text-neutral-300">1.8 - Anatomia de uma Pagina Web: As secoes fundamentais</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-1-6.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Modulo Anterior
+          </a>
+          <a href="modulo-1-8.html" class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors">
+            Proximo Modulo →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>

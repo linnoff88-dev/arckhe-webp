@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1.1 A Nova Era do Web Design | WebP</title>
+  <meta name="description" content="Por que sites ainda importam quando a IA domina a busca. Entenda o paradoxo e aprenda sobre vibe coding.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-emerald-400">Inicio</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-emerald-400">Trilha 1</a>
+      <span>/</span>
+      <span class="text-emerald-400">Modulo 1.1</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">
+        MODULO 1.1
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🧠 A Nova Era do Web Design</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Por que sites ainda importam quando a IA domina a busca. Entenda o paradoxo,
+        a importancia da presenca digital propria e o conceito revolucionario de vibe coding.
+      </p>
+
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">6</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">30</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Basico</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Teoria</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+        <h2 class="text-2xl font-bold">🌐 O Paradoxo da IA</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Vivemos um momento contra-intuitivo: quanto mais as pessoas usam IA para buscar informacoes,
+        <strong class="text-emerald-400">mais importante se torna ter um site bem projetado</strong>.
+        Isso parece contraditorio, mas faz todo sentido quando entendemos o comportamento do usuario moderno.
+      </p>
+
+      <!-- Box Conceito Principal -->
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">💡</span> O Paradoxo Explicado
+        </h3>
+        <p class="text-neutral-300 mb-4">
+          Quando alguem pergunta ao ChatGPT "qual o melhor restaurante italiano em SP?", a IA responde com sugestoes.
+          Mas o que o usuario faz em seguida? <strong>Visita os sites para validar.</strong>
+        </p>
+        <ul class="space-y-2 text-neutral-300">
+          <li class="flex items-start space-x-2">
+            <span class="text-emerald-400 mt-1">•</span>
+            <span>A IA faz a <strong>descoberta</strong> - apresenta opcoes</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-emerald-400 mt-1">•</span>
+            <span>O site faz a <strong>validacao</strong> - confirma a qualidade</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-emerald-400 mt-1">•</span>
+            <span>O design faz a <strong>conversao</strong> - fecha o negocio</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Box Dados -->
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📊</span> Dados que Comprovam
+        </h3>
+        <ul class="space-y-2 text-neutral-300">
+          <li><strong class="text-blue-400">77%</strong> dos usuarios de ChatGPT ja o usam como buscador (Adobe, 2025)</li>
+          <li><strong class="text-blue-400">34x</strong> mais trafego ainda vem do Google vs chatbots</li>
+          <li><strong class="text-blue-400">92%</strong> dos usuarios visitam o site antes de comprar, mesmo descobrindo por IA</li>
+        </ul>
+      </div>
+
+      <!-- Box Dica -->
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Ao criar seu site com IA, use termos como: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">design que transmite credibilidade</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">layout profissional e confiavel</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">experiencia de validacao pos-descoberta</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+        <h2 class="text-2xl font-bold">🏠 Seu Site como Casa Digital</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Ha uma diferenca fundamental entre ter um site proprio e usar apenas redes sociais:
+        <strong class="text-emerald-400">propriedade vs aluguel</strong>. No seu site, voce e o dono.
+        Nas redes sociais, voce e inquilino - e o proprietario pode mudar as regras quando quiser.
+      </p>
+
+      <!-- Grid Fazer vs Evitar -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">✓ Site Proprio (Propriedade)</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400">✓</span>
+              <span>Controle total do design e conteudo</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400">✓</span>
+              <span>Dados dos visitantes sao seus</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400">✓</span>
+              <span>Nenhum algoritmo decidindo seu alcance</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400">✓</span>
+              <span>Permanece mesmo se redes sociais fecharem</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-emerald-400">✓</span>
+              <span>SEO e GEO trabalham para voce 24/7</span>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ Apenas Redes Sociais (Aluguel)</h4>
+          <ul class="space-y-3 text-neutral-300">
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>Design limitado ao template da plataforma</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>Dados pertencem a plataforma</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>Algoritmo controla quem ve seu conteudo</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>Plataforma pode banir ou mudar regras</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="text-red-400">✗</span>
+              <span>Conteudo desaparece no feed rapidamente</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🔑</span> O Conceito de Hub Central
+        </h3>
+        <p class="text-neutral-300">
+          Seu site deve ser o <strong>hub central</strong> da sua presenca digital. Redes sociais sao
+          <strong>canais de distribuicao</strong> que direcionam para seu site. O site converte, as redes atraem.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+        <h2 class="text-2xl font-bold">🔍 Search Everywhere Optimization</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        SEO tradicional era sobre rankear no Google. Em 2026, a busca acontece em <strong class="text-emerald-400">todos os lugares</strong>:
+        Google, ChatGPT, Perplexity, YouTube, TikTok, Instagram. Sua estrategia precisa ser <strong class="text-emerald-400">omnichannel</strong>.
+      </p>
+
+      <!-- Timeline -->
+      <div class="space-y-6 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+            <span class="text-emerald-400 font-bold">1</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+            <h4 class="font-semibold text-white mb-2">SEO Tradicional</h4>
+            <p class="text-sm text-neutral-400 mb-3">2000-2020</p>
+            <p class="text-neutral-300 text-sm">Foco em palavras-chave, backlinks e conteudo para rankear no Google.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+            <span class="text-blue-400 font-bold">2</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+            <h4 class="font-semibold text-white mb-2">GEO (Generative Engine Optimization)</h4>
+            <p class="text-sm text-neutral-400 mb-3">2023-2025</p>
+            <p class="text-neutral-300 text-sm">Otimizar para aparecer nas respostas de ChatGPT, Claude, Perplexity. Foco em autoridade e citacoes.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+            <span class="text-purple-400 font-bold">3</span>
+          </div>
+          <div class="flex-1 bg-dark-800 rounded-xl p-6 border border-dark-600">
+            <h4 class="font-semibold text-white mb-2">Search Everywhere Optimization</h4>
+            <p class="text-sm text-neutral-400 mb-3">2026+</p>
+            <p class="text-neutral-300 text-sm">Presenca consistente em todos os canais: buscadores, IAs, redes sociais, YouTube, podcasts. Visibilidade omnichannel.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> O que LLMs Consideram
+        </h3>
+        <p class="text-neutral-300 mb-4">
+          Quando uma IA formula uma resposta sobre sua marca, ela considera:
+        </p>
+        <ul class="space-y-2 text-neutral-300">
+          <li class="flex items-start space-x-2">
+            <span class="text-primary">•</span>
+            <span><strong>Mencoes consistentes</strong> em multiplas fontes confiaveis</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-primary">•</span>
+            <span><strong>Qualidade do conteudo</strong> no seu site e blog</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-primary">•</span>
+            <span><strong>Reviews e earned media</strong> de terceiros</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-primary">•</span>
+            <span><strong>Presenca em video</strong> (YouTube e muito citado por LLMs)</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TOPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+        <h2 class="text-2xl font-bold">🤝 Confianca e Autoridade</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        LLMs sao treinados para priorizar fontes confiaveis. Um site bem projetado
+        <strong class="text-emerald-400">transmite profissionalismo automaticamente</strong>.
+        Design amador = percepcao de baixa credibilidade = menos recomendacoes de IA.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🏆</span> E-E-A-T: O Framework do Google
+        </h3>
+        <p class="text-neutral-300 mb-4">
+          Google e LLMs avaliam conteudo baseado em quatro pilares:
+        </p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4 text-center">
+            <div class="text-2xl font-bold text-emerald-400 mb-1">E</div>
+            <div class="text-sm text-neutral-300">Experience</div>
+            <div class="text-xs text-neutral-500">Experiencia real</div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4 text-center">
+            <div class="text-2xl font-bold text-emerald-400 mb-1">E</div>
+            <div class="text-sm text-neutral-300">Expertise</div>
+            <div class="text-xs text-neutral-500">Conhecimento tecnico</div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4 text-center">
+            <div class="text-2xl font-bold text-emerald-400 mb-1">A</div>
+            <div class="text-sm text-neutral-300">Authority</div>
+            <div class="text-xs text-neutral-500">Reconhecimento</div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4 text-center">
+            <div class="text-2xl font-bold text-emerald-400 mb-1">T</div>
+            <div class="text-sm text-neutral-300">Trust</div>
+            <div class="text-xs text-neutral-500">Confiabilidade</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center">
+          <span class="mr-2">⚠️</span> Sinais de Baixa Credibilidade
+        </h3>
+        <ul class="space-y-2 text-neutral-300">
+          <li class="flex items-start space-x-2">
+            <span class="text-red-400">•</span>
+            <span>Design desatualizado ou amador</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-red-400">•</span>
+            <span>Site lento ou quebrado em mobile</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-red-400">•</span>
+            <span>Sem HTTPS (cadeado de seguranca)</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-red-400">•</span>
+            <span>Informacoes de contato escondidas ou inexistentes</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-red-400">•</span>
+            <span>Nenhuma prova social (reviews, logos de clientes)</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TOPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+        <h2 class="text-2xl font-bold">📊 O Novo Funil</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O funil de conversao mudou. Antes, seu site precisava <strong class="text-emerald-400">atrair</strong>
+        visitantes frios via Google. Agora, seu site precisa <strong class="text-emerald-400">converter</strong>
+        visitantes que ja ouviram falar de voce atraves de uma IA.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🔄</span> A Nova Jornada do Usuario
+        </h3>
+        <div class="space-y-4">
+          <div class="flex items-center space-x-4">
+            <div class="w-10 h-10 rounded-full bg-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold flex-shrink-0">1</div>
+            <div class="flex-1 bg-dark-700 rounded-lg p-3">
+              <span class="text-neutral-300"><strong>Descoberta via IA:</strong> "ChatGPT, qual a melhor agencia de marketing em Curitiba?"</span>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div class="w-10 h-10 rounded-full bg-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold flex-shrink-0">2</div>
+            <div class="flex-1 bg-dark-700 rounded-lg p-3">
+              <span class="text-neutral-300"><strong>IA recomenda:</strong> "A Agencia X e bem avaliada por..."</span>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div class="w-10 h-10 rounded-full bg-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold flex-shrink-0">3</div>
+            <div class="flex-1 bg-dark-700 rounded-lg p-3">
+              <span class="text-neutral-300"><strong>Usuario valida:</strong> Visita o site da Agencia X para ver portfolio, precos, equipe</span>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div class="w-10 h-10 rounded-full bg-primary/30 flex items-center justify-center text-primary font-bold flex-shrink-0">4</div>
+            <div class="flex-1 bg-dark-700 rounded-lg p-3">
+              <span class="text-neutral-300"><strong>Site converte:</strong> Design profissional confirma a recomendacao → usuario entra em contato</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">💡</span> Implicacao para o Design
+        </h3>
+        <p class="text-neutral-300">
+          Seu site nao precisa mais "vender do zero". O visitante ja tem uma pre-disposicao positiva
+          (a IA recomendou voce). Seu papel e <strong>confirmar a expectativa</strong> e
+          <strong>facilitar a conversao</strong>. Isso muda tudo: menos persuasao, mais clareza.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+        <h2 class="text-2xl font-bold">🎯 Vibe Coding Explicado</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        <strong class="text-emerald-400">Vibe coding</strong> e o ato de criar aplicacoes e sites
+        descrevendo o que voce quer em linguagem natural para IAs generativas. Voce nao escreve codigo -
+        voce descreve o resultado desejado e a IA cria.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🤖</span> Ferramentas de Vibe Coding (2026)
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">v0 by Vercel</h4>
+            <p class="text-sm text-neutral-400">Cria interfaces React/Next.js a partir de descricoes. Ideal para prototipagem rapida de UI.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Lovable</h4>
+            <p class="text-sm text-neutral-400">Cria apps completos com backend, auth e banco de dados a partir de conversa.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Cursor</h4>
+            <p class="text-sm text-neutral-400">Editor de codigo com IA integrada. Para desenvolvedores que querem acelerar.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Claude / ChatGPT</h4>
+            <p class="text-sm text-neutral-400">Geram codigo, explicam conceitos, ajudam a iterar sobre designs.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center">
+          <span class="mr-2">⚠️</span> O Problema: Garbage In, Garbage Out
+        </h3>
+        <p class="text-neutral-300 mb-4">
+          Vibe coding so funciona se voce souber <strong>o que pedir</strong>. Prompts vagos geram resultados mediocres:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <div class="text-red-400 text-sm font-semibold mb-2">❌ Prompt Vago</div>
+            <p class="text-neutral-400 text-sm">"Faz um site bonito pra minha empresa"</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <div class="text-emerald-400 text-sm font-semibold mb-2">✓ Prompt Especifico</div>
+            <p class="text-neutral-400 text-sm">"Landing page minimalista estilo Apple, hero com titulo grande, muito whitespace, paleta escura com acento emerald, CTA unico acima do fold"</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎓</span> Por Isso Este Curso Existe
+        </h3>
+        <p class="text-neutral-300">
+          Este curso ensina o <strong>vocabulario de design</strong> que IAs entendem. Ao final, voce sabera
+          pedir exatamente o que quer: hierarquia visual, tipografia, cores, espacamento, componentes,
+          animacoes. <strong>Quem domina os conceitos, domina os resultados.</strong>
+        </p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">📝</span> Resumo do Modulo
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">O Paradoxo da IA</strong>
+              <span class="text-neutral-400"> - Mais busca por IA = mais necessidade de sites bem projetados para validacao</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Casa Digital</strong>
+              <span class="text-neutral-400"> - Seu site e propriedade; redes sociais sao aluguel que pode acabar</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Search Everywhere</strong>
+              <span class="text-neutral-400"> - Presenca omnichannel e essencial para aparecer em recomendacoes de IA</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">E-E-A-T</strong>
+              <span class="text-neutral-400"> - Experiencia, Expertise, Autoridade e Confianca determinam credibilidade</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Novo Funil</strong>
+              <span class="text-neutral-400"> - Sites convertem visitantes pre-qualificados por IA, nao atraem do zero</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Vibe Coding</strong>
+              <span class="text-neutral-400"> - Criar com IA exige vocabulario de design preciso</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-emerald-400 mb-2">Proximo Modulo:</h3>
+          <p class="text-neutral-300">1.2 - Hierarquia Visual: Como o olho humano processa informacao</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Voltar para Trilha
+          </a>
+          <a href="modulo-1-2.html" class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors">
+            Proximo Modulo →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>

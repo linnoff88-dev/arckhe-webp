@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2.5 Motion Design para Web | WebP</title>
+  <meta name="description" content="Animacoes que encantam e guiam usuarios. Aprenda principios de animacao, CSS animations, timing, scroll animations, page transitions e performance.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Demo animations */
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    @keyframes squash-stretch {
+      0%, 100% { transform: scaleY(1) scaleX(1); }
+      25% { transform: scaleY(0.8) scaleX(1.2); }
+      50% { transform: scaleY(1.2) scaleX(0.8); }
+      75% { transform: scaleY(0.9) scaleX(1.1); }
+    }
+    @keyframes anticipation {
+      0% { transform: translateX(0); }
+      20% { transform: translateX(-10px); }
+      100% { transform: translateX(100px); }
+    }
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slide-in-left {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes scale-in {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    @keyframes spring {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.2); }
+      50% { transform: scale(0.95); }
+      75% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    .animate-bounce-demo {
+      animation: bounce 1s ease-in-out infinite;
+    }
+    .animate-squash {
+      animation: squash-stretch 1s ease-in-out infinite;
+    }
+    .animate-fade-in {
+      animation: fade-in 0.6s ease-out forwards;
+    }
+    .animate-slide-in {
+      animation: slide-in-left 0.5s ease-out forwards;
+    }
+    .animate-scale-in {
+      animation: scale-in 0.4s ease-out forwards;
+    }
+    .animate-spring {
+      animation: spring 0.6s ease-out;
+    }
+    .spinner {
+      animation: spin 1s linear infinite;
+    }
+
+    /* Scroll animation classes */
+    .scroll-animate {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease-out;
+    }
+    .scroll-animate.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-blue-400">Inicio</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-blue-400">Trilha 2</a>
+      <span>/</span>
+      <span class="text-blue-400">Modulo 2.5</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">
+        MODULO 2.5
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🎬 Motion Design para Web</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Animacoes que encantam, guiam e comunicam. Aprenda a criar movimento com proposito
+        usando CSS animations, timing functions e scroll-driven animations.
+      </p>
+
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">6</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">30</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">Medio</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">Pratico</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">1</span>
+        <h2 class="text-2xl font-bold">🎭 Principios de Animacao</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Os <strong class="text-blue-400">12 principios de animacao</strong> da Disney, adaptados para web.
+        Estes principios criam movimento que parece natural e engajante para o usuario.
+      </p>
+
+      <!-- Principios principais -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">🎬</span> Principios Essenciais para Web
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <div class="flex items-center space-x-3 mb-2">
+              <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                <div class="w-4 h-4 bg-blue-400 rounded-full animate-squash"></div>
+              </div>
+              <h4 class="font-semibold text-white">Squash & Stretch</h4>
+            </div>
+            <p class="text-sm text-neutral-400">Deformacao que da peso e flexibilidade. Botoes que "apertam" ao clicar.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <div class="flex items-center space-x-3 mb-2">
+              <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                <div class="w-4 h-4 bg-blue-400 rounded-sm transition-transform duration-300 hover:-translate-x-1 hover:scale-110"></div>
+              </div>
+              <h4 class="font-semibold text-white">Anticipation</h4>
+            </div>
+            <p class="text-sm text-neutral-400">Preparacao antes da acao. Menu recua antes de expandir.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <div class="flex items-center space-x-3 mb-2">
+              <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                <div class="w-4 h-4 bg-blue-400 rounded-sm transition-all duration-500 ease-out hover:translate-x-2"></div>
+              </div>
+              <h4 class="font-semibold text-white">Ease In/Out</h4>
+            </div>
+            <p class="text-sm text-neutral-400">Aceleracao e desaceleracao natural. Nada comeca ou para bruscamente.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <div class="flex items-center space-x-3 mb-2">
+              <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                <div class="w-4 h-4 bg-blue-400 rounded-sm transition-all duration-300 hover:rotate-12 hover:scale-110"></div>
+              </div>
+              <h4 class="font-semibold text-white">Secondary Action</h4>
+            </div>
+            <p class="text-sm text-neutral-400">Acoes secundarias reforçam a principal. Icone gira enquanto texto aparece.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Demonstracao -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">👀</span> Demonstracao ao Vivo
+        </h3>
+        <div class="grid grid-cols-3 gap-6">
+          <div class="text-center">
+            <div class="h-24 flex items-center justify-center mb-2">
+              <div class="w-12 h-12 bg-blue-500 rounded-full animate-bounce-demo"></div>
+            </div>
+            <p class="text-sm text-neutral-400">Bounce</p>
+          </div>
+          <div class="text-center">
+            <div class="h-24 flex items-center justify-center mb-2">
+              <div class="w-12 h-12 bg-blue-500 rounded-lg animate-squash"></div>
+            </div>
+            <p class="text-sm text-neutral-400">Squash & Stretch</p>
+          </div>
+          <div class="text-center">
+            <div class="h-24 flex items-center justify-center mb-2">
+              <div class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full spinner"></div>
+            </div>
+            <p class="text-sm text-neutral-400">Spin (Linear)</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vibe Coding Prompt
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">animacoes que seguem principios de ease-in-out natural</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">squash and stretch sutil em botoes clicaveis</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">anticipation com pequeno recuo antes de acoes maiores</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">2</span>
+        <h2 class="text-2xl font-bold">🎨 CSS Animations</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        CSS Animations usam <strong class="text-blue-400">@keyframes</strong> para definir etapas do movimento e
+        <strong class="text-blue-400">animation properties</strong> para controlar como a animacao se comporta.
+      </p>
+
+      <!-- Codigo @keyframes -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💻</span> Sintaxe @keyframes
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-neutral-400">/* Definindo a animacao */</div>
+          <div class="text-blue-400">@keyframes fadeIn {</div>
+          <div class="text-green-400 ml-4">from {</div>
+          <div class="text-green-400 ml-8">opacity: 0;</div>
+          <div class="text-green-400 ml-8">transform: translateY(20px);</div>
+          <div class="text-green-400 ml-4">}</div>
+          <div class="text-green-400 ml-4">to {</div>
+          <div class="text-green-400 ml-8">opacity: 1;</div>
+          <div class="text-green-400 ml-8">transform: translateY(0);</div>
+          <div class="text-green-400 ml-4">}</div>
+          <div class="text-blue-400">}</div>
+          <div class="text-neutral-400 mt-4">/* Ou com porcentagens */</div>
+          <div class="text-blue-400">@keyframes bounce {</div>
+          <div class="text-green-400 ml-4">0%, 100% { transform: translateY(0); }</div>
+          <div class="text-green-400 ml-4">50% { transform: translateY(-20px); }</div>
+          <div class="text-blue-400">}</div>
+        </div>
+      </div>
+
+      <!-- Animation Properties -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">⚙️</span> Animation Properties
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <code class="text-blue-400 text-sm">animation-name</code>
+            <p class="text-sm text-neutral-400 mt-1">Nome do @keyframes a usar</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <code class="text-blue-400 text-sm">animation-duration</code>
+            <p class="text-sm text-neutral-400 mt-1">Duracao (ex: 0.3s, 500ms)</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <code class="text-blue-400 text-sm">animation-timing-function</code>
+            <p class="text-sm text-neutral-400 mt-1">Curva de velocidade (ease, linear, cubic-bezier)</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <code class="text-blue-400 text-sm">animation-delay</code>
+            <p class="text-sm text-neutral-400 mt-1">Tempo antes de iniciar</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <code class="text-blue-400 text-sm">animation-iteration-count</code>
+            <p class="text-sm text-neutral-400 mt-1">Quantas vezes repetir (1, 3, infinite)</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <code class="text-blue-400 text-sm">animation-fill-mode</code>
+            <p class="text-sm text-neutral-400 mt-1">Estado antes/depois (forwards, backwards, both)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Codigo Completo -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💻</span> Exemplo Completo
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-neutral-400">/* Shorthand */</div>
+          <div class="text-blue-400">.element {</div>
+          <div class="text-green-400 ml-4">animation: fadeIn 0.6s ease-out forwards;</div>
+          <div class="text-blue-400">}</div>
+          <div class="text-neutral-400 mt-4">/* Longhand (mais controle) */</div>
+          <div class="text-blue-400">.element {</div>
+          <div class="text-green-400 ml-4">animation-name: fadeIn;</div>
+          <div class="text-green-400 ml-4">animation-duration: 0.6s;</div>
+          <div class="text-green-400 ml-4">animation-timing-function: ease-out;</div>
+          <div class="text-green-400 ml-4">animation-delay: 0s;</div>
+          <div class="text-green-400 ml-4">animation-iteration-count: 1;</div>
+          <div class="text-green-400 ml-4">animation-fill-mode: forwards;</div>
+          <div class="text-blue-400">}</div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vibe Coding Prompt
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">@keyframes para animacoes de entrada com fade e translate</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">animation-fill-mode forwards para manter estado final</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">animation-delay escalonado para sequencia de elementos</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">3</span>
+        <h2 class="text-2xl font-bold">⏱️ Timing e Easing</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        <strong class="text-blue-400">Timing functions</strong> controlam a velocidade da animacao ao longo do tempo.
+        <strong class="text-blue-400">cubic-bezier</strong> permite criar curvas customizadas para movimento natural.
+      </p>
+
+      <!-- Easing Comparacao -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📈</span> Comparacao de Easing (clique para animar)
+        </h3>
+        <div class="space-y-4">
+          <div class="flex items-center space-x-4">
+            <span class="w-24 text-sm text-neutral-400">linear</span>
+            <div class="flex-1 bg-dark-700 rounded-full h-3 relative overflow-hidden">
+              <div id="linear-demo" class="absolute left-0 top-0 w-4 h-3 bg-blue-500 rounded-full transition-all duration-1000" style="transition-timing-function: linear;"></div>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="w-24 text-sm text-neutral-400">ease</span>
+            <div class="flex-1 bg-dark-700 rounded-full h-3 relative overflow-hidden">
+              <div id="ease-demo" class="absolute left-0 top-0 w-4 h-3 bg-blue-500 rounded-full transition-all duration-1000" style="transition-timing-function: ease;"></div>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="w-24 text-sm text-neutral-400">ease-in</span>
+            <div class="flex-1 bg-dark-700 rounded-full h-3 relative overflow-hidden">
+              <div id="ease-in-demo" class="absolute left-0 top-0 w-4 h-3 bg-blue-500 rounded-full transition-all duration-1000" style="transition-timing-function: ease-in;"></div>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="w-24 text-sm text-neutral-400">ease-out</span>
+            <div class="flex-1 bg-dark-700 rounded-full h-3 relative overflow-hidden">
+              <div id="ease-out-demo" class="absolute left-0 top-0 w-4 h-3 bg-blue-500 rounded-full transition-all duration-1000" style="transition-timing-function: ease-out;"></div>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="w-24 text-sm text-neutral-400">ease-in-out</span>
+            <div class="flex-1 bg-dark-700 rounded-full h-3 relative overflow-hidden">
+              <div id="ease-in-out-demo" class="absolute left-0 top-0 w-4 h-3 bg-blue-500 rounded-full transition-all duration-1000" style="transition-timing-function: ease-in-out;"></div>
+            </div>
+          </div>
+        </div>
+        <button onclick="triggerEasingDemo()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors text-sm">
+          Animar Todos
+        </button>
+      </div>
+
+      <!-- cubic-bezier -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">🎛️</span> cubic-bezier Customizado
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto mb-4">
+          <div class="text-neutral-400">/* Sintaxe */</div>
+          <div class="text-green-400">cubic-bezier(x1, y1, x2, y2)</div>
+          <div class="text-neutral-400 mt-4">/* Easing comuns */</div>
+          <div class="text-blue-400">ease-in-out:</div><div class="text-green-400 ml-4">cubic-bezier(0.42, 0, 0.58, 1)</div>
+          <div class="text-blue-400 mt-2">ease-out:</div><div class="text-green-400 ml-4">cubic-bezier(0, 0, 0.58, 1)</div>
+          <div class="text-neutral-400 mt-4">/* Spring effect (overshoots) */</div>
+          <div class="text-blue-400">spring:</div><div class="text-green-400 ml-4">cubic-bezier(0.68, -0.55, 0.265, 1.55)</div>
+          <div class="text-neutral-400 mt-4">/* Bounce effect */</div>
+          <div class="text-blue-400">bounce:</div><div class="text-green-400 ml-4">cubic-bezier(0.34, 1.56, 0.64, 1)</div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="flex-1 text-center">
+            <div class="h-16 flex items-center justify-center">
+              <button class="w-16 h-16 bg-blue-600 rounded-xl text-white font-bold transition-transform duration-500 hover:scale-110" style="transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);">
+                Spring
+              </button>
+            </div>
+          </div>
+          <div class="flex-1 text-center">
+            <div class="h-16 flex items-center justify-center">
+              <button class="w-16 h-16 bg-blue-600 rounded-xl text-white font-bold transition-transform duration-500 hover:scale-110" style="transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);">
+                Bounce
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quando usar cada um -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4">Quando Usar Cada Easing</h3>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">•</span>
+            <span class="text-neutral-300"><strong class="text-white">ease-out:</strong> Elementos entrando na tela (modais, dropdowns)</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">•</span>
+            <span class="text-neutral-300"><strong class="text-white">ease-in:</strong> Elementos saindo da tela</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">•</span>
+            <span class="text-neutral-300"><strong class="text-white">ease-in-out:</strong> Transicoes de estado (hover, toggle)</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">•</span>
+            <span class="text-neutral-300"><strong class="text-white">linear:</strong> Rotacoes continuas, progress bars</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">•</span>
+            <span class="text-neutral-300"><strong class="text-white">spring:</strong> Feedback de botoes, elementos interativos divertidos</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vibe Coding Prompt
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">ease-out para entrada de modais e menus</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">cubic-bezier spring para botoes interativos</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">duracoes de 200-400ms para UI, 400-600ms para transicoes de pagina</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">4</span>
+        <h2 class="text-2xl font-bold">📜 Scroll Animations</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Animacoes disparadas pelo scroll criam experiencias imersivas. Use <strong class="text-blue-400">Intersection Observer</strong>
+        para detectar elementos e <strong class="text-blue-400">scroll-driven animations</strong> para sincronizar com o scroll.
+      </p>
+
+      <!-- Intersection Observer -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">👁️</span> Intersection Observer
+        </h3>
+        <p class="text-neutral-300 mb-4">
+          API nativa que detecta quando elementos entram ou saem da viewport. Perfeito para lazy loading e animacoes de entrada.
+        </p>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-neutral-400">// Criar observer</div>
+          <div class="text-blue-400">const observer = new IntersectionObserver((entries) => {</div>
+          <div class="text-green-400 ml-4">entries.forEach(entry => {</div>
+          <div class="text-green-400 ml-8">if (entry.isIntersecting) {</div>
+          <div class="text-green-400 ml-12">entry.target.classList.add('visible');</div>
+          <div class="text-green-400 ml-8">}</div>
+          <div class="text-green-400 ml-4">});</div>
+          <div class="text-blue-400">}, { threshold: 0.1 });</div>
+          <div class="text-neutral-400 mt-4">// Observar elementos</div>
+          <div class="text-blue-400">document.querySelectorAll('.scroll-animate')</div>
+          <div class="text-blue-400 ml-4">.forEach(el => observer.observe(el));</div>
+        </div>
+      </div>
+
+      <!-- CSS para scroll animations -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💻</span> CSS para Scroll Animations
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-neutral-400">/* Estado inicial (escondido) */</div>
+          <div class="text-blue-400">.scroll-animate {</div>
+          <div class="text-green-400 ml-4">opacity: 0;</div>
+          <div class="text-green-400 ml-4">transform: translateY(30px);</div>
+          <div class="text-green-400 ml-4">transition: all 0.6s ease-out;</div>
+          <div class="text-blue-400">}</div>
+          <div class="text-neutral-400 mt-4">/* Quando visivel */</div>
+          <div class="text-blue-400">.scroll-animate.visible {</div>
+          <div class="text-green-400 ml-4">opacity: 1;</div>
+          <div class="text-green-400 ml-4">transform: translateY(0);</div>
+          <div class="text-blue-400">}</div>
+          <div class="text-neutral-400 mt-4">/* Variacoes */</div>
+          <div class="text-blue-400">.scroll-animate.from-left {</div>
+          <div class="text-green-400 ml-4">transform: translateX(-50px);</div>
+          <div class="text-blue-400">}</div>
+          <div class="text-blue-400">.scroll-animate.scale {</div>
+          <div class="text-green-400 ml-4">transform: scale(0.8);</div>
+          <div class="text-blue-400">}</div>
+        </div>
+      </div>
+
+      <!-- Scroll-driven animations (CSS moderno) -->
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center">
+          <span class="mr-2">🚀</span> CSS Scroll-Driven Animations (Moderno)
+        </h3>
+        <p class="text-neutral-300 mb-4">
+          Nova API CSS que sincroniza animacoes diretamente com o scroll, sem JavaScript.
+        </p>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-neutral-400">/* Animacao controlada por scroll */</div>
+          <div class="text-blue-400">@keyframes reveal {</div>
+          <div class="text-green-400 ml-4">from { opacity: 0; transform: translateY(100px); }</div>
+          <div class="text-green-400 ml-4">to { opacity: 1; transform: translateY(0); }</div>
+          <div class="text-blue-400">}</div>
+          <div class="text-blue-400 mt-4">.element {</div>
+          <div class="text-green-400 ml-4">animation: reveal linear;</div>
+          <div class="text-green-400 ml-4">animation-timeline: view();</div>
+          <div class="text-green-400 ml-4">animation-range: entry 0% cover 40%;</div>
+          <div class="text-blue-400">}</div>
+        </div>
+        <p class="text-xs text-neutral-500 mt-3">* Suporte: Chrome 115+, Edge 115+. Use com fallback JS.</p>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vibe Coding Prompt
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">Intersection Observer para animar elementos ao entrar na viewport</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">fade-in com translateY para secoes de conteudo</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">staggered delays para listas e grids</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">5</span>
+        <h2 class="text-2xl font-bold">🚪 Page Transitions</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Transicoes entre paginas criam fluidez na navegacao. <strong class="text-blue-400">View Transitions API</strong>
+        permite animar entre estados de pagina, e tecnicas tradicionais usam overlay animations.
+      </p>
+
+      <!-- Tipos de Page Transitions -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">🎭</span> Tipos de Transicao
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Fade</h4>
+            <p class="text-sm text-neutral-400 mb-3">Pagina atual desaparece, nova aparece</p>
+            <div class="h-16 bg-dark-700 rounded-lg flex items-center justify-center relative overflow-hidden">
+              <div class="absolute inset-0 bg-blue-500/50 animate-pulse"></div>
+              <span class="text-xs text-neutral-300 z-10">Fade In/Out</span>
+            </div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Slide</h4>
+            <p class="text-sm text-neutral-400 mb-3">Nova pagina desliza sobre a atual</p>
+            <div class="h-16 bg-dark-700 rounded-lg flex items-center justify-center relative overflow-hidden">
+              <div class="absolute right-0 top-0 bottom-0 w-1/2 bg-blue-500/50 animate-slide-in"></div>
+              <span class="text-xs text-neutral-300 z-10">Slide</span>
+            </div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Scale</h4>
+            <p class="text-sm text-neutral-400 mb-3">Nova pagina cresce do centro</p>
+            <div class="h-16 bg-dark-700 rounded-lg flex items-center justify-center relative overflow-hidden">
+              <div class="w-8 h-8 bg-blue-500/50 rounded transition-transform duration-500 hover:scale-150"></div>
+            </div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Morph</h4>
+            <p class="text-sm text-neutral-400 mb-3">Elementos se transformam entre paginas</p>
+            <div class="h-16 bg-dark-700 rounded-lg flex items-center justify-center">
+              <div class="w-8 h-8 bg-blue-500/50 rounded-full transition-all duration-500 hover:rounded-lg hover:w-16"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- View Transitions API -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💻</span> View Transitions API
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-neutral-400">/* CSS: Definir transicao padrao */</div>
+          <div class="text-blue-400">::view-transition-old(root),</div>
+          <div class="text-blue-400">::view-transition-new(root) {</div>
+          <div class="text-green-400 ml-4">animation-duration: 0.4s;</div>
+          <div class="text-blue-400">}</div>
+          <div class="text-neutral-400 mt-4">/* JS: Iniciar transicao */</div>
+          <div class="text-blue-400">document.startViewTransition(() => {</div>
+          <div class="text-green-400 ml-4">// Atualizar DOM</div>
+          <div class="text-green-400 ml-4">updateContent();</div>
+          <div class="text-blue-400">});</div>
+          <div class="text-neutral-400 mt-4">/* CSS: Animacao customizada */</div>
+          <div class="text-blue-400">::view-transition-new(root) {</div>
+          <div class="text-green-400 ml-4">animation: slideFromRight 0.4s ease-out;</div>
+          <div class="text-blue-400">}</div>
+        </div>
+        <p class="text-xs text-neutral-500 mt-3">* View Transitions API: Chrome 111+, Edge 111+.</p>
+      </div>
+
+      <!-- Tecnica tradicional -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4">Tecnica Tradicional (Overlay)</h3>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-neutral-400">/* Overlay que cobre a tela */</div>
+          <div class="text-blue-400">.page-transition {</div>
+          <div class="text-green-400 ml-4">position: fixed;</div>
+          <div class="text-green-400 ml-4">inset: 0;</div>
+          <div class="text-green-400 ml-4">background: #111827;</div>
+          <div class="text-green-400 ml-4">transform: translateX(-100%);</div>
+          <div class="text-green-400 ml-4">transition: transform 0.5s ease-in-out;</div>
+          <div class="text-blue-400">}</div>
+          <div class="text-blue-400 mt-2">.page-transition.active {</div>
+          <div class="text-green-400 ml-4">transform: translateX(0);</div>
+          <div class="text-blue-400">}</div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vibe Coding Prompt
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">View Transitions API para navegacao SPA</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">fade transition de 300-400ms entre paginas</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">shared element transitions para continuidade visual</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">6</span>
+        <h2 class="text-2xl font-bold">⚡ Performance</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Animacoes devem rodar a <strong class="text-blue-400">60fps</strong> para parecerem suaves.
+        <strong class="text-blue-400">GPU acceleration</strong> e <strong class="text-blue-400">will-change</strong>
+        sao essenciais para performance.
+      </p>
+
+      <!-- Propriedades performaticas -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">🚀</span> Propriedades GPU-Accelerated
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-green-900/30 border border-green-500/30 rounded-lg p-4">
+            <h4 class="font-semibold text-green-400 mb-2 flex items-center">
+              <span class="mr-2">✓</span> Animar (Rapido)
+            </h4>
+            <ul class="text-sm text-neutral-300 space-y-1">
+              <li><code class="text-green-400">transform</code> - translate, scale, rotate</li>
+              <li><code class="text-green-400">opacity</code> - transparencia</li>
+              <li><code class="text-green-400">filter</code> - blur, saturate</li>
+            </ul>
+          </div>
+          <div class="bg-red-900/30 border border-red-500/30 rounded-lg p-4">
+            <h4 class="font-semibold text-red-400 mb-2 flex items-center">
+              <span class="mr-2">✗</span> Evitar (Lento)
+            </h4>
+            <ul class="text-sm text-neutral-300 space-y-1">
+              <li><code class="text-red-400">width/height</code> - causa reflow</li>
+              <li><code class="text-red-400">top/left</code> - use transform</li>
+              <li><code class="text-red-400">margin/padding</code> - causa reflow</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- will-change -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💻</span> Usando will-change
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-neutral-400">/* Avisa o browser que vai animar */</div>
+          <div class="text-blue-400">.element {</div>
+          <div class="text-green-400 ml-4">will-change: transform, opacity;</div>
+          <div class="text-blue-400">}</div>
+          <div class="text-neutral-400 mt-4">/* CUIDADO: Use com moderacao! */</div>
+          <div class="text-neutral-400">/* Aplicar apenas quando necessario */</div>
+          <div class="text-blue-400">.card:hover {</div>
+          <div class="text-green-400 ml-4">will-change: transform;</div>
+          <div class="text-blue-400">}</div>
+          <div class="text-blue-400">.card:not(:hover) {</div>
+          <div class="text-green-400 ml-4">will-change: auto;</div>
+          <div class="text-blue-400">}</div>
+        </div>
+      </div>
+
+      <!-- Dicas de performance -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4">Checklist de Performance</h3>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-3">
+            <span class="text-green-400 mt-1">✓</span>
+            <span class="text-neutral-300">Use <code class="bg-dark-700 px-1 rounded">transform</code> ao inves de <code class="bg-dark-700 px-1 rounded">top/left</code></span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-green-400 mt-1">✓</span>
+            <span class="text-neutral-300">Prefira <code class="bg-dark-700 px-1 rounded">opacity</code> a <code class="bg-dark-700 px-1 rounded">visibility</code> ou <code class="bg-dark-700 px-1 rounded">display</code></span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-green-400 mt-1">✓</span>
+            <span class="text-neutral-300">Limite animacoes simultaneas (max 2-3 elementos)</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-green-400 mt-1">✓</span>
+            <span class="text-neutral-300">Use <code class="bg-dark-700 px-1 rounded">will-change</code> apenas em elementos que realmente vao animar</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-green-400 mt-1">✓</span>
+            <span class="text-neutral-300">Pause animacoes fora da viewport</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-green-400 mt-1">✓</span>
+            <span class="text-neutral-300">Respeite <code class="bg-dark-700 px-1 rounded">prefers-reduced-motion</code> para acessibilidade</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- prefers-reduced-motion -->
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center">
+          <span class="mr-2">♿</span> Acessibilidade: prefers-reduced-motion
+        </h3>
+        <p class="text-neutral-300 mb-4">
+          Alguns usuarios preferem menos movimento (enjoo de movimento, distracoes). Respeite isso:
+        </p>
+        <div class="bg-dark-700 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <div class="text-blue-400">@media (prefers-reduced-motion: reduce) {</div>
+          <div class="text-green-400 ml-4">*, *::before, *::after {</div>
+          <div class="text-green-400 ml-8">animation-duration: 0.01ms !important;</div>
+          <div class="text-green-400 ml-8">animation-iteration-count: 1 !important;</div>
+          <div class="text-green-400 ml-8">transition-duration: 0.01ms !important;</div>
+          <div class="text-green-400 ml-4">}</div>
+          <div class="text-blue-400">}</div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vibe Coding Prompt
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">apenas transform e opacity para animacoes</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">will-change em elementos com animacoes frequentes</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">prefers-reduced-motion para desativar animacoes para usuarios sensiveis</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">📝</span> Resumo do Modulo
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Principios de Animacao</strong>
+              <span class="text-neutral-400"> - Os 12 principios da Disney aplicados a interfaces web</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">CSS Animations</strong>
+              <span class="text-neutral-400"> - @keyframes e animation properties para movimento complexo</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Timing e Easing</strong>
+              <span class="text-neutral-400"> - cubic-bezier e timing functions para movimento natural</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Scroll Animations</strong>
+              <span class="text-neutral-400"> - Intersection Observer e scroll-driven para experiencias imersivas</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Page Transitions</strong>
+              <span class="text-neutral-400"> - View Transitions API e tecnicas de transicao entre paginas</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Performance</strong>
+              <span class="text-neutral-400"> - GPU acceleration, will-change e 60fps</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-blue-400 mb-2">Proximo Modulo:</h3>
+          <p class="text-neutral-300">2.6 - Design Systems: Componentes reutilizaveis e tokens de design</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-2-4.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Modulo Anterior
+          </a>
+          <a href="modulo-2-6.html" class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors">
+            Proximo Modulo →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    // Easing demo
+    function triggerEasingDemo() {
+      const demos = ['linear-demo', 'ease-demo', 'ease-in-demo', 'ease-out-demo', 'ease-in-out-demo'];
+      demos.forEach(id => {
+        const el = document.getElementById(id);
+        el.style.left = '0';
+      });
+
+      setTimeout(() => {
+        demos.forEach(id => {
+          const el = document.getElementById(id);
+          el.style.left = 'calc(100% - 1rem)';
+        });
+      }, 100);
+
+      setTimeout(() => {
+        demos.forEach(id => {
+          const el = document.getElementById(id);
+          el.style.left = '0';
+        });
+      }, 1500);
+    }
+
+    // Scroll animations with Intersection Observer
+    const scrollObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.scroll-animate').forEach(el => {
+      scrollObserver.observe(el);
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1.2 Hierarquia Visual | WebP</title>
+  <meta name="description" content="Como o olho humano processa informacao. Aprenda sobre tamanho, cor, posicao e peso visual para criar designs que comunicam.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-emerald-400">Inicio</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-emerald-400">Trilha 1</a>
+      <span>/</span>
+      <span class="text-emerald-400">Modulo 1.2</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">
+        MODULO 1.2
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">👁️ Hierarquia Visual</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Como o olho humano processa informacao. Domine os principios de tamanho, cor,
+        posicao e peso visual para criar designs que comunicam com clareza.
+      </p>
+
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">6</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">35</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Basico</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-emerald-400">Visual</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">1</span>
+        <h2 class="text-2xl font-bold">🎯 O que e Hierarquia Visual</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Hierarquia visual e a <strong class="text-emerald-400">organizacao de elementos em ordem de importancia</strong>.
+        E o que faz seu olho ir primeiro para o titulo, depois para a imagem, depois para o texto.
+        Sem hierarquia, tudo compete pela atencao e nada se destaca.
+      </p>
+
+      <!-- Box Conceito Principal -->
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">💡</span> Definicao Tecnica
+        </h3>
+        <p class="text-neutral-300 mb-4">
+          A hierarquia visual utiliza <strong>propriedades visuais</strong> (tamanho, cor, posicao, contraste, espacamento)
+          para sinalizar ao cerebro <strong>o que olhar primeiro, segundo e terceiro</strong>.
+        </p>
+        <ul class="space-y-2 text-neutral-300">
+          <li class="flex items-start space-x-2">
+            <span class="text-emerald-400 mt-1">•</span>
+            <span><strong>Primario:</strong> O elemento mais importante (geralmente titulo ou CTA)</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-emerald-400 mt-1">•</span>
+            <span><strong>Secundario:</strong> Informacoes de suporte (subtitulos, imagens)</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-emerald-400 mt-1">•</span>
+            <span><strong>Terciario:</strong> Detalhes e informacoes complementares</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Box Exemplo Visual -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">📐</span> Exemplo: Hierarquia em Acao
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-8 text-center">
+          <div class="text-4xl font-bold text-white mb-2">Titulo Principal</div>
+          <div class="text-xl text-neutral-400 mb-4">Subtitulo explicativo menor</div>
+          <div class="text-sm text-neutral-500 mb-6">Texto de corpo com detalhes adicionais que complementam a mensagem principal.</div>
+          <button class="px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold">Acao Principal</button>
+        </div>
+        <p class="text-neutral-400 text-sm mt-4 text-center">
+          Observe como seu olho naturalmente segue: Titulo → Subtitulo → Texto → Botao
+        </p>
+      </div>
+
+      <!-- Box Dica -->
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Ao criar com IA, use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">hierarquia visual clara</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">titulo dominante</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">elementos primarios, secundarios e terciarios bem definidos</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">fluxo visual de cima para baixo</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">2</span>
+        <h2 class="text-2xl font-bold">📏 Tamanho Comunica Importancia</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A regra mais fundamental da hierarquia: <strong class="text-emerald-400">elementos maiores sao percebidos como mais importantes</strong>.
+        Isso e instintivo - nosso cerebro evoluiu para prestar atencao em coisas grandes (predadores, comida, perigos).
+      </p>
+
+      <!-- Box Conceito -->
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">📊</span> Escala Tipografica
+        </h3>
+        <p class="text-neutral-300 mb-4">
+          Um sistema de tamanhos padronizado cria consistencia e hierarquia automatica:
+        </p>
+        <div class="space-y-4">
+          <div class="flex items-center space-x-4">
+            <span class="text-5xl font-bold text-white w-24">H1</span>
+            <div class="flex-1">
+              <span class="text-neutral-400">48-64px</span>
+              <span class="text-neutral-500 ml-2">• Titulo principal da pagina</span>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="text-3xl font-bold text-white w-24">H2</span>
+            <div class="flex-1">
+              <span class="text-neutral-400">32-40px</span>
+              <span class="text-neutral-500 ml-2">• Titulos de secao</span>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="text-xl font-semibold text-white w-24">H3</span>
+            <div class="flex-1">
+              <span class="text-neutral-400">24-28px</span>
+              <span class="text-neutral-500 ml-2">• Subtitulos</span>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="text-base text-white w-24">Body</span>
+            <div class="flex-1">
+              <span class="text-neutral-400">16-18px</span>
+              <span class="text-neutral-500 ml-2">• Texto de corpo</span>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="text-sm text-neutral-400 w-24">Small</span>
+            <div class="flex-1">
+              <span class="text-neutral-400">12-14px</span>
+              <span class="text-neutral-500 ml-2">• Legendas, notas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid Fazer vs Evitar -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">✓ Contraste de Tamanho Claro</h4>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <div class="text-3xl font-bold text-white mb-2">Grande Titulo</div>
+            <div class="text-base text-neutral-400 mb-3">Texto medio explicativo</div>
+            <div class="text-xs text-neutral-500">Nota pequena</div>
+          </div>
+          <p class="text-sm text-neutral-400 mt-3">3 niveis claramente distinguiveis</p>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ Tamanhos Muito Proximos</h4>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <div class="text-lg font-bold text-white mb-2">Titulo medio</div>
+            <div class="text-base text-neutral-400 mb-3">Texto quase igual</div>
+            <div class="text-sm text-neutral-500">Nota um pouco menor</div>
+          </div>
+          <p class="text-sm text-neutral-400 mt-3">Hierarquia confusa, tudo parece igual</p>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use termos como: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">titulo hero grande (64px+)</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">escala tipografica consistente</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">contraste de tamanho pronunciado</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">texto de corpo 16-18px legivel</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">3</span>
+        <h2 class="text-2xl font-bold">🎨 Cor Atrai Atencao</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Cor e a ferramenta mais poderosa para direcionar atencao. Um <strong class="text-emerald-400">ponto de cor saturada
+        em um fundo neutro</strong> captura o olho instantaneamente. E por isso que botoes de acao sao coloridos.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">🔬</span> Como Cor Cria Hierarquia
+        </h3>
+        <ul class="space-y-3 text-neutral-300">
+          <li class="flex items-start space-x-2">
+            <span class="text-emerald-400 mt-1">•</span>
+            <span><strong>Cores saturadas</strong> avancam visualmente (parecem mais proximas)</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-emerald-400 mt-1">•</span>
+            <span><strong>Cores dessaturadas</strong> recuam (parecem mais distantes)</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-emerald-400 mt-1">•</span>
+            <span><strong>Cores quentes</strong> (vermelho, laranja) chamam mais atencao que frias</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-emerald-400 mt-1">•</span>
+            <span><strong>Alto contraste</strong> = mais visibilidade e importancia percebida</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Exemplo Visual de Cor -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">👁️</span> Demonstracao: Onde seu olho vai?
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-8">
+          <div class="flex flex-wrap gap-4 justify-center items-center">
+            <div class="w-16 h-16 bg-neutral-600 rounded-lg"></div>
+            <div class="w-16 h-16 bg-neutral-600 rounded-lg"></div>
+            <div class="w-16 h-16 bg-emerald-500 rounded-lg"></div>
+            <div class="w-16 h-16 bg-neutral-600 rounded-lg"></div>
+            <div class="w-16 h-16 bg-neutral-600 rounded-lg"></div>
+          </div>
+        </div>
+        <p class="text-neutral-400 text-sm mt-4 text-center">
+          O quadrado verde captura sua atencao imediatamente, mesmo sendo do mesmo tamanho
+        </p>
+      </div>
+
+      <!-- Box Aplicacao -->
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">💼</span> Aplicacao Pratica
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4 text-center">
+            <div class="text-emerald-400 text-2xl mb-2">CTA Primario</div>
+            <div class="text-sm text-neutral-400">Cor de destaque saturada</div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4 text-center">
+            <div class="text-neutral-300 text-2xl mb-2">CTA Secundario</div>
+            <div class="text-sm text-neutral-400">Cor neutra ou outline</div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4 text-center">
+            <div class="text-neutral-500 text-2xl mb-2">Links</div>
+            <div class="text-sm text-neutral-400">Cor mais sutil</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">CTA com cor de destaque</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">fundo neutro com acentos coloridos</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">hierarquia de cor (primaria, secundaria, neutra)</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">alto contraste para elementos importantes</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">4</span>
+        <h2 class="text-2xl font-bold">📍 Posicao Direciona</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Onde um elemento esta posicionado afeta sua importancia percebida.
+        Em culturas ocidentais, lemos de <strong class="text-emerald-400">cima para baixo, esquerda para direita</strong>.
+        Elementos no topo e a esquerda sao vistos primeiro.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">📖</span> Padroes de Leitura
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-3">Padrao F</h4>
+            <div class="relative bg-dark-700 rounded p-4 h-32">
+              <div class="absolute top-2 left-2 right-4 h-2 bg-emerald-500/50 rounded"></div>
+              <div class="absolute top-6 left-2 w-3/4 h-2 bg-emerald-500/30 rounded"></div>
+              <div class="absolute top-10 left-2 w-1/4 h-16 bg-emerald-500/20 rounded"></div>
+            </div>
+            <p class="text-sm text-neutral-400 mt-2">Comum em paginas com muito texto. Usuario escaneia horizontalmente no topo, depois desce pela esquerda.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-3">Padrao Z</h4>
+            <div class="relative bg-dark-700 rounded p-4 h-32">
+              <div class="absolute top-2 left-2 right-2 h-2 bg-blue-500/50 rounded"></div>
+              <div class="absolute top-4 left-1/2 w-1 h-16 bg-blue-500/30 rounded transform -rotate-45 origin-top"></div>
+              <div class="absolute bottom-2 left-2 right-2 h-2 bg-blue-500/50 rounded"></div>
+            </div>
+            <p class="text-sm text-neutral-400 mt-2">Comum em landing pages. Usuario vai do logo (topo esquerda) ao CTA (final direita).</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Box Implicacoes -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">🎯</span> Implicacoes para Design
+        </h3>
+        <ul class="space-y-3 text-neutral-300">
+          <li class="flex items-start space-x-2">
+            <span class="text-emerald-400 mt-1">•</span>
+            <span><strong>Logo:</strong> Canto superior esquerdo (primeiro ponto de contato)</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-emerald-400 mt-1">•</span>
+            <span><strong>Navegacao:</strong> Topo da pagina (area de alta visibilidade)</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-emerald-400 mt-1">•</span>
+            <span><strong>CTA Principal:</strong> Acima do fold, visivel sem rolar</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-emerald-400 mt-1">•</span>
+            <span><strong>Informacoes secundarias:</strong> Abaixo do fold ou em colunas laterais</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">logo no canto superior esquerdo</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">CTA acima do fold</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">fluxo de leitura natural (F ou Z)</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">conteudo prioritario no topo</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">5</span>
+        <h2 class="text-2xl font-bold">⚖️ Peso Visual</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Peso visual e a <strong class="text-emerald-400">"forca de atracao" de um elemento</strong>.
+        Elementos com mais peso visual demandam mais atencao. O peso e determinado por uma combinacao de fatores.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">📊</span> Fatores que Aumentam Peso Visual
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Tamanho</h4>
+            <p class="text-sm text-neutral-400">Maior = mais pesado</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Cor</h4>
+            <p class="text-sm text-neutral-400">Cores escuras e saturadas = mais pesadas</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Densidade</h4>
+            <p class="text-sm text-neutral-400">Mais conteudo/textura = mais pesado</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Contraste</h4>
+            <p class="text-sm text-neutral-400">Alto contraste com fundo = mais pesado</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Forma</h4>
+            <p class="text-sm text-neutral-400">Formas regulares e solidas = mais pesadas</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Isolamento</h4>
+            <p class="text-sm text-neutral-400">Elemento isolado com espaco ao redor = mais pesado</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exemplo Visual -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">⚖️</span> Demonstracao: Equilibrio de Peso
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-dark-700 rounded-lg p-6">
+            <h4 class="text-sm text-emerald-400 mb-3">Equilibrado</h4>
+            <div class="flex justify-between items-center">
+              <div class="w-20 h-20 bg-emerald-500 rounded-lg"></div>
+              <div class="flex flex-col gap-2">
+                <div class="w-8 h-8 bg-neutral-400 rounded"></div>
+                <div class="w-8 h-8 bg-neutral-400 rounded"></div>
+                <div class="w-8 h-8 bg-neutral-400 rounded"></div>
+              </div>
+            </div>
+            <p class="text-xs text-neutral-500 mt-3">Um grande = varios pequenos</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-6">
+            <h4 class="text-sm text-red-400 mb-3">Desequilibrado</h4>
+            <div class="flex justify-between items-center">
+              <div class="w-20 h-20 bg-emerald-500 rounded-lg"></div>
+              <div class="w-6 h-6 bg-neutral-600 rounded"></div>
+            </div>
+            <p class="text-xs text-neutral-500 mt-3">Peso muito desigual, layout "cai" para a esquerda</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">layout equilibrado visualmente</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">peso visual balanceado entre colunas</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">elemento hero com alto peso visual</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">botao com peso visual destacado</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl">6</span>
+        <h2 class="text-2xl font-bold">🎯 Ponto Focal</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O ponto focal e o <strong class="text-emerald-400">elemento que primeiro captura a atencao</strong>.
+        Todo design efetivo tem um ponto focal claro. Se tudo compete pela atencao, nada se destaca.
+      </p>
+
+      <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-emerald-400 mb-4 flex items-center">
+          <span class="mr-2">💡</span> Tecnicas para Criar Ponto Focal
+        </h3>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-4">
+            <div class="w-10 h-10 rounded-full bg-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold flex-shrink-0">1</div>
+            <div class="flex-1">
+              <h4 class="font-semibold text-white">Contraste</h4>
+              <p class="text-sm text-neutral-400">Diferente de tudo ao redor (cor, tamanho, forma)</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="w-10 h-10 rounded-full bg-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold flex-shrink-0">2</div>
+            <div class="flex-1">
+              <h4 class="font-semibold text-white">Isolamento</h4>
+              <p class="text-sm text-neutral-400">Espaco vazio ao redor destaca o elemento</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="w-10 h-10 rounded-full bg-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold flex-shrink-0">3</div>
+            <div class="flex-1">
+              <h4 class="font-semibold text-white">Linhas Direcionais</h4>
+              <p class="text-sm text-neutral-400">Elementos que "apontam" para o foco (setas, olhares)</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="w-10 h-10 rounded-full bg-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold flex-shrink-0">4</div>
+            <div class="flex-1">
+              <h4 class="font-semibold text-white">Movimento</h4>
+              <p class="text-sm text-neutral-400">Animacao sutil em um elemento estatico</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid Exemplo -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+          <h4 class="font-bold text-emerald-400 mb-4">✓ Ponto Focal Claro</h4>
+          <div class="bg-dark-800 rounded-lg p-6 text-center">
+            <div class="text-neutral-500 text-sm mb-4">texto secundario</div>
+            <div class="text-3xl font-bold text-white mb-4">TITULO PRINCIPAL</div>
+            <button class="px-6 py-3 bg-emerald-500 text-white rounded-lg font-bold">ACAO</button>
+            <div class="text-neutral-500 text-sm mt-4">mais texto secundario</div>
+          </div>
+          <p class="text-sm text-neutral-400 mt-3">Um elemento domina claramente</p>
+        </div>
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+          <h4 class="font-bold text-red-400 mb-4">✗ Multiplos Focos</h4>
+          <div class="bg-dark-800 rounded-lg p-6 text-center">
+            <div class="text-xl font-bold text-blue-400 mb-2">TITULO UM</div>
+            <div class="text-xl font-bold text-emerald-400 mb-2">TITULO DOIS</div>
+            <div class="flex gap-2 justify-center">
+              <button class="px-4 py-2 bg-red-500 text-white rounded font-bold">ACAO 1</button>
+              <button class="px-4 py-2 bg-yellow-500 text-white rounded font-bold">ACAO 2</button>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-400 mt-3">Tudo compete, usuario fica confuso</p>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vocabulario para Prompts
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">ponto focal claro e unico</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">CTA como foco principal da secao</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">titulo hero dominante</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-emerald-400">hierarquia com um unico elemento destacado</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-emerald-900/40 via-dark-800 to-dark-800 rounded-xl border border-emerald-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">📝</span> Resumo do Modulo
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Hierarquia Visual</strong>
+              <span class="text-neutral-400"> - Organizacao de elementos em ordem de importancia usando propriedades visuais</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Tamanho</strong>
+              <span class="text-neutral-400"> - Maior = mais importante. Use escala tipografica com contraste claro</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Cor</strong>
+              <span class="text-neutral-400"> - Cores saturadas atraem atencao. Use cor de destaque apenas para o essencial</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Posicao</strong>
+              <span class="text-neutral-400"> - Topo e esquerda = mais importante. Respeite padroes F e Z de leitura</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Peso Visual</strong>
+              <span class="text-neutral-400"> - Equilibre elementos de diferentes pesos para layouts harmonicos</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-emerald-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Ponto Focal</strong>
+              <span class="text-neutral-400"> - Todo design deve ter um unico elemento que captura atencao primeiro</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-emerald-400 mb-2">Proximo Modulo:</h3>
+          <p class="text-neutral-300">1.3 - Tipografia como Comunicacao: Fontes falam mais que palavras</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-1-1.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Modulo Anterior
+          </a>
+          <a href="modulo-1-3.html" class="flex-1 text-center px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-500 transition-colors">
+            Proximo Modulo →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>

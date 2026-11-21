@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3.5 Escrevendo Prompts Efetivos | WebP</title>
+  <meta name="description" content="O modulo mais importante do curso. Aprenda a estruturar prompts, usar vocabulario tecnico, fornecer contexto e iterar para criar sites incriveis com IA.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Expandable content */
+    .topic-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+    .topic-content.expanded {
+      max-height: 4000px;
+      transition: max-height 0.5s ease-in;
+    }
+    .topic-toggle svg {
+      transition: transform 0.3s ease;
+    }
+    .topic-toggle.expanded svg {
+      transform: rotate(180deg);
+    }
+
+    /* Prompt examples styling */
+    .prompt-example {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+    }
+    .prompt-bad {
+      background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .prompt-good {
+      background: linear-gradient(135deg, #052e16 0%, #14532d 100%);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-purple-400">Inicio</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-purple-400">Trilha 3</a>
+      <span>/</span>
+      <span class="text-purple-400">Modulo 3.5</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full">
+          Trilha 3 • Modulo 5
+        </span>
+        <span class="inline-block px-3 py-1 bg-yellow-500/20 text-yellow-400 text-xs font-semibold rounded-full">
+          MODULO ESSENCIAL
+        </span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">Escrevendo Prompts Efetivos</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Este e o modulo mais importante do curso. Domine a arte de comunicar com IAs para criar
+        sites profissionais. Aprenda estrutura, vocabulario e tecnicas de iteracao.
+      </p>
+
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">6</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">45</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">Avancado</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-yellow-400">Chave</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- INTRO BOX -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-yellow-900/30 via-dark-800 to-dark-800 rounded-xl border border-yellow-500/30 p-8">
+        <h2 class="text-xl font-bold mb-4 flex items-center text-yellow-400">
+          <span class="mr-3">⚡</span> Por que este modulo e diferente
+        </h2>
+        <p class="text-neutral-300 mb-4">
+          Todos os modulos anteriores ensinaram <strong class="text-white">vocabulario de design</strong> - cores, tipografia,
+          layout, componentes. Agora voce vai aprender a <strong class="text-yellow-400">usar esse vocabulario para se comunicar com IAs</strong>.
+        </p>
+        <p class="text-neutral-300">
+          Um prompt bem escrito e a diferenca entre receber um site generico e receber exatamente o que voce imaginou.
+          Este modulo ensina a estrutura, as tecnicas e os padroes que profissionais usam.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 1: Estrutura de Prompts -->
+    <section id="topico-1" class="mb-8">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(this)" class="topic-toggle w-full p-6 flex items-center justify-between text-left hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">1</span>
+            <div>
+              <h2 class="text-xl font-bold">Estrutura de Prompts</h2>
+              <p class="text-neutral-400 text-sm">A anatomia de um prompt efetivo</p>
+            </div>
+          </div>
+          <svg class="w-6 h-6 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class="topic-content">
+          <div class="px-6 pb-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+              <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                <span class="mr-2">💡</span> O que e:
+              </h3>
+              <p class="text-neutral-300 leading-relaxed mb-4">
+                A estrutura de um prompt e o <strong class="text-purple-400">formato organizado</strong> que voce usa para comunicar
+                com a IA. Um prompt bem estruturado tem: contexto, objetivo, especificacoes tecnicas e restricoes.
+              </p>
+
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="text-sm font-semibold text-white mb-3">Formula basica de prompt:</h4>
+                <div class="space-y-2 text-sm">
+                  <div class="flex items-start gap-2">
+                    <span class="bg-purple-500/30 text-purple-400 px-2 py-0.5 rounded text-xs font-bold">1</span>
+                    <span class="text-neutral-300"><strong class="text-white">CONTEXTO:</strong> Quem voce e e para que e o projeto</span>
+                  </div>
+                  <div class="flex items-start gap-2">
+                    <span class="bg-purple-500/30 text-purple-400 px-2 py-0.5 rounded text-xs font-bold">2</span>
+                    <span class="text-neutral-300"><strong class="text-white">OBJETIVO:</strong> O que voce quer criar</span>
+                  </div>
+                  <div class="flex items-start gap-2">
+                    <span class="bg-purple-500/30 text-purple-400 px-2 py-0.5 rounded text-xs font-bold">3</span>
+                    <span class="text-neutral-300"><strong class="text-white">ESPECIFICACOES:</strong> Detalhes tecnicos e visuais</span>
+                  </div>
+                  <div class="flex items-start gap-2">
+                    <span class="bg-purple-500/30 text-purple-400 px-2 py-0.5 rounded text-xs font-bold">4</span>
+                    <span class="text-neutral-300"><strong class="text-white">RESTRICOES:</strong> O que NAO fazer ou limitacoes</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Por que aprender:
+              </h3>
+              <ul class="space-y-3 text-neutral-300">
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Prompts vagos</strong> geram resultados genericos e imprevisiveis</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Estrutura clara</strong> reduz idas e voltas com a IA</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Economiza tempo</strong> ao receber resultados mais proximos do desejado</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Profissionais</strong> usam templates estruturados para consistencia</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🔑</span> Conceitos-chave:
+              </h3>
+
+              <!-- Exemplo ruim -->
+              <div class="mb-4">
+                <h4 class="text-sm font-semibold text-red-400 mb-2">Prompt RUIM:</h4>
+                <div class="prompt-bad rounded-lg p-4">
+                  <p class="text-neutral-300 text-sm italic">"Faz um site bonito pra mim"</p>
+                </div>
+                <p class="text-xs text-neutral-500 mt-1">Problema: Vago, sem contexto, sem especificacoes</p>
+              </div>
+
+              <!-- Exemplo bom -->
+              <div class="mb-4">
+                <h4 class="text-sm font-semibold text-green-400 mb-2">Prompt BOM:</h4>
+                <div class="prompt-good rounded-lg p-4">
+                  <p class="text-neutral-300 text-sm italic">
+                    "Crie uma landing page para uma cafeteria artesanal chamada 'Grao Nobre'.
+                    Use paleta de cores terrosas (marrom, bege, verde oliva). Layout com hero section
+                    full-width, secao de produtos em grid 3 colunas, depoimentos em carousel.
+                    Tipografia serif elegante para titulos, sans-serif para corpo. Mobile-first,
+                    dark mode opcional. NAO use imagens de banco generico - deixe placeholders."
+                  </p>
+                </div>
+                <p class="text-xs text-neutral-500 mt-1">Sucesso: Contexto claro, especificacoes tecnicas, restricoes definidas</p>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Seja Especifico</h4>
+                  <p class="text-sm text-neutral-400">"Hero com 100vh" e melhor que "hero grande"</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Use Numeros</h4>
+                  <p class="text-sm text-neutral-400">"Grid 4 colunas, gap-6" e preciso e claro</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Defina Restricoes</h4>
+                  <p class="text-sm text-neutral-400">"NAO use JavaScript" evita surpresas</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">De Contexto</h4>
+                  <p class="text-sm text-neutral-400">"Para um publico jovem" muda o resultado</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 2: Vocabulario Tecnico -->
+    <section id="topico-2" class="mb-8">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(this)" class="topic-toggle w-full p-6 flex items-center justify-between text-left hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">2</span>
+            <div>
+              <h2 class="text-xl font-bold">Vocabulario Tecnico</h2>
+              <p class="text-neutral-400 text-sm">As palavras certas fazem toda diferenca</p>
+            </div>
+          </div>
+          <svg class="w-6 h-6 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class="topic-content">
+          <div class="px-6 pb-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+              <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                <span class="mr-2">💡</span> O que e:
+              </h3>
+              <p class="text-neutral-300 leading-relaxed mb-4">
+                Vocabulario tecnico sao os <strong class="text-purple-400">termos especificos de design e desenvolvimento</strong>
+                que a IA reconhece e interpreta com precisao. Usar "hero section" em vez de "parte de cima grande"
+                gera resultados drasticamente melhores.
+              </p>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4 border border-red-500/30">
+                  <h4 class="text-sm font-semibold text-red-400 mb-2">Linguagem Leiga</h4>
+                  <ul class="text-sm text-neutral-400 space-y-1">
+                    <li>"Parte de cima bonita"</li>
+                    <li>"Caixinhas lado a lado"</li>
+                    <li>"Letra grande e bonita"</li>
+                    <li>"Cores legais"</li>
+                  </ul>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4 border border-green-500/30">
+                  <h4 class="text-sm font-semibold text-green-400 mb-2">Vocabulario Tecnico</h4>
+                  <ul class="text-sm text-neutral-400 space-y-1">
+                    <li>"Hero section full-width"</li>
+                    <li>"Grid 3 colunas com gap-6"</li>
+                    <li>"Tipografia display 48px bold"</li>
+                    <li>"Paleta analogica azul-ciano"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Por que aprender:
+              </h3>
+              <ul class="space-y-3 text-neutral-300">
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">IAs foram treinadas</strong> em documentacao tecnica e codigo</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Termos especificos</strong> eliminam ambiguidade na comunicacao</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">"Flexbox justify-between"</strong> e uma instrucao exata</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Voce soa profissional</strong> e a IA responde na mesma altura</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🔑</span> Conceitos-chave:
+              </h3>
+
+              <div class="prompt-example rounded-lg p-4 mb-4">
+                <h4 class="text-sm font-semibold text-purple-400 mb-2">Prompt com vocabulario tecnico:</h4>
+                <p class="text-neutral-300 text-sm italic">
+                  "Crie um card component com aspect-ratio 16:9, border-radius-xl, box-shadow-lg no hover
+                  com transition 300ms ease. Imagem object-cover no topo, padding-6 para conteudo.
+                  Titulo em font-semibold text-lg, paragrafo em text-neutral-400 line-clamp-2.
+                  Badge com background gradient de purple-500 para pink-500."
+                </p>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Termos de Layout</h4>
+                  <p class="text-sm text-neutral-400">flexbox, grid, container, wrapper, sidebar, main content</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Termos de Espacamento</h4>
+                  <p class="text-sm text-neutral-400">padding, margin, gap, spacing, whitespace, breathing room</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Termos de Tipografia</h4>
+                  <p class="text-sm text-neutral-400">font-weight, line-height, letter-spacing, text-transform</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Termos de Cor</h4>
+                  <p class="text-sm text-neutral-400">palette, hue, saturation, opacity, gradient, accent color</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 3: Contexto e Especificidade -->
+    <section id="topico-3" class="mb-8">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(this)" class="topic-toggle w-full p-6 flex items-center justify-between text-left hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">3</span>
+            <div>
+              <h2 class="text-xl font-bold">Contexto e Especificidade</h2>
+              <p class="text-neutral-400 text-sm">Quanto mais contexto, melhor o resultado</p>
+            </div>
+          </div>
+          <svg class="w-6 h-6 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class="topic-content">
+          <div class="px-6 pb-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+              <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                <span class="mr-2">💡</span> O que e:
+              </h3>
+              <p class="text-neutral-300 leading-relaxed mb-4">
+                Contexto e <strong class="text-purple-400">toda informacao de fundo</strong> que ajuda a IA entender seu projeto:
+                o tipo de negocio, publico-alvo, tom da marca, referencias visuais. Especificidade e o nivel de
+                <strong class="text-purple-400">detalhe tecnico</strong> que voce fornece.
+              </p>
+
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="text-sm font-semibold text-white mb-3">Niveis de contexto:</h4>
+                <div class="space-y-3">
+                  <div class="flex items-center gap-3">
+                    <span class="w-20 text-xs text-red-400 font-semibold">Nivel 1</span>
+                    <span class="text-sm text-neutral-400">"Faz um site"</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <span class="w-20 text-xs text-yellow-400 font-semibold">Nivel 2</span>
+                    <span class="text-sm text-neutral-400">"Faz um site para uma loja"</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <span class="w-20 text-xs text-blue-400 font-semibold">Nivel 3</span>
+                    <span class="text-sm text-neutral-400">"Faz um site para uma loja de roupas femininas de luxo"</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <span class="w-20 text-xs text-green-400 font-semibold">Nivel 4</span>
+                    <span class="text-sm text-neutral-400">"Site e-commerce de moda feminina premium, publico 25-45 anos, estetica minimalista escandinava, paleta neutra com dourado como accent"</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Por que aprender:
+              </h3>
+              <ul class="space-y-3 text-neutral-300">
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">A IA nao le mentes</strong> - ela so sabe o que voce escreve</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">"Site de advocacia"</strong> vs "site de loja de skate" sao mundos diferentes</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Publico-alvo</strong> determina cores, linguagem e complexidade</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Tom da marca</strong> (serio, divertido, premium) muda tudo</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🔑</span> Conceitos-chave:
+              </h3>
+
+              <div class="prompt-example rounded-lg p-4 mb-4">
+                <h4 class="text-sm font-semibold text-purple-400 mb-2">Prompt com contexto completo:</h4>
+                <p class="text-neutral-300 text-sm italic">
+                  "Estou criando o site da 'Verde Vivo', uma startup de delivery de organicos em SP.
+                  Publico: profissionais urbanos 28-45, preocupados com saude e sustentabilidade.
+                  Tom: moderno mas acolhedor, confiavel mas nao corporativo. Concorrentes: Liv Up, Jumbinho.
+                  Quero me diferenciar com um visual mais 'fazenda urbana' - ilustracoes, tons verdes e terrosos,
+                  tipografia humanista. Preciso de: landing page com hero, como funciona (3 steps), produtos em destaque,
+                  depoimentos e CTA final. Mobile-first, Tailwind CSS."
+                </p>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Contexto de Negocio</h4>
+                  <p class="text-sm text-neutral-400">Tipo de empresa, setor, proposta de valor, diferenciais</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Contexto de Publico</h4>
+                  <p class="text-sm text-neutral-400">Idade, profissao, interesses, nivel tecnico</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Contexto Visual</h4>
+                  <p class="text-sm text-neutral-400">Referencias, concorrentes, estilos admirados</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Contexto Tecnico</h4>
+                  <p class="text-sm text-neutral-400">Framework, restricoes, integracao necessaria</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 4: Exemplos e Referencias -->
+    <section id="topico-4" class="mb-8">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(this)" class="topic-toggle w-full p-6 flex items-center justify-between text-left hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">4</span>
+            <div>
+              <h2 class="text-xl font-bold">Exemplos e Referencias</h2>
+              <p class="text-neutral-400 text-sm">Mostre o que voce quer, nao apenas descreva</p>
+            </div>
+          </div>
+          <svg class="w-6 h-6 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class="topic-content">
+          <div class="px-6 pb-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+              <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                <span class="mr-2">💡</span> O que e:
+              </h3>
+              <p class="text-neutral-300 leading-relaxed mb-4">
+                Referencias sao <strong class="text-purple-400">sites, componentes ou estilos existentes</strong> que voce usa
+                como inspiracao. Podem ser URLs de sites que voce admira, nomes de design systems conhecidos
+                (Material Design, Apple HIG), ou descricoes de padroes visuais reconheciveis.
+              </p>
+
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="text-sm font-semibold text-white mb-3">Tipos de referencias:</h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div class="bg-dark-700 rounded-lg p-3 text-center">
+                    <div class="text-purple-400 font-semibold text-sm mb-1">Sites Especificos</div>
+                    <div class="text-xs text-neutral-500">"Estilo do Stripe.com"</div>
+                  </div>
+                  <div class="bg-dark-700 rounded-lg p-3 text-center">
+                    <div class="text-purple-400 font-semibold text-sm mb-1">Design Systems</div>
+                    <div class="text-xs text-neutral-500">"Baseado em Material Design"</div>
+                  </div>
+                  <div class="bg-dark-700 rounded-lg p-3 text-center">
+                    <div class="text-purple-400 font-semibold text-sm mb-1">Estilos Gerais</div>
+                    <div class="text-xs text-neutral-500">"Estetica Brutalist"</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Por que aprender:
+              </h3>
+              <ul class="space-y-3 text-neutral-300">
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">"Como o Airbnb"</strong> comunica mais que 1000 palavras</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">IAs conhecem sites famosos</strong> e podem replicar estilos</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Combinar referencias</strong>: "Layout do Linear + cores do Notion"</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Referencias negativas</strong> tambem funcionam: "NAO como sites anos 90"</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🔑</span> Conceitos-chave:
+              </h3>
+
+              <div class="prompt-example rounded-lg p-4 mb-4">
+                <h4 class="text-sm font-semibold text-purple-400 mb-2">Prompt com referencias:</h4>
+                <p class="text-neutral-300 text-sm italic">
+                  "Crie uma dashboard de analytics. Referencias: limpeza visual do Linear.app,
+                  cards arredondados do Stripe Dashboard, graficos estilo Vercel Analytics.
+                  Sidebar fixa a esquerda como no Notion. Cores: dark mode com accent em azul-eletrico.
+                  NAO quero visual carregado tipo dashboards enterprise tradicionais."
+                </p>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Referencias Positivas</h4>
+                  <p class="text-sm text-neutral-400">"Inspirado em X", "estilo de Y", "layout como Z"</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Referencias Negativas</h4>
+                  <p class="text-sm text-neutral-400">"NAO como X", "evitar estilo Y", "sem parecer Z"</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Referencias Parciais</h4>
+                  <p class="text-sm text-neutral-400">"Tipografia do site A, cores do site B"</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Referencias de Estilo</h4>
+                  <p class="text-sm text-neutral-400">"Glassmorphism", "Neomorphism", "Brutalist"</p>
+                </div>
+              </div>
+
+              <div class="mt-4 p-4 bg-dark-800 rounded-lg border border-dark-600">
+                <h4 class="text-sm font-semibold text-white mb-2">Sites que IAs conhecem bem:</h4>
+                <div class="flex flex-wrap gap-2">
+                  <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs">Stripe</span>
+                  <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs">Linear</span>
+                  <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs">Vercel</span>
+                  <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs">Notion</span>
+                  <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs">Airbnb</span>
+                  <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs">Apple</span>
+                  <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs">Spotify</span>
+                  <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs">GitHub</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 5: Iteracao de Prompts -->
+    <section id="topico-5" class="mb-8">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(this)" class="topic-toggle w-full p-6 flex items-center justify-between text-left hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">5</span>
+            <div>
+              <h2 class="text-xl font-bold">Iteracao de Prompts</h2>
+              <p class="text-neutral-400 text-sm">Refinando ate chegar ao resultado perfeito</p>
+            </div>
+          </div>
+          <svg class="w-6 h-6 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class="topic-content">
+          <div class="px-6 pb-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+              <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                <span class="mr-2">💡</span> O que e:
+              </h3>
+              <p class="text-neutral-300 leading-relaxed mb-4">
+                Iteracao e o <strong class="text-purple-400">processo de refinamento progressivo</strong>. Voce raramente
+                acerta de primeira - e isso e normal. O segredo e saber como pedir ajustes especificos,
+                construindo sobre o que ja foi criado em vez de comecar do zero.
+              </p>
+
+              <div class="bg-dark-800 rounded-lg p-4">
+                <h4 class="text-sm font-semibold text-white mb-3">Fluxo de iteracao:</h4>
+                <div class="flex items-center justify-between text-xs">
+                  <div class="text-center">
+                    <div class="w-8 h-8 bg-purple-500/30 rounded-full flex items-center justify-center text-purple-400 font-bold mb-1">1</div>
+                    <div class="text-neutral-400">Prompt inicial</div>
+                  </div>
+                  <div class="text-neutral-600">→</div>
+                  <div class="text-center">
+                    <div class="w-8 h-8 bg-purple-500/30 rounded-full flex items-center justify-center text-purple-400 font-bold mb-1">2</div>
+                    <div class="text-neutral-400">Avaliar resultado</div>
+                  </div>
+                  <div class="text-neutral-600">→</div>
+                  <div class="text-center">
+                    <div class="w-8 h-8 bg-purple-500/30 rounded-full flex items-center justify-center text-purple-400 font-bold mb-1">3</div>
+                    <div class="text-neutral-400">Ajuste especifico</div>
+                  </div>
+                  <div class="text-neutral-600">→</div>
+                  <div class="text-center">
+                    <div class="w-8 h-8 bg-green-500/30 rounded-full flex items-center justify-center text-green-400 font-bold mb-1">4</div>
+                    <div class="text-neutral-400">Repetir ate OK</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Por que aprender:
+              </h3>
+              <ul class="space-y-3 text-neutral-300">
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Ninguem acerta de primeira</strong> - iteracao e parte do processo</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Ajustes cirurgicos</strong> sao mais eficientes que refazer tudo</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">A IA mantem contexto</strong> da conversa - use isso a seu favor</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Saber iterar</strong> e mais importante que o prompt inicial perfeito</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🔑</span> Conceitos-chave:
+              </h3>
+
+              <div class="space-y-3 mb-4">
+                <div class="prompt-example rounded-lg p-3">
+                  <p class="text-xs text-purple-400 mb-1">Prompt 1 - Inicial:</p>
+                  <p class="text-neutral-300 text-sm italic">"Crie um hero section para uma fintech"</p>
+                </div>
+                <div class="prompt-example rounded-lg p-3">
+                  <p class="text-xs text-purple-400 mb-1">Prompt 2 - Ajuste de cor:</p>
+                  <p class="text-neutral-300 text-sm italic">"Mude o gradiente para azul-escuro para roxo, menos saturado"</p>
+                </div>
+                <div class="prompt-example rounded-lg p-3">
+                  <p class="text-xs text-purple-400 mb-1">Prompt 3 - Ajuste de layout:</p>
+                  <p class="text-neutral-300 text-sm italic">"Coloque o CTA button a esquerda, com mais padding vertical"</p>
+                </div>
+                <div class="prompt-example rounded-lg p-3">
+                  <p class="text-xs text-purple-400 mb-1">Prompt 4 - Ajuste fino:</p>
+                  <p class="text-neutral-300 text-sm italic">"Reduza o tamanho do titulo de 6xl para 5xl, aumente line-height"</p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Seja Especifico no Ajuste</h4>
+                  <p class="text-sm text-neutral-400">"Mude X para Y" em vez de "nao gostei, melhora"</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Um Ajuste por Vez</h4>
+                  <p class="text-sm text-neutral-400">Facilita identificar o que funcionou ou nao</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Mantenha o que Funciona</h4>
+                  <p class="text-sm text-neutral-400">"Mantenha o layout, mude apenas as cores"</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Documente Sucessos</h4>
+                  <p class="text-sm text-neutral-400">Salve prompts que funcionaram para reusar</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 6: Combinando Conceitos -->
+    <section id="topico-6" class="mb-8">
+      <div class="bg-dark-800 rounded-xl border border-dark-600 overflow-hidden">
+        <button onclick="toggleTopic(this)" class="topic-toggle w-full p-6 flex items-center justify-between text-left hover:bg-dark-700/50 transition-colors">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl">6</span>
+            <div>
+              <h2 class="text-xl font-bold">Combinando Conceitos</h2>
+              <p class="text-neutral-400 text-sm">Juntando tudo em prompts profissionais</p>
+            </div>
+          </div>
+          <svg class="w-6 h-6 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <div class="topic-content">
+          <div class="px-6 pb-6 space-y-6">
+            <!-- O que e -->
+            <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6">
+              <h3 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                <span class="mr-2">💡</span> O que e:
+              </h3>
+              <p class="text-neutral-300 leading-relaxed mb-4">
+                Combinar conceitos e <strong class="text-purple-400">usar tudo que voce aprendeu no curso</strong> em um unico prompt:
+                vocabulario de design (trilha 1 e 2), estrutura de prompt, vocabulario tecnico, contexto, referencias e
+                mentalidade de iteracao. E a sintese de todo o curso.
+              </p>
+            </div>
+
+            <!-- Por que aprender -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🎯</span> Por que aprender:
+              </h3>
+              <ul class="space-y-3 text-neutral-300">
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Conceitos isolados</strong> tem poder limitado</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Combinados</strong>, multiplicam a efetividade exponencialmente</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Profissionais</strong> usam templates que combinam tudo</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-purple-400 mt-1">•</span>
+                  <span><strong class="text-white">Este e o nivel</strong> que separa amadores de especialistas</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceitos-chave -->
+            <div class="bg-dark-700 rounded-xl border border-dark-600 p-6">
+              <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <span class="mr-2">🔑</span> Conceitos-chave:
+              </h3>
+
+              <div class="prompt-good rounded-lg p-4 mb-4">
+                <h4 class="text-sm font-semibold text-green-400 mb-3">Prompt Profissional Completo:</h4>
+                <div class="text-neutral-300 text-sm space-y-2">
+                  <p><strong class="text-white">[CONTEXTO]</strong></p>
+                  <p class="italic">"Crie uma landing page para 'FitFlow', um app de treino personalizado por IA.
+                  Publico: jovens 18-35, fitness enthusiasts, tech-savvy. Tom: energetico, moderno, motivacional.
+                  Concorrentes: Freeletics, Nike Training. Diferencial: IA que adapta treinos em tempo real."</p>
+
+                  <p class="mt-3"><strong class="text-white">[ESPECIFICACOES TECNICAS]</strong></p>
+                  <p class="italic">"Stack: HTML + Tailwind CSS. Mobile-first. Dark mode como padrao.
+                  Paleta: gradiente purple-600 para pink-500 como accent, dark-900 como background, text-neutral-100.
+                  Tipografia: Inter para corpo, font-bold display para titulos."</p>
+
+                  <p class="mt-3"><strong class="text-white">[ESTRUTURA]</strong></p>
+                  <p class="italic">"Secoes: 1) Hero com headline impactante + mockup do app + CTA 'Comece Gratis'.
+                  2) Features em grid 3 colunas com icones. 3) Como funciona em 3 steps horizontal timeline.
+                  4) Depoimentos em cards carousel. 5) Pricing em 3 tiers. 6) CTA final + footer."</p>
+
+                  <p class="mt-3"><strong class="text-white">[REFERENCIAS]</strong></p>
+                  <p class="italic">"Visual: limpeza do Linear.app, energia do site da Peloton, gradientes do Stripe.
+                  NAO quero: visual generico de template, stock photos obvias, muito texto."</p>
+
+                  <p class="mt-3"><strong class="text-white">[RESTRICOES]</strong></p>
+                  <p class="italic">"Sem JavaScript complexo - apenas toggle de dark mode. Sem frameworks.
+                  Imagens como placeholders (use bg-gradient). Acessivel: contraste WCAG AA, focus visible."</p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Template de Secoes</h4>
+                  <p class="text-sm text-neutral-400">CONTEXTO + SPECS + ESTRUTURA + REFS + RESTRICOES</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Nivel de Detalhe</h4>
+                  <p class="text-sm text-neutral-400">Mais detalhes = mais controle sobre o resultado</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Equilibrio</h4>
+                  <p class="text-sm text-neutral-400">Detalhado mas nao engessado - deixe espaco criativo</p>
+                </div>
+                <div class="bg-dark-800 rounded-lg p-4">
+                  <h4 class="font-semibold text-purple-400 mb-1">Documente e Reuse</h4>
+                  <p class="text-sm text-neutral-400">Crie sua biblioteca de prompts que funcionam</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VOCABULARIO PARA PROMPTS -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-primary/20 via-dark-800 to-dark-800 rounded-xl border border-primary/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">🎯</span> Vocabulario para Prompts
+        </h2>
+        <p class="text-neutral-300 mb-6">
+          Termos e frases poderosas para usar em seus prompts de criacao de sites:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-3">
+            <h3 class="font-semibold text-purple-400">Estrutura de Prompt</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">Crie um/uma [componente]</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">para [tipo de negocio]</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">com [especificacoes]</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">usando [tecnologia]</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">NAO inclua [restricao]</code>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="font-semibold text-purple-400">Descricao Visual</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">visual limpo e minimalista</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">estetica moderna/premium</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">muito whitespace</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">visual bold e impactante</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">sofisticado mas acessivel</code>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="font-semibold text-purple-400">Especificacoes Tecnicas</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">mobile-first responsive</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">grid [n] colunas gap-[n]</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">flexbox justify-between</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">max-width container</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">aspect-ratio 16:9</code>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="font-semibold text-purple-400">Cores e Gradientes</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">paleta [tipo]: [cores]</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">gradiente de X para Y</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">accent color em [cor]</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">dark mode com bg-[cor]</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">opacidade [n]% no hover</code>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="font-semibold text-purple-400">Tipografia</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">titulo em [fonte] bold</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">corpo text-base/relaxed</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">hierarquia h1-h6 clara</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">line-clamp-[n] para truncar</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">tracking-wide/tight</code>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="font-semibold text-purple-400">Iteracao e Ajustes</h3>
+            <div class="flex flex-wrap gap-2">
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">mantenha X, mude Y</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">aumente/reduza [propriedade]</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">substitua X por Y</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">adicione [elemento] em [local]</code>
+              <code class="bg-dark-700 px-3 py-1 rounded text-sm text-purple-400">remova [elemento]</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 p-4 bg-dark-800 rounded-lg border border-dark-600">
+          <h3 class="font-semibold text-white mb-2">Prompt de Iteracao Exemplo:</h3>
+          <p class="text-neutral-300 text-sm italic">
+            "Mantenha a estrutura do hero, mas: 1) Mude o gradiente de purple para blue-600 to cyan-400,
+            2) Reduza o titulo de text-6xl para text-5xl, 3) Adicione um badge 'Novo' acima do titulo em
+            bg-yellow-500/20 text-yellow-400, 4) Aumente o padding vertical do CTA button para py-4."
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">📝</span> Resumo do Modulo
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Estrutura</strong>
+              <span class="text-neutral-400"> - Contexto + Objetivo + Especificacoes + Restricoes</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Vocabulario Tecnico</strong>
+              <span class="text-neutral-400"> - Termos precisos geram resultados precisos</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Contexto</strong>
+              <span class="text-neutral-400"> - Quanto mais informacao de fundo, melhor</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Referencias</strong>
+              <span class="text-neutral-400"> - "Como o Stripe" comunica volumes</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Iteracao</strong>
+              <span class="text-neutral-400"> - Refine progressivamente, um ajuste por vez</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Combinacao</strong>
+              <span class="text-neutral-400"> - Use tudo junto para resultados profissionais</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-yellow-400 mb-2">Dica Final:</h3>
+          <p class="text-neutral-300">
+            Crie uma biblioteca pessoal de prompts que funcionaram. Cada projeto e uma oportunidade
+            de refinar seus templates. Em pouco tempo, voce tera um arsenal que produz resultados
+            incriveis em segundos.
+          </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-start gap-4">
+          <a href="index.html" class="px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors text-center">
+            Voltar ao Indice
+          </a>
+          <a href="modulo-3-4.html" class="px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors text-center">
+            ← Modulo Anterior
+          </a>
+          <a href="modulo-3-6.html" class="px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors text-center">
+            Proximo Modulo →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Toggle topic expansion
+    function toggleTopic(button) {
+      const content = button.nextElementSibling;
+      const isExpanded = content.classList.contains('expanded');
+
+      // Close all other topics
+      document.querySelectorAll('.topic-content.expanded').forEach(el => {
+        el.classList.remove('expanded');
+        el.previousElementSibling.classList.remove('expanded');
+      });
+
+      // Toggle current topic
+      if (!isExpanded) {
+        content.classList.add('expanded');
+        button.classList.add('expanded');
+      }
+    }
+
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>

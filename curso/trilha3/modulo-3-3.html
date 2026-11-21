@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3.3 Performance como Design | WebP</title>
+  <meta name="description" content="Performance e uma decisao de design. Core Web Vitals, loading states, skeleton screens e tecnicas de perceived performance.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .font-mono-code { font-family: 'Fira Code', monospace; }
+    .topic-content { display: none; }
+    .topic-content.active { display: block; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Skeleton animation */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .skeleton-shimmer {
+      background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    /* Pulse animation for loading dots */
+    @keyframes pulse-dot {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+    .loading-dot { animation: pulse-dot 1.4s infinite ease-in-out both; }
+    .loading-dot:nth-child(1) { animation-delay: -0.32s; }
+    .loading-dot:nth-child(2) { animation-delay: -0.16s; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-purple-400">Inicio</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-purple-400">Trilha 3</a>
+      <span>/</span>
+      <span class="text-purple-400">Modulo 3.3</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">
+        Trilha 3 • Modulo 3
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">⚡ Performance como Design</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Performance nao e so tecnica - e uma decisao de design. Sites rapidos criam melhor experiencia,
+        e a percepcao de velocidade e tao importante quanto a velocidade real.
+      </p>
+
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">6</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">30</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">Avancado</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-purple-400">UX</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1: Core Web Vitals -->
+    <section id="topico-1" class="mb-12">
+      <button onclick="toggleTopic('topic-1')" class="w-full text-left">
+        <div class="flex items-center space-x-4 mb-4 group">
+          <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl group-hover:bg-purple-500/30 transition-colors">1</span>
+          <h2 class="text-2xl font-bold group-hover:text-purple-400 transition-colors">📊 Core Web Vitals</h2>
+          <svg class="w-5 h-5 text-neutral-400 ml-auto transform transition-transform" id="icon-topic-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+      </button>
+
+      <div id="topic-1" class="topic-content">
+        <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-purple-400 mb-3">O que e:</h3>
+          <p class="text-neutral-300 leading-relaxed">
+            Core Web Vitals sao <strong class="text-purple-400">metricas do Google</strong> que medem a experiencia real do usuario.
+            Sao tres indicadores essenciais: LCP (carregamento), INP (interatividade) e CLS (estabilidade visual).
+            Afetam diretamente o SEO e a percepcao de qualidade do site.
+          </p>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-white mb-3">Por que aprender:</h3>
+          <p class="text-neutral-300 leading-relaxed">
+            Google usa Core Web Vitals como fator de ranking. Sites com boas metricas aparecem mais alto nas buscas.
+            Alem disso, usuarios abandonam sites lentos - cada segundo de delay pode custar conversoes.
+            Entender essas metricas permite comunicar requisitos de performance para IAs de forma precisa.
+          </p>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-white mb-4">Conceitos-chave:</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-purple-400 mb-2">LCP (Largest Contentful Paint)</h4>
+              <p class="text-sm text-neutral-400 mb-2">Tempo para renderizar o maior elemento visivel</p>
+              <div class="flex items-center space-x-2">
+                <span class="text-green-400 text-sm">Bom: &lt;2.5s</span>
+                <span class="text-yellow-400 text-sm">Medio: &lt;4s</span>
+                <span class="text-red-400 text-sm">Ruim: &gt;4s</span>
+              </div>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-purple-400 mb-2">INP (Interaction to Next Paint)</h4>
+              <p class="text-sm text-neutral-400 mb-2">Tempo de resposta a interacoes do usuario</p>
+              <div class="flex items-center space-x-2">
+                <span class="text-green-400 text-sm">Bom: &lt;200ms</span>
+                <span class="text-yellow-400 text-sm">Medio: &lt;500ms</span>
+                <span class="text-red-400 text-sm">Ruim: &gt;500ms</span>
+              </div>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-purple-400 mb-2">CLS (Cumulative Layout Shift)</h4>
+              <p class="text-sm text-neutral-400 mb-2">Estabilidade visual - quanto o layout "pula"</p>
+              <div class="flex items-center space-x-2">
+                <span class="text-green-400 text-sm">Bom: &lt;0.1</span>
+                <span class="text-yellow-400 text-sm">Medio: &lt;0.25</span>
+                <span class="text-red-400 text-sm">Ruim: &gt;0.25</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 2: Loading States -->
+    <section id="topico-2" class="mb-12">
+      <button onclick="toggleTopic('topic-2')" class="w-full text-left">
+        <div class="flex items-center space-x-4 mb-4 group">
+          <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl group-hover:bg-purple-500/30 transition-colors">2</span>
+          <h2 class="text-2xl font-bold group-hover:text-purple-400 transition-colors">⏳ Loading States</h2>
+          <svg class="w-5 h-5 text-neutral-400 ml-auto transform transition-transform" id="icon-topic-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+      </button>
+
+      <div id="topic-2" class="topic-content">
+        <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-purple-400 mb-3">O que e:</h3>
+          <p class="text-neutral-300 leading-relaxed">
+            Loading states sao <strong class="text-purple-400">estados visuais de carregamento</strong> que comunicam ao usuario
+            que algo esta acontecendo. Incluem spinners, progress bars, mensagens e animacoes que mantem o usuario informado
+            e reduzem a frustracao durante esperas.
+          </p>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-white mb-3">Por que aprender:</h3>
+          <p class="text-neutral-300 leading-relaxed">
+            Um loading state bem desenhado faz 3 segundos parecerem 1. Sem feedback visual, usuarios pensam que o site travou.
+            E uma tecnica de design que melhora drasticamente a percepcao de performance, mesmo sem mudar a velocidade real.
+            Spinners e progress bars sao decisoes de design, nao apenas tecnicas.
+          </p>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-white mb-4">Conceitos-chave:</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-white mb-2">Spinner</h4>
+              <p class="text-sm text-neutral-400 mb-3">Indicador circular de carregamento indeterminado</p>
+              <div class="flex justify-center">
+                <div class="w-8 h-8 border-3 border-purple-500/30 border-t-purple-500 rounded-full animate-spin"></div>
+              </div>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-white mb-2">Loading Dots</h4>
+              <p class="text-sm text-neutral-400 mb-3">Pontos pulsantes para estados de espera</p>
+              <div class="flex justify-center space-x-1">
+                <div class="w-2 h-2 bg-purple-400 rounded-full loading-dot"></div>
+                <div class="w-2 h-2 bg-purple-400 rounded-full loading-dot"></div>
+                <div class="w-2 h-2 bg-purple-400 rounded-full loading-dot"></div>
+              </div>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-white mb-2">Progress Bar</h4>
+              <p class="text-sm text-neutral-400 mb-3">Barra que mostra progresso determinado</p>
+              <div class="w-full bg-dark-600 rounded-full h-2">
+                <div class="bg-purple-500 h-2 rounded-full" style="width: 65%;"></div>
+              </div>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-white mb-2">Button Loading</h4>
+              <p class="text-sm text-neutral-400 mb-3">Estado de carregamento em botoes</p>
+              <button class="px-4 py-2 bg-purple-600 text-white rounded-lg flex items-center space-x-2 opacity-75 cursor-wait">
+                <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <span>Enviando...</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 3: Skeleton Screens -->
+    <section id="topico-3" class="mb-12">
+      <button onclick="toggleTopic('topic-3')" class="w-full text-left">
+        <div class="flex items-center space-x-4 mb-4 group">
+          <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl group-hover:bg-purple-500/30 transition-colors">3</span>
+          <h2 class="text-2xl font-bold group-hover:text-purple-400 transition-colors">💀 Skeleton Screens</h2>
+          <svg class="w-5 h-5 text-neutral-400 ml-auto transform transition-transform" id="icon-topic-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+      </button>
+
+      <div id="topic-3" class="topic-content">
+        <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-purple-400 mb-3">O que e:</h3>
+          <p class="text-neutral-300 leading-relaxed">
+            Skeleton screens sao <strong class="text-purple-400">placeholders animados</strong> que mostram a estrutura do conteudo
+            antes dele carregar. Em vez de um spinner generico, o usuario ve "fantasmas" dos elementos reais - boxes cinzas
+            onde texto e imagens vao aparecer. Usado por Facebook, YouTube, LinkedIn.
+          </p>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-white mb-3">Por que aprender:</h3>
+          <p class="text-neutral-300 leading-relaxed">
+            Estudos mostram que skeleton screens fazem o tempo percebido de carregamento parecer ate 30% menor.
+            O cerebro processa a estrutura e "antecipa" o conteudo, criando uma sensacao de progresso continuo.
+            E a tecnica de perceived performance mais eficaz disponivel.
+          </p>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-white mb-4">Conceitos-chave:</h3>
+
+          <!-- Skeleton Demo -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-purple-400 mb-3">Skeleton de Card</h4>
+              <div class="bg-dark-800 rounded-lg p-4 space-y-3">
+                <div class="skeleton-shimmer h-32 rounded-lg"></div>
+                <div class="skeleton-shimmer h-4 rounded w-3/4"></div>
+                <div class="skeleton-shimmer h-4 rounded w-1/2"></div>
+                <div class="flex space-x-2">
+                  <div class="skeleton-shimmer h-8 w-8 rounded-full"></div>
+                  <div class="skeleton-shimmer h-4 rounded w-24 self-center"></div>
+                </div>
+              </div>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-purple-400 mb-3">Skeleton de Lista</h4>
+              <div class="bg-dark-800 rounded-lg p-4 space-y-4">
+                <div class="flex space-x-3">
+                  <div class="skeleton-shimmer h-10 w-10 rounded-full"></div>
+                  <div class="flex-1 space-y-2">
+                    <div class="skeleton-shimmer h-4 rounded w-3/4"></div>
+                    <div class="skeleton-shimmer h-3 rounded w-1/2"></div>
+                  </div>
+                </div>
+                <div class="flex space-x-3">
+                  <div class="skeleton-shimmer h-10 w-10 rounded-full"></div>
+                  <div class="flex-1 space-y-2">
+                    <div class="skeleton-shimmer h-4 rounded w-2/3"></div>
+                    <div class="skeleton-shimmer h-3 rounded w-1/3"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 p-4 bg-purple-900/20 rounded-lg border border-purple-500/30">
+            <p class="text-sm text-neutral-300">
+              <strong class="text-purple-400">Dica:</strong> O efeito shimmer (brilho que passa) indica movimento e progresso.
+              Skeletons estaticos parecem travados.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 4: Lazy Loading Visual -->
+    <section id="topico-4" class="mb-12">
+      <button onclick="toggleTopic('topic-4')" class="w-full text-left">
+        <div class="flex items-center space-x-4 mb-4 group">
+          <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl group-hover:bg-purple-500/30 transition-colors">4</span>
+          <h2 class="text-2xl font-bold group-hover:text-purple-400 transition-colors">🖼️ Lazy Loading Visual</h2>
+          <svg class="w-5 h-5 text-neutral-400 ml-auto transform transition-transform" id="icon-topic-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+      </button>
+
+      <div id="topic-4" class="topic-content">
+        <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-purple-400 mb-3">O que e:</h3>
+          <p class="text-neutral-300 leading-relaxed">
+            Lazy loading e <strong class="text-purple-400">carregar conteudo sob demanda</strong> - so quando o usuario precisa.
+            Imagens abaixo da dobra, videos, e componentes pesados sao carregados apenas quando entram na viewport.
+            A parte "visual" e como apresentar esse carregamento de forma elegante.
+          </p>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-white mb-3">Por que aprender:</h3>
+          <p class="text-neutral-300 leading-relaxed">
+            Uma pagina com 20 imagens nao precisa carregar todas de uma vez. Lazy loading reduz o tempo inicial de carregamento
+            drasticamente, economiza banda do usuario e melhora LCP. O aspecto visual (blur, fade-in, placeholder)
+            transforma uma tecnica em experiencia de design.
+          </p>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-white mb-4">Conceitos-chave:</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-white mb-2">Blur-up / LQIP</h4>
+              <p class="text-sm text-neutral-400 mb-3">Low Quality Image Placeholder - imagem minuscula borrada que da lugar a HD</p>
+              <div class="relative h-24 bg-dark-600 rounded overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-600/50 to-blue-600/50 blur-xl"></div>
+                <div class="absolute inset-0 flex items-center justify-center text-xs text-neutral-400">Blur → HD</div>
+              </div>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-white mb-2">Fade-in</h4>
+              <p class="text-sm text-neutral-400 mb-3">Imagem aparece gradualmente quando carrega</p>
+              <div class="relative h-24 bg-dark-600 rounded overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-purple-500/20 to-transparent animate-pulse"></div>
+                <div class="absolute inset-0 flex items-center justify-center text-xs text-neutral-400">Opacity 0 → 1</div>
+              </div>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-white mb-2">Color Placeholder</h4>
+              <p class="text-sm text-neutral-400 mb-3">Cor dominante da imagem como placeholder</p>
+              <div class="h-24 bg-purple-700 rounded flex items-center justify-center text-xs text-purple-200">
+                Cor extraida → Imagem
+              </div>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-white mb-2">loading="lazy"</h4>
+              <p class="text-sm text-neutral-400 mb-3">Atributo nativo HTML para lazy loading</p>
+              <code class="text-xs text-purple-400 bg-dark-800 px-2 py-1 rounded block">
+                &lt;img loading="lazy" src="..." /&gt;
+              </code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 5: Perceived Performance -->
+    <section id="topico-5" class="mb-12">
+      <button onclick="toggleTopic('topic-5')" class="w-full text-left">
+        <div class="flex items-center space-x-4 mb-4 group">
+          <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl group-hover:bg-purple-500/30 transition-colors">5</span>
+          <h2 class="text-2xl font-bold group-hover:text-purple-400 transition-colors">🧠 Perceived Performance</h2>
+          <svg class="w-5 h-5 text-neutral-400 ml-auto transform transition-transform" id="icon-topic-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+      </button>
+
+      <div id="topic-5" class="topic-content">
+        <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-purple-400 mb-3">O que e:</h3>
+          <p class="text-neutral-300 leading-relaxed">
+            Perceived performance e <strong class="text-purple-400">como o usuario SENTE a velocidade</strong>, nao a velocidade real medida.
+            Truques psicologicos podem fazer 3 segundos parecerem 1. E a diferenca entre metricas tecnicas e experiencia humana.
+            Um site de 2s que parece lento e pior que um de 3s que parece rapido.
+          </p>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-white mb-3">Por que aprender:</h3>
+          <p class="text-neutral-300 leading-relaxed">
+            Nem sempre podemos tornar tudo instantaneo - APIs externas, processamento pesado, rede lenta.
+            Mas SEMPRE podemos melhorar a percepcao. Entender psicologia de espera permite criar experiencias
+            que "enganam" o cerebro de forma etica, mantendo usuarios engajados.
+          </p>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-white mb-4">Conceitos-chave:</h3>
+          <div class="space-y-4">
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-purple-400 mb-2">Resposta Imediata</h4>
+              <p class="text-sm text-neutral-400">
+                Qualquer interacao deve ter feedback visual em menos de 100ms. Mesmo que o processamento demore,
+                o botao deve mudar de estado instantaneamente.
+              </p>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-purple-400 mb-2">Progresso Aparente</h4>
+              <p class="text-sm text-neutral-400">
+                Progress bars que comecam rapido e desaceleram parecem mais rapidas que lineares.
+                O cerebro registra o inicio como "ja esta acontecendo".
+              </p>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-purple-400 mb-2">Animacoes de Transicao</h4>
+              <p class="text-sm text-neutral-400">
+                Transicoes suaves entre estados mascaram tempos de carregamento.
+                O usuario processa a animacao enquanto dados carregam em background.
+              </p>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-purple-400 mb-2">Optimistic UI</h4>
+              <p class="text-sm text-neutral-400">
+                Mostrar resultado antes da confirmacao do servidor. Like no Twitter aparece imediatamente,
+                mesmo que a requisicao ainda esteja em andamento.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICO 6: Progressive Enhancement -->
+    <section id="topico-6" class="mb-12">
+      <button onclick="toggleTopic('topic-6')" class="w-full text-left">
+        <div class="flex items-center space-x-4 mb-4 group">
+          <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl group-hover:bg-purple-500/30 transition-colors">6</span>
+          <h2 class="text-2xl font-bold group-hover:text-purple-400 transition-colors">📈 Progressive Enhancement</h2>
+          <svg class="w-5 h-5 text-neutral-400 ml-auto transform transition-transform" id="icon-topic-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+      </button>
+
+      <div id="topic-6" class="topic-content">
+        <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-purple-400 mb-3">O que e:</h3>
+          <p class="text-neutral-300 leading-relaxed">
+            Progressive enhancement e uma filosofia: <strong class="text-purple-400">comece com o basico funcional, adicione melhorias em camadas</strong>.
+            O conteudo principal funciona sem JavaScript. CSS adiciona visual. JS adiciona interatividade.
+            Se algo falhar, as camadas abaixo ainda funcionam.
+          </p>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-white mb-3">Por que aprender:</h3>
+          <p class="text-neutral-300 leading-relaxed">
+            Sites que dependem 100% de JavaScript para mostrar qualquer conteudo falham em conexoes lentas,
+            bloqueadores, e bugs. Progressive enhancement garante que a experiencia MINIMA sempre funcione.
+            E uma abordagem de resiliencia que beneficia todos os usuarios, especialmente em condicoes adversas.
+          </p>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-white mb-4">Conceitos-chave:</h3>
+          <div class="space-y-4">
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-purple-400 mb-2">Camada 1: HTML (Conteudo)</h4>
+              <p class="text-sm text-neutral-400">
+                Semantica e conteudo puro. Links funcionam. Formularios submetem. Informacao esta acessivel.
+                Funciona em qualquer navegador, qualquer dispositivo.
+              </p>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-purple-400 mb-2">Camada 2: CSS (Apresentacao)</h4>
+              <p class="text-sm text-neutral-400">
+                Layout, cores, tipografia. Se CSS falhar, conteudo ainda e legivel.
+                Animacoes e transicoes sao bonus, nao requisitos.
+              </p>
+            </div>
+            <div class="bg-dark-700 rounded-lg p-4">
+              <h4 class="font-semibold text-purple-400 mb-2">Camada 3: JavaScript (Comportamento)</h4>
+              <p class="text-sm text-neutral-400">
+                Interatividade avancada, validacao em tempo real, carregamento dinamico.
+                Se JS falhar, formularios ainda submetem via HTML nativo.
+              </p>
+            </div>
+            <div class="bg-purple-900/20 rounded-lg p-4 border border-purple-500/30">
+              <h4 class="font-semibold text-purple-400 mb-2">Graceful Degradation vs Progressive Enhancement</h4>
+              <p class="text-sm text-neutral-400">
+                <strong>Graceful Degradation:</strong> Comeca com tudo, remove para navegadores antigos.<br>
+                <strong>Progressive Enhancement:</strong> Comeca basico, adiciona para navegadores modernos.<br>
+                PE e mais robusto e recomendado.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VOCABULARIO PARA PROMPTS -->
+    <section class="mb-12">
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">🎯</span> Vocabulario para Prompts
+        </h2>
+        <p class="text-neutral-300 mb-6">
+          Use estes termos ao conversar com IAs para comunicar conceitos de performance de forma precisa:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h3 class="font-semibold text-purple-400 mb-3">Core Web Vitals</h3>
+            <div class="space-y-2 text-sm">
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 block">otimizar para LCP abaixo de 2.5 segundos</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 block">evitar layout shift (CLS baixo)</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 block">melhorar tempo de interacao (INP)</code>
+            </div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h3 class="font-semibold text-purple-400 mb-3">Loading States</h3>
+            <div class="space-y-2 text-sm">
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 block">spinner de carregamento sutil</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 block">estado de loading no botao</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 block">progress bar com porcentagem</code>
+            </div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h3 class="font-semibold text-purple-400 mb-3">Skeleton Screens</h3>
+            <div class="space-y-2 text-sm">
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 block">skeleton loader com shimmer effect</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 block">placeholder animado durante carregamento</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 block">skeleton que espelha estrutura do card</code>
+            </div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h3 class="font-semibold text-purple-400 mb-3">Lazy Loading</h3>
+            <div class="space-y-2 text-sm">
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 block">lazy loading de imagens abaixo da dobra</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 block">blur-up placeholder (LQIP)</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 block">fade-in suave quando imagem carrega</code>
+            </div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h3 class="font-semibold text-purple-400 mb-3">Perceived Performance</h3>
+            <div class="space-y-2 text-sm">
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 block">feedback imediato em cliques (menos de 100ms)</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 block">optimistic UI para acoes do usuario</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 block">transicoes suaves entre estados</code>
+            </div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h3 class="font-semibold text-purple-400 mb-3">Progressive Enhancement</h3>
+            <div class="space-y-2 text-sm">
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 block">funcionar sem JavaScript ativado</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 block">HTML semantico como base</code>
+              <code class="bg-dark-700 px-2 py-1 rounded text-purple-400 block">JS como enhancement, nao dependencia</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">📝</span> Resumo do Modulo
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Core Web Vitals</strong>
+              <span class="text-neutral-400"> - LCP, INP e CLS sao metricas que afetam SEO e experiencia</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Loading States</strong>
+              <span class="text-neutral-400"> - Spinners, progress bars e botoes com estado comunicam progresso</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Skeleton Screens</strong>
+              <span class="text-neutral-400"> - Placeholders animados reduzem percepcao de tempo em ate 30%</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Lazy Loading</strong>
+              <span class="text-neutral-400"> - Carregar sob demanda com transicoes visuais elegantes</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Perceived Performance</strong>
+              <span class="text-neutral-400"> - Truques psicologicos que fazem sites parecerem mais rapidos</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-purple-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Progressive Enhancement</strong>
+              <span class="text-neutral-400"> - Camadas de funcionalidade garantem experiencia em qualquer condicao</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-purple-400 mb-2">Proximo Modulo:</h3>
+          <p class="text-neutral-300">3.4 - Acessibilidade Universal: WCAG, semantica HTML e design inclusivo</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-start">
+          <a href="index.html" class="text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Voltar ao Indice
+          </a>
+          <a href="modulo-3-2.html" class="text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Modulo Anterior
+          </a>
+          <a href="modulo-3-4.html" class="text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors">
+            Proximo Modulo →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Toggle topic content
+    function toggleTopic(topicId) {
+      const content = document.getElementById(topicId);
+      const icon = document.getElementById('icon-' + topicId);
+      content.classList.toggle('active');
+      if (content.classList.contains('active')) {
+        icon.style.transform = 'rotate(180deg)';
+      } else {
+        icon.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    // Expand first topic by default
+    document.addEventListener('DOMContentLoaded', () => {
+      toggleTopic('topic-1');
+    });
+  </script>
+
+</body>
+</html>

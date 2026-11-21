@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2.7 Arquitetura de Informacao | WebP</title>
+  <meta name="description" content="Aprenda a estruturar e organizar conteudo web. IA (Information Architecture), navegacao, taxonomia, fluxos de usuario, wireframes e sitemaps.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+
+    /* Light mode overrides */
+    html:not(.dark) body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Diagram styles */
+    .diagram-box {
+      border: 2px dashed #3B82F6;
+      background: rgba(59, 130, 246, 0.1);
+    }
+    .diagram-line {
+      border-top: 2px solid #3B82F6;
+    }
+    .diagram-arrow::after {
+      content: '';
+      position: absolute;
+      right: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 6px solid transparent;
+      border-left-color: #3B82F6;
+    }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">📐</span>
+            <span class="font-bold text-lg hidden sm:inline">WebP</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span>
+            <span class="hidden sm:inline">Fundamentos</span>
+          </a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10">
+            <span class="sm:hidden">T2</span>
+            <span class="hidden sm:inline">Tecnicas</span>
+          </a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span>
+            <span class="hidden sm:inline">Avancado</span>
+          </a>
+
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-2">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-blue-400">Inicio</a>
+      <span>/</span>
+      <a href="index.html" class="hover:text-blue-400">Trilha 2</a>
+      <span>/</span>
+      <span class="text-blue-400">Modulo 2.7</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">
+        MODULO 2.7
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🗂️ Arquitetura de Informacao</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl">
+        Aprenda a estruturar e organizar conteudo para criar experiencias intuitivas.
+        IA define como usuarios encontram informacao e navegam pelo seu site.
+      </p>
+
+      <div class="grid grid-cols-4 gap-4 mt-8 max-w-2xl">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">6</div>
+          <div class="text-xs text-neutral-400">Topicos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">30</div>
+          <div class="text-xs text-neutral-400">Minutos</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">Medio</div>
+          <div class="text-xs text-neutral-400">Nivel</div>
+        </div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600">
+          <div class="text-xl font-bold text-blue-400">Teoria</div>
+          <div class="text-xs text-neutral-400">Tipo</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- TOPICO 1 -->
+    <section id="topico-1" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">1</span>
+        <h2 class="text-2xl font-bold">🏗️ O que e IA (Information Architecture)</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Arquitetura de Informacao (IA) e a <strong class="text-blue-400">arte e ciencia de organizar e estruturar conteudo</strong>
+        de forma que usuarios consigam encontrar o que precisam. E o esqueleto invisivel que sustenta toda experiencia digital.
+      </p>
+
+      <!-- Definicao -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📚</span> Os Pilares da IA
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Organizacao</h4>
+            <p class="text-sm text-neutral-400">Como o conteudo e agrupado e categorizado. Esquemas e estruturas.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Rotulagem</h4>
+            <p class="text-sm text-neutral-400">Como o conteudo e representado. Nomes, titulos e labels claros.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Navegacao</h4>
+            <p class="text-sm text-neutral-400">Como usuarios se movem pelo conteudo. Menus, links e caminhos.</p>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Busca</h4>
+            <p class="text-sm text-neutral-400">Como usuarios encontram conteudo especifico. Filtros e resultados.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Diagrama Visual -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">🎯</span> IA na Pratica: Estrutura de um Site
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-6">
+          <!-- Nivel 1 - Home -->
+          <div class="flex justify-center mb-4">
+            <div class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold text-center">
+              🏠 Home
+            </div>
+          </div>
+          <!-- Linha conectora -->
+          <div class="flex justify-center mb-4">
+            <div class="w-0.5 h-8 bg-blue-500"></div>
+          </div>
+          <!-- Nivel 2 - Categorias -->
+          <div class="flex flex-wrap justify-center gap-4 mb-4">
+            <div class="diagram-box px-4 py-2 rounded-lg text-center">
+              <div class="text-blue-400 font-semibold">Produtos</div>
+            </div>
+            <div class="diagram-box px-4 py-2 rounded-lg text-center">
+              <div class="text-blue-400 font-semibold">Sobre</div>
+            </div>
+            <div class="diagram-box px-4 py-2 rounded-lg text-center">
+              <div class="text-blue-400 font-semibold">Blog</div>
+            </div>
+            <div class="diagram-box px-4 py-2 rounded-lg text-center">
+              <div class="text-blue-400 font-semibold">Contato</div>
+            </div>
+          </div>
+          <!-- Linha conectora -->
+          <div class="flex justify-center mb-4">
+            <div class="w-48 h-0.5 bg-blue-500/50"></div>
+          </div>
+          <!-- Nivel 3 - Subcategorias -->
+          <div class="flex flex-wrap justify-center gap-2 text-sm">
+            <div class="bg-dark-600 px-3 py-1 rounded text-neutral-300">Categoria A</div>
+            <div class="bg-dark-600 px-3 py-1 rounded text-neutral-300">Categoria B</div>
+            <div class="bg-dark-600 px-3 py-1 rounded text-neutral-300">Equipe</div>
+            <div class="bg-dark-600 px-3 py-1 rounded text-neutral-300">Historia</div>
+            <div class="bg-dark-600 px-3 py-1 rounded text-neutral-300">Artigos</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Por que importa -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">💡</span> Por que IA e Fundamental
+        </h3>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">•</span>
+            <span class="text-neutral-300"><strong class="text-white">Findability:</strong> Usuarios encontram o que precisam rapidamente</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">•</span>
+            <span class="text-neutral-300"><strong class="text-white">Escalabilidade:</strong> Estrutura que cresce com o conteudo</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">•</span>
+            <span class="text-neutral-300"><strong class="text-white">Consistencia:</strong> Experiencia previsivel em todo o site</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">•</span>
+            <span class="text-neutral-300"><strong class="text-white">SEO:</strong> Estrutura clara ajuda mecanismos de busca</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vibe Coding Prompt
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">estrutura hierarquica clara com no maximo 3 niveis de profundidade</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">categorias mutuamente exclusivas e coletivamente exaustivas</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">labels claros que usuarios entendem instantaneamente</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 2 -->
+    <section id="topico-2" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">2</span>
+        <h2 class="text-2xl font-bold">🧭 Navegacao e Menus</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        A navegacao e como usuarios exploram seu site. Inclui <strong class="text-blue-400">menus principais</strong>,
+        <strong class="text-blue-400">mega menus</strong>, <strong class="text-blue-400">breadcrumbs</strong> e
+        <strong class="text-blue-400">navegacao contextual</strong>.
+      </p>
+
+      <!-- Tipos de Navegacao -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📋</span> Tipos de Navegacao
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Global (Principal)</h4>
+            <p class="text-sm text-neutral-400 mb-3">Menu no topo, presente em todas as paginas.</p>
+            <div class="bg-dark-700 rounded p-2 flex gap-2 text-xs">
+              <span class="bg-blue-600 px-2 py-1 rounded text-white">Home</span>
+              <span class="bg-dark-600 px-2 py-1 rounded text-neutral-300">Produtos</span>
+              <span class="bg-dark-600 px-2 py-1 rounded text-neutral-300">Sobre</span>
+              <span class="bg-dark-600 px-2 py-1 rounded text-neutral-300">Contato</span>
+            </div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Local (Contextual)</h4>
+            <p class="text-sm text-neutral-400 mb-3">Sub-navegacao dentro de uma secao.</p>
+            <div class="bg-dark-700 rounded p-2 flex gap-2 text-xs">
+              <span class="bg-dark-600 px-2 py-1 rounded text-blue-400 border border-blue-500">Visao Geral</span>
+              <span class="bg-dark-600 px-2 py-1 rounded text-neutral-300">Recursos</span>
+              <span class="bg-dark-600 px-2 py-1 rounded text-neutral-300">Precos</span>
+            </div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Breadcrumb (Migalhas)</h4>
+            <p class="text-sm text-neutral-400 mb-3">Mostra o caminho ate a pagina atual.</p>
+            <div class="bg-dark-700 rounded p-2 text-xs text-neutral-400">
+              <span class="text-blue-400">Home</span> / <span class="text-blue-400">Produtos</span> / <span class="text-white">Produto X</span>
+            </div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Footer</h4>
+            <p class="text-sm text-neutral-400 mb-3">Links uteis no rodape.</p>
+            <div class="bg-dark-700 rounded p-2 grid grid-cols-2 gap-1 text-xs text-neutral-400">
+              <span>Termos</span>
+              <span>Privacidade</span>
+              <span>FAQ</span>
+              <span>Suporte</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mega Menu Exemplo -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">🎪</span> Mega Menu: Quando Usar
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-4 mb-4">
+          <!-- Simulacao de Mega Menu -->
+          <div class="bg-dark-600 rounded-lg p-4">
+            <div class="text-sm text-blue-400 font-semibold mb-3">Produtos (hover)</div>
+            <div class="grid grid-cols-3 gap-4 text-sm">
+              <div>
+                <div class="text-white font-semibold mb-2">Categoria A</div>
+                <div class="space-y-1 text-neutral-400">
+                  <div>• Produto 1</div>
+                  <div>• Produto 2</div>
+                  <div>• Produto 3</div>
+                </div>
+              </div>
+              <div>
+                <div class="text-white font-semibold mb-2">Categoria B</div>
+                <div class="space-y-1 text-neutral-400">
+                  <div>• Servico 1</div>
+                  <div>• Servico 2</div>
+                  <div>• Servico 3</div>
+                </div>
+              </div>
+              <div>
+                <div class="text-white font-semibold mb-2">Recursos</div>
+                <div class="space-y-1 text-neutral-400">
+                  <div>• Blog</div>
+                  <div>• Case Studies</div>
+                  <div>• Downloads</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="flex items-start space-x-3">
+            <span class="text-green-400 mt-1">✓</span>
+            <span class="text-neutral-300">Use quando tiver <strong class="text-white">muitas categorias</strong> com subcategorias</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-green-400 mt-1">✓</span>
+            <span class="text-neutral-300">Ideal para <strong class="text-white">e-commerce</strong> e sites com muito conteudo</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-red-400 mt-1">✗</span>
+            <span class="text-neutral-300">Evite em sites simples com <strong class="text-white">poucas paginas</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hierarquia Visual -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4">Regras de Ouro da Navegacao</h3>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">1.</span>
+            <span class="text-neutral-300"><strong class="text-white">Regra dos 3 cliques:</strong> Qualquer pagina acessivel em ate 3 cliques</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">2.</span>
+            <span class="text-neutral-300"><strong class="text-white">7 +/- 2 itens:</strong> Limite cognitivo - max 5-9 itens no menu principal</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">3.</span>
+            <span class="text-neutral-300"><strong class="text-white">Estado atual:</strong> Sempre indique onde o usuario esta</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">4.</span>
+            <span class="text-neutral-300"><strong class="text-white">Consistencia:</strong> Menu igual em todas as paginas</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vibe Coding Prompt
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">navegacao principal com 5-7 itens no maximo</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">breadcrumbs em paginas profundas para orientacao</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">indicador visual claro da pagina atual no menu</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 3 -->
+    <section id="topico-3" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">3</span>
+        <h2 class="text-2xl font-bold">🏷️ Taxonomia e Categorias</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Taxonomia e o <strong class="text-blue-400">sistema de classificacao do conteudo</strong>. Define como itens sao
+        agrupados, nomeados e relacionados. Uma boa taxonomia e intuitiva e escalavel.
+      </p>
+
+      <!-- Tipos de Esquemas -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📊</span> Esquemas de Organizacao
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Exato (Objetivo)</h4>
+            <p class="text-sm text-neutral-400 mb-2">Categorias claras e definidas.</p>
+            <div class="text-xs space-y-1">
+              <div class="bg-dark-700 px-2 py-1 rounded text-neutral-300">Alfabetico: A, B, C...</div>
+              <div class="bg-dark-700 px-2 py-1 rounded text-neutral-300">Cronologico: 2024, 2025...</div>
+              <div class="bg-dark-700 px-2 py-1 rounded text-neutral-300">Geografico: SP, RJ, MG...</div>
+            </div>
+          </div>
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Ambiguo (Subjetivo)</h4>
+            <p class="text-sm text-neutral-400 mb-2">Categorias por conceito ou topico.</p>
+            <div class="text-xs space-y-1">
+              <div class="bg-dark-700 px-2 py-1 rounded text-neutral-300">Topico: Marketing, Vendas...</div>
+              <div class="bg-dark-700 px-2 py-1 rounded text-neutral-300">Audiencia: Iniciante, Pro...</div>
+              <div class="bg-dark-700 px-2 py-1 rounded text-neutral-300">Tarefa: Criar, Editar, Excluir</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Diagrama de Taxonomia -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">🌳</span> Estruturas Taxonomicas
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Hierarquica -->
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-3 text-center">Hierarquica</h4>
+            <div class="text-center text-sm">
+              <div class="bg-blue-600 px-3 py-1 rounded text-white mb-2 inline-block">Roupas</div>
+              <div class="flex justify-center gap-2 mb-2">
+                <div class="bg-dark-600 px-2 py-1 rounded text-neutral-300">Masc</div>
+                <div class="bg-dark-600 px-2 py-1 rounded text-neutral-300">Fem</div>
+              </div>
+              <div class="flex justify-center gap-1 text-xs">
+                <div class="bg-dark-800 px-1 py-0.5 rounded text-neutral-400">Camisas</div>
+                <div class="bg-dark-800 px-1 py-0.5 rounded text-neutral-400">Calcas</div>
+              </div>
+            </div>
+          </div>
+          <!-- Facetada -->
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-3 text-center">Facetada</h4>
+            <div class="text-sm space-y-2">
+              <div class="flex gap-2">
+                <span class="text-neutral-400">Tipo:</span>
+                <span class="bg-dark-600 px-2 py-0.5 rounded text-neutral-300 text-xs">Camisa</span>
+              </div>
+              <div class="flex gap-2">
+                <span class="text-neutral-400">Cor:</span>
+                <span class="bg-dark-600 px-2 py-0.5 rounded text-neutral-300 text-xs">Azul</span>
+              </div>
+              <div class="flex gap-2">
+                <span class="text-neutral-400">Tamanho:</span>
+                <span class="bg-dark-600 px-2 py-0.5 rounded text-neutral-300 text-xs">M</span>
+              </div>
+            </div>
+          </div>
+          <!-- Flat -->
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-3 text-center">Flat (Tags)</h4>
+            <div class="flex flex-wrap gap-1 justify-center text-xs">
+              <span class="bg-blue-600/30 text-blue-300 px-2 py-0.5 rounded">#CSS</span>
+              <span class="bg-blue-600/30 text-blue-300 px-2 py-0.5 rounded">#Design</span>
+              <span class="bg-blue-600/30 text-blue-300 px-2 py-0.5 rounded">#UX</span>
+              <span class="bg-blue-600/30 text-blue-300 px-2 py-0.5 rounded">#Web</span>
+              <span class="bg-blue-600/30 text-blue-300 px-2 py-0.5 rounded">#AI</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Boas Praticas -->
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center">
+          <span class="mr-2">💡</span> Principios MECE
+        </h3>
+        <p class="text-neutral-300 mb-4">
+          Categorias devem ser <strong class="text-white">Mutually Exclusive, Collectively Exhaustive</strong>:
+        </p>
+        <div class="space-y-2">
+          <div class="flex items-start space-x-3">
+            <span class="text-green-400 mt-1">✓</span>
+            <span class="text-neutral-300"><strong class="text-white">Mutuamente Exclusivas:</strong> Um item pertence a apenas uma categoria</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-green-400 mt-1">✓</span>
+            <span class="text-neutral-300"><strong class="text-white">Coletivamente Exaustivas:</strong> Todo item tem uma categoria</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vibe Coding Prompt
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">taxonomia hierarquica com categorias MECE</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">filtros facetados para catalogos de produtos</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">sistema de tags para conteudo relacionado</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 4 -->
+    <section id="topico-4" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">4</span>
+        <h2 class="text-2xl font-bold">🛤️ Fluxos de Usuario</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Fluxos de usuario (User Flows) mapeiam o <strong class="text-blue-400">caminho que usuarios percorrem</strong>
+        para completar tarefas. Incluem o <strong class="text-blue-400">happy path</strong> (caminho ideal) e caminhos alternativos.
+      </p>
+
+      <!-- User Flow Diagram -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">🎯</span> Exemplo: Fluxo de Cadastro
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-6 overflow-x-auto">
+          <div class="flex items-center justify-start gap-2 min-w-max">
+            <!-- Step 1 -->
+            <div class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold">
+              Landing Page
+            </div>
+            <div class="text-blue-400 text-xl">→</div>
+            <!-- Step 2 -->
+            <div class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold">
+              Clica "Criar Conta"
+            </div>
+            <div class="text-blue-400 text-xl">→</div>
+            <!-- Step 3 -->
+            <div class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold">
+              Preenche Form
+            </div>
+            <div class="text-blue-400 text-xl">→</div>
+            <!-- Step 4 -->
+            <div class="diagram-box px-4 py-2 rounded-lg text-sm">
+              <div class="text-blue-400 font-semibold">Valido?</div>
+            </div>
+            <div class="text-blue-400 text-xl">→</div>
+            <!-- Step 5 -->
+            <div class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold">
+              Conta Criada!
+            </div>
+          </div>
+          <!-- Fluxo alternativo -->
+          <div class="mt-4 flex items-center gap-2 ml-48">
+            <div class="text-red-400 text-sm">↓ Erro</div>
+            <div class="bg-red-600/30 text-red-400 px-3 py-1 rounded text-sm border border-red-500/50">
+              Mostra Erro + Corrigir
+            </div>
+            <div class="text-blue-400">↩</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conceitos Chave -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">📝</span> Elementos de um User Flow
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-700 rounded-lg p-4">
+            <div class="flex items-center gap-3 mb-2">
+              <div class="w-8 h-8 bg-green-600 rounded-lg"></div>
+              <span class="font-semibold text-white">Inicio/Fim</span>
+            </div>
+            <p class="text-sm text-neutral-400">Pontos de entrada e saida do fluxo</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <div class="flex items-center gap-3 mb-2">
+              <div class="w-8 h-8 bg-blue-600 rounded-lg"></div>
+              <span class="font-semibold text-white">Acao</span>
+            </div>
+            <p class="text-sm text-neutral-400">Passos que o usuario executa</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <div class="flex items-center gap-3 mb-2">
+              <div class="w-8 h-8 diagram-box rounded transform rotate-45"></div>
+              <span class="font-semibold text-white">Decisao</span>
+            </div>
+            <p class="text-sm text-neutral-400">Pontos de ramificacao (sim/nao)</p>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <div class="flex items-center gap-3 mb-2">
+              <div class="w-8 h-0.5 bg-blue-500 mt-4"></div>
+              <span class="font-semibold text-white">Conexao</span>
+            </div>
+            <p class="text-sm text-neutral-400">Setas indicando direcao do fluxo</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Happy Path vs Edge Cases -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4">Happy Path vs Edge Cases</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-green-900/20 rounded-lg p-4 border border-green-500/30">
+            <h4 class="font-semibold text-green-400 mb-2">Happy Path</h4>
+            <p class="text-sm text-neutral-300">O caminho ideal, sem erros. O que acontece quando tudo da certo.</p>
+            <ul class="mt-2 text-sm text-neutral-400 space-y-1">
+              <li>• Usuario encontra o que busca</li>
+              <li>• Form preenchido corretamente</li>
+              <li>• Pagamento aprovado</li>
+            </ul>
+          </div>
+          <div class="bg-red-900/20 rounded-lg p-4 border border-red-500/30">
+            <h4 class="font-semibold text-red-400 mb-2">Edge Cases</h4>
+            <p class="text-sm text-neutral-300">Caminhos alternativos, erros e excecoes.</p>
+            <ul class="mt-2 text-sm text-neutral-400 space-y-1">
+              <li>• Senha incorreta (3 tentativas)</li>
+              <li>• Email ja cadastrado</li>
+              <li>• Timeout de sessao</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vibe Coding Prompt
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">happy path claro com feedback positivo em cada etapa</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">tratamento de erros inline sem perder dados do usuario</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">confirmacao visual ao completar cada acao importante</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 5 -->
+    <section id="topico-5" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">5</span>
+        <h2 class="text-2xl font-bold">📐 Wireframes</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        Wireframes sao <strong class="text-blue-400">esqueletos visuais das paginas</strong>, focados em estrutura e layout
+        sem distracao de cores ou imagens. Sao o passo entre IA e design visual.
+      </p>
+
+      <!-- Niveis de Fidelidade -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">📊</span> Niveis de Fidelidade
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Low-fi -->
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-3">Low-Fidelity</h4>
+            <div class="bg-white rounded p-3">
+              <div class="h-4 bg-gray-300 rounded mb-2 w-1/3"></div>
+              <div class="h-2 bg-gray-200 rounded mb-1 w-full"></div>
+              <div class="h-2 bg-gray-200 rounded mb-3 w-2/3"></div>
+              <div class="flex gap-2">
+                <div class="h-8 bg-gray-300 rounded flex-1"></div>
+                <div class="h-8 bg-gray-400 rounded flex-1"></div>
+              </div>
+            </div>
+            <p class="text-xs text-neutral-400 mt-2">Rabiscos rapidos, ideacao</p>
+          </div>
+          <!-- Mid-fi -->
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-3">Mid-Fidelity</h4>
+            <div class="bg-white rounded p-3">
+              <div class="h-4 bg-gray-400 rounded mb-2 w-1/2"></div>
+              <div class="h-2 bg-gray-300 rounded mb-1 w-full"></div>
+              <div class="h-2 bg-gray-300 rounded mb-3 w-3/4"></div>
+              <div class="flex gap-2">
+                <div class="h-8 bg-gray-200 rounded flex-1 border border-gray-300"></div>
+                <div class="h-8 bg-gray-500 rounded flex-1 text-white text-xs flex items-center justify-center">CTA</div>
+              </div>
+            </div>
+            <p class="text-xs text-neutral-400 mt-2">Estrutura definida, layout</p>
+          </div>
+          <!-- High-fi -->
+          <div class="bg-dark-800 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-3">High-Fidelity</h4>
+            <div class="bg-white rounded p-3">
+              <div class="text-gray-800 font-bold text-sm mb-2">Titulo</div>
+              <div class="text-gray-600 text-xs mb-3">Descricao do conteudo aqui com mais detalhes.</div>
+              <div class="flex gap-2">
+                <input type="text" placeholder="Email" class="h-7 text-xs border rounded px-2 flex-1" readonly>
+                <div class="h-7 bg-blue-500 rounded px-3 text-white text-xs flex items-center">Enviar</div>
+              </div>
+            </div>
+            <p class="text-xs text-neutral-400 mt-2">Proximo do design final</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Elementos Comuns -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">🧩</span> Elementos de Wireframe
+        </h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+          <div class="bg-dark-700 rounded-lg p-3 text-center">
+            <div class="bg-gray-500 h-3 w-16 mx-auto rounded mb-2"></div>
+            <span class="text-neutral-400">Texto</span>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-3 text-center">
+            <div class="bg-gray-500 h-8 w-20 mx-auto rounded mb-2 flex items-center justify-center text-xs text-white">BTN</div>
+            <span class="text-neutral-400">Botao</span>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-3 text-center">
+            <div class="bg-gray-400 h-12 w-16 mx-auto rounded mb-2 flex items-center justify-center text-gray-600">X</div>
+            <span class="text-neutral-400">Imagem</span>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-3 text-center">
+            <div class="border-2 border-gray-500 h-6 w-20 mx-auto rounded mb-2"></div>
+            <span class="text-neutral-400">Input</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quando usar -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4">Por que Wireframes Primeiro?</h3>
+        <div class="space-y-3">
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">•</span>
+            <span class="text-neutral-300"><strong class="text-white">Foco na estrutura:</strong> Sem distracao de cores e estetica</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">•</span>
+            <span class="text-neutral-300"><strong class="text-white">Iteracao rapida:</strong> Facil de mudar antes do design visual</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">•</span>
+            <span class="text-neutral-300"><strong class="text-white">Alinhamento:</strong> Todos entendem a estrutura antes de investir em design</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">•</span>
+            <span class="text-neutral-300"><strong class="text-white">Teste de conceito:</strong> Valide ideias antes de desenvolver</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vibe Coding Prompt
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">estrutura de wireframe low-fi antes de aplicar estilo visual</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">layout com placeholders para imagens e textos</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">grid definido com areas claras para cada tipo de conteudo</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOPICO 6 -->
+    <section id="topico-6" class="mb-16">
+      <div class="flex items-center space-x-4 mb-6">
+        <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl">6</span>
+        <h2 class="text-2xl font-bold">🗺️ Sitemap e Estrutura</h2>
+      </div>
+
+      <p class="text-neutral-300 mb-6 leading-relaxed">
+        O sitemap e o <strong class="text-blue-400">mapa completo do site</strong>, mostrando todas as paginas e suas relacoes.
+        E o documento guia para toda a arquitetura de informacao.
+      </p>
+
+      <!-- Sitemap Visual -->
+      <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-4 flex items-center">
+          <span class="mr-2">🌐</span> Exemplo de Sitemap
+        </h3>
+        <div class="bg-dark-700 rounded-lg p-6 overflow-x-auto">
+          <div class="min-w-max">
+            <!-- Nivel 0 - Home -->
+            <div class="flex justify-center mb-6">
+              <div class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold">
+                🏠 Home
+              </div>
+            </div>
+            <!-- Linhas conectoras -->
+            <div class="flex justify-center mb-2">
+              <div class="w-0.5 h-4 bg-blue-500"></div>
+            </div>
+            <div class="flex justify-center mb-4">
+              <div class="w-96 h-0.5 bg-blue-500"></div>
+            </div>
+            <!-- Nivel 1 -->
+            <div class="flex justify-center gap-8 mb-6">
+              <div class="text-center">
+                <div class="w-0.5 h-4 bg-blue-500 mx-auto mb-2"></div>
+                <div class="diagram-box px-4 py-2 rounded-lg">
+                  <span class="text-blue-400 font-semibold">Produtos</span>
+                </div>
+                <div class="mt-2 text-xs text-neutral-400 space-y-1">
+                  <div class="bg-dark-600 px-2 py-1 rounded">• Categoria A</div>
+                  <div class="bg-dark-600 px-2 py-1 rounded">• Categoria B</div>
+                  <div class="bg-dark-600 px-2 py-1 rounded">• Categoria C</div>
+                </div>
+              </div>
+              <div class="text-center">
+                <div class="w-0.5 h-4 bg-blue-500 mx-auto mb-2"></div>
+                <div class="diagram-box px-4 py-2 rounded-lg">
+                  <span class="text-blue-400 font-semibold">Sobre</span>
+                </div>
+                <div class="mt-2 text-xs text-neutral-400 space-y-1">
+                  <div class="bg-dark-600 px-2 py-1 rounded">• Equipe</div>
+                  <div class="bg-dark-600 px-2 py-1 rounded">• Historia</div>
+                  <div class="bg-dark-600 px-2 py-1 rounded">• Valores</div>
+                </div>
+              </div>
+              <div class="text-center">
+                <div class="w-0.5 h-4 bg-blue-500 mx-auto mb-2"></div>
+                <div class="diagram-box px-4 py-2 rounded-lg">
+                  <span class="text-blue-400 font-semibold">Blog</span>
+                </div>
+                <div class="mt-2 text-xs text-neutral-400 space-y-1">
+                  <div class="bg-dark-600 px-2 py-1 rounded">• Artigos</div>
+                  <div class="bg-dark-600 px-2 py-1 rounded">• Categorias</div>
+                  <div class="bg-dark-600 px-2 py-1 rounded">• Busca</div>
+                </div>
+              </div>
+              <div class="text-center">
+                <div class="w-0.5 h-4 bg-blue-500 mx-auto mb-2"></div>
+                <div class="diagram-box px-4 py-2 rounded-lg">
+                  <span class="text-blue-400 font-semibold">Contato</span>
+                </div>
+                <div class="mt-2 text-xs text-neutral-400 space-y-1">
+                  <div class="bg-dark-600 px-2 py-1 rounded">• Formulario</div>
+                  <div class="bg-dark-600 px-2 py-1 rounded">• Localizacao</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tipos de Pagina -->
+      <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+          <span class="mr-2">📄</span> Tipos de Pagina
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Paginas de Conteudo</h4>
+            <ul class="text-sm text-neutral-400 space-y-1">
+              <li>• Home (landing principal)</li>
+              <li>• Sobre (institucional)</li>
+              <li>• Blog/Artigos</li>
+              <li>• FAQ</li>
+            </ul>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Paginas de Acao</h4>
+            <ul class="text-sm text-neutral-400 space-y-1">
+              <li>• Cadastro/Login</li>
+              <li>• Checkout</li>
+              <li>• Contato</li>
+              <li>• Busca</li>
+            </ul>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Paginas de Listagem</h4>
+            <ul class="text-sm text-neutral-400 space-y-1">
+              <li>• Catalogo de produtos</li>
+              <li>• Lista de posts</li>
+              <li>• Resultados de busca</li>
+              <li>• Categorias</li>
+            </ul>
+          </div>
+          <div class="bg-dark-700 rounded-lg p-4">
+            <h4 class="font-semibold text-white mb-2">Paginas de Detalhe</h4>
+            <ul class="text-sm text-neutral-400 space-y-1">
+              <li>• Produto individual</li>
+              <li>• Post de blog</li>
+              <li>• Perfil de usuario</li>
+              <li>• Case study</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Checklist -->
+      <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center">
+          <span class="mr-2">✅</span> Checklist de Sitemap
+        </h3>
+        <div class="space-y-2">
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">□</span>
+            <span class="text-neutral-300">Todas as paginas listadas e nomeadas</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">□</span>
+            <span class="text-neutral-300">Hierarquia clara (max 3 niveis)</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">□</span>
+            <span class="text-neutral-300">Relacoes entre paginas definidas</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">□</span>
+            <span class="text-neutral-300">URLs planejadas e semanticas</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">□</span>
+            <span class="text-neutral-300">Paginas de erro (404, 500) incluidas</span>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">□</span>
+            <span class="text-neutral-300">Paginas legais (Termos, Privacidade)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 rounded-xl border border-primary/30 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-primary mb-3 flex items-center">
+          <span class="mr-2">🎯</span> Vibe Coding Prompt
+        </h3>
+        <p class="text-neutral-300">
+          Use: <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">sitemap completo com todas as paginas e hierarquia</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">URLs semanticas que refletem a estrutura do conteudo</code>,
+          <code class="bg-dark-700 px-2 py-1 rounded text-blue-400">paginas de erro 404 e 500 com navegacao de volta</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- RESUMO -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <span class="mr-3">📝</span> Resumo do Modulo
+        </h2>
+
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Information Architecture (IA)</strong>
+              <span class="text-neutral-400"> - Organizacao, rotulagem, navegacao e busca</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Navegacao e Menus</strong>
+              <span class="text-neutral-400"> - Global, local, breadcrumbs, mega menus</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Taxonomia</strong>
+              <span class="text-neutral-400"> - Esquemas de categorizacao MECE, hierarquica e facetada</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">User Flows</strong>
+              <span class="text-neutral-400"> - Happy paths, edge cases e fluxos de usuario</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Wireframes</strong>
+              <span class="text-neutral-400"> - Low, mid e high fidelity para estrutura visual</span>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="text-blue-400 mt-1">✓</span>
+            <div>
+              <strong class="text-white">Sitemap</strong>
+              <span class="text-neutral-400"> - Mapa completo de paginas e suas relacoes</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+          <h3 class="font-semibold text-blue-400 mb-2">Proximo Modulo:</h3>
+          <p class="text-neutral-300">2.8 - Design Responsivo: Criando experiencias que funcionam em qualquer tela</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="modulo-2-6.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">
+            ← Modulo Anterior
+          </a>
+          <a href="modulo-2-8.html" class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors">
+            Proximo Modulo →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-4">
+          <span class="text-2xl">📐</span>
+          <span class="font-bold text-yellow-400">WebP</span>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm">INEMA.CLUB</a>
+        </div>
+        <p class="text-neutral-500 text-sm">
+          WebP - Web Presence na Era da IA - 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && !html.classList.contains('dark'))) {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>
