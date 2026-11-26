@@ -86,7 +86,7 @@ sections:
         title: Branding
         instruction: Any known branding elements or style guides that must be incorporated?
         examples:
-          - "Replicate the look and feel of early 1900s black and white cinema, including animated effects replicating film damage or projector glitches during page or state transitions."
+          - "Replicate the look and feel of early 1900s black and white cARCKHÉ, including animated effects replicating film damage or projector glitches during page or state transitions."
           - "Attached is the full color pallet and tokens for our corporate branding."
       - id: target-platforms
         title: "Target Device and Platforms: {Web Responsive|Mobile Only|Desktop Only|Cross-Platform}"

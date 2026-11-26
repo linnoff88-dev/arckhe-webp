@@ -20,7 +20,7 @@
 - [ ] **Botoes a ESQUERDA** - Verificar `justify-start` (NAO center)
 - [ ] **Numeros em circulo** - NAO esta usando setas nos topicos
 - [ ] **3 secoes por topico** - Cada topico tem: O que e / Por que aprender / Conceitos-chave
-- [ ] **INEMA.CLUB presente** - Link com `text-sky-400` ao lado do logo
+- [ ] **ARCKHÉ AI presente** - Link com `text-sky-400` ao lado do logo
 - [ ] **Light mode CSS** - Bloco completo de overrides no `<style>`
 - [ ] **Titulo modulo** - Usando `text-2xl font-bold`
 - [ ] **TODOS modulos completos** - TODOS os modulos (1.1 a 1.8) devem ter topicos expandiveis, NAO apenas header+botao
@@ -32,8 +32,8 @@
 
 - [ ] Logo com emoji correto do projeto
 - [ ] Nome do curso visivel (hidden sm:inline em mobile)
-- [ ] Separador `|` entre logo e INEMA.CLUB
-- [ ] Link INEMA.CLUB com `text-sky-400 hover:text-sky-300`
+- [ ] Separador `|` entre logo e ARCKHÉ AI
+- [ ] Link ARCKHÉ AI com `text-sky-400 hover:text-sky-300`
 - [ ] Todas as trilhas listadas com nomes completos
 - [ ] Trilha atual com cor ativa (`text-[cor]-400 bg-[cor]-500/10`)
 - [ ] Outras trilhas com hover correto
@@ -91,7 +91,7 @@ Para cada modulo verificar:
 
 - [ ] **Botoes navegacao** - Verificar alinhamento
 - [ ] **Numeros em circulo GRANDE** - `w-12 h-12` nas secoes
-- [ ] **INEMA.CLUB presente** - Link com `text-sky-400`
+- [ ] **ARCKHÉ AI presente** - Link com `text-sky-400`
 - [ ] **Light mode CSS** - Bloco completo de overrides no `<style>`
 
 ## 2. NAVIGATION
@@ -288,7 +288,7 @@ Data: ____/____/____
 - [ ] Botoes ESQUERDA
 - [ ] Numeros em circulo
 - [ ] 3 secoes por topico
-- [ ] INEMA.CLUB
+- [ ] ARCKHÉ AI
 - [ ] Light mode CSS
 - [ ] Titulo text-2xl
 - [ ] Modulos completos (index)
@@ -318,7 +318,7 @@ Data: ____/____/____
 |------|-----------------|
 | Botoes centralizados | Procurar por `justify-center` nos botoes de modulo |
 | Setas em vez de numeros | Procurar por `▶` ou `→` nos topicos |
-| Faltando INEMA.CLUB | Verificar navigation |
+| Faltando ARCKHÉ AI | Verificar navigation |
 | Light mode quebrado | Testar alternando o tema |
 | Titulo pequeno | Verificar se h3 do modulo tem `text-2xl` |
 | Cor errada | Comparar com tabela de cores da trilha |

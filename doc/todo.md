@@ -74,7 +74,7 @@
 ## FASE 3: DEPLOY
 
 ### GitHub
-- [ ] Criar repositorio inematds/webp
+- [ ] Criar repositorio linnoff88-dev/webp
 - [ ] Fazer push inicial
 - [ ] Configurar GitHub Pages
 - [ ] Testar URL final
@@ -110,7 +110,7 @@
 - Botoes sempre a ESQUERDA (justify-start)
 - Numeros em circulo (nao setas)
 - 3 secoes por topico: O que e / Por que / Conceitos
-- INEMA.CLUB em todas as paginas
+- ARCKHÉ AI em todas as paginas
 - Light mode CSS obrigatorio
 
 ---

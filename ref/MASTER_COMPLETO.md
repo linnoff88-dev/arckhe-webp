@@ -49,10 +49,10 @@ Cada topico expansivel DEVE ter estas 3 secoes:
 - **Por que aprender:** Justificativa e beneficios
 - **Conceitos-chave:** Pontos principais
 
-## 1.4 INEMA.CLUB EM TODAS AS PAGINAS
+## 1.4 ARCKHÉ AI EM TODAS AS PAGINAS
 
 ```html
-<a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+<a href="https://ARCKHÉ AI" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">ARCKHÉ AI</a>
 ```
 - **COR:** `text-sky-400` (azul claro)
 - **POSICAO:** Ao lado do logo, separado por `|`
@@ -148,7 +148,7 @@ projeto/
 | Cor | Codigo | Classe | Uso |
 |-----|--------|--------|-----|
 | Primary (Yellow) | `#FACC15` | `text-primary`, `bg-primary` | Logo, CTAs, destaques, dicas |
-| Sky | `#38bdf8` | `text-sky-400` | Link INEMA.CLUB |
+| Sky | `#38bdf8` | `text-sky-400` | Link ARCKHÉ AI |
 | Red | `#f87171` | `text-red-400` | "Nao fazer", erros, alertas |
 | Neutral 300 | `#d4d4d4` | `text-neutral-300` | Texto principal |
 | Neutral 400 | `#a3a3a3` | `text-neutral-400` | Texto secundario |
@@ -222,7 +222,7 @@ body { font-family: 'Inter', sans-serif; }
 ## 5.1 Elementos Obrigatorios
 
 1. **Logo** (emoji + nome) - `text-yellow-400`
-2. **Link INEMA.CLUB** - `text-sky-400`
+2. **Link ARCKHÉ AI** - `text-sky-400`
 3. **Trilhas** com nomes completos (mobile: T1, T2, T3...)
 4. **Theme Toggle** - botao dark/light
 
@@ -232,14 +232,14 @@ body { font-family: 'Inter', sans-serif; }
 <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-14">
-      <!-- Logo + INEMA.CLUB -->
+      <!-- Logo + ARCKHÉ AI -->
       <div class="flex items-center space-x-4">
         <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
           <span class="text-2xl">[EMOJI]</span>
           <span class="font-bold text-lg hidden sm:inline">[NOME DO CURSO]</span>
         </a>
         <span class="text-neutral-600">|</span>
-        <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        <a href="https://ARCKHÉ AI" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">ARCKHÉ AI</a>
       </div>
 
       <!-- Trilhas + Theme Toggle -->
@@ -288,7 +288,7 @@ body { font-family: 'Inter', sans-serif; }
 TRILHA INDEX
 ├── Navigation Global
 │   ├── Logo (emoji + nome) - yellow-400
-│   ├── INEMA.CLUB - sky-400
+│   ├── ARCKHÉ AI - sky-400
 │   ├── Trilhas (nomes completos, cor da ativa)
 │   └── Theme Toggle
 ├── Header com Gradiente
@@ -866,7 +866,7 @@ html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
 1. ✓ Botoes a ESQUERDA (justify-start)
 2. ✓ Numeros em circulo (nao setas)
 3. ✓ 3 secoes por topico
-4. ✓ INEMA.CLUB presente (sky-400)
+4. ✓ ARCKHÉ AI presente (sky-400)
 5. ✓ Light mode CSS incluido
 6. ✓ Titulo do modulo com text-2xl
 7. ✓ Cores corretas da trilha

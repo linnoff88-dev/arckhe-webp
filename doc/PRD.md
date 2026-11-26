@@ -1,7 +1,7 @@
 # PRD - WebP: Web Presence na Era da IA
 
 > **Versao:** 1.0 | **Data:** 2026-01-21
-> **Repositorio:** https://github.com/inematds/webp
+> **Repositorio:** https://github.com/linnoff88-dev/webp
 
 ---
 
@@ -323,7 +323,7 @@ webp/
 
 ### 6.4 Hospedagem
 - GitHub Pages
-- Repositorio: https://github.com/inematds/webp
+- Repositorio: https://github.com/linnoff88-dev/webp
 
 ---
 
